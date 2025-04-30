@@ -1,6 +1,8 @@
 ﻿<Window x:Class="VoorraadbeheerSysteemProject.Wpf.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:viewModels="clr-namespace:VoorraadbeheerSysteemProject.Wpf.ViewModels"
+        xmlns:userControls="clr-namespace:VoorraadbeheerSysteemProject.Wpf.Views"
         Title="Inventory" Height="1000" Width="1500"
         Background="White">
 
@@ -40,8 +42,16 @@
         </Border>
 
         <!-- Main Content Area -->
-        <Grid Grid.Column="1">
-            <ContentControl x:Name="MainContent" Grid.Column="1"/>
-        </Grid>
+        <ContentControl Content="{Binding CurrentViewModel}">
+            <!--  linken van vm aan userControl  -->
+            <ContentControl.Resources>
+                <DataTemplate DataType="{x:Type viewModels:VmProducts}">
+                    <userControls:DashboardView/>
+                </DataTemplate>
+            </ContentControl.Resources>
+        </ContentControl>
+        <!--<Grid Grid.Column="1">
+            <TextBlock Text="Main Content Here" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </Grid>-->
     </Grid>
 </Window>
