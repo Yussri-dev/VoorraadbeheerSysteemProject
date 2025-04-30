@@ -8,23 +8,23 @@
     "net8.0-windows7.0": []
   },
   "packageFolders": {
-    "C:\\Users\\ghanm\\.nuget\\packages\\": {},
+    "C:\\Users\\youne\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ghanm\\Documents\\VIVES Hogeschool\\Project Voorbereiden\\VoorraadbeheerSysteemProject\\VoorraadbeheerSysteemProject.Wpf\\VoorraadbeheerSysteemProject.Wpf.csproj",
+      "projectUniqueName": "C:\\Users\\youne\\Documents\\WerkPlekleren\\VoorraadbeheerSysteemProject\\VoorraadbeheerSysteemProject.Wpf\\VoorraadbeheerSysteemProject.Wpf.csproj",
       "projectName": "VoorraadbeheerSysteemProject.Wpf",
-      "projectPath": "C:\\Users\\ghanm\\Documents\\VIVES Hogeschool\\Project Voorbereiden\\VoorraadbeheerSysteemProject\\VoorraadbeheerSysteemProject.Wpf\\VoorraadbeheerSysteemProject.Wpf.csproj",
-      "packagesPath": "C:\\Users\\ghanm\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ghanm\\Documents\\VIVES Hogeschool\\Project Voorbereiden\\VoorraadbeheerSysteemProject\\VoorraadbeheerSysteemProject.Wpf\\obj\\",
+      "projectPath": "C:\\Users\\youne\\Documents\\WerkPlekleren\\VoorraadbeheerSysteemProject\\VoorraadbeheerSysteemProject.Wpf\\VoorraadbeheerSysteemProject.Wpf.csproj",
+      "packagesPath": "C:\\Users\\youne\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\youne\\Documents\\WerkPlekleren\\VoorraadbeheerSysteemProject\\VoorraadbeheerSysteemProject.Wpf\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\ghanm\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\youne\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -50,8 +50,7 @@
         "enableAudit": "true",
         "auditLevel": "low",
         "auditMode": "direct"
-      },
-      "SdkAnalysisLevel": "9.0.200"
+      }
     },
     "frameworks": {
       "net8.0-windows7.0": {
@@ -75,7 +74,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
