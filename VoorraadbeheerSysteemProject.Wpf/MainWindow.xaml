@@ -98,6 +98,10 @@
                 <DataTemplate DataType="{x:Type viewModels:VmCashRegister}">
                     <userControls:UcCashRegister/>
                 </DataTemplate>
+
+                <DataTemplate DataType="{x:Type viewModels:VmCategory}">
+                    <userControls:UcCategory/>
+                </DataTemplate>
             </ContentControl.Resources>
         </ContentControl>
         <!--<Grid Grid.Column="1">
