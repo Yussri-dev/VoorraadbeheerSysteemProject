@@ -4,10 +4,57 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:VoorraadbeheerSysteemProject.Wpf.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="1000" d:DesignWidth="1300">
-    <Grid Background="Yellow">
-        <TextBlock HorizontalAlignment="Left" Margin="490,380,0,0" Background="Red" TextWrapping="Wrap" Text="hello" VerticalAlignment="Top" Height="75" Width="190"/>
-
-    </Grid>
+             mc:Ignorable="d">
+    <StackPanel Background="White">
+        <Label Content="Product" Margin="60 90 0 0" FontSize="18" Foreground="#1F384C"/>
+        <Label Content="Total Product : 4" Margin="60 0 0 0" FontSize="15" Foreground="#737B8B78"/>
+        <Grid Margin="60 32 0 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel HorizontalAlignment="Left">
+                <Label Content="Product Name" FontSize="15" Foreground="#737B8B78"/>
+                <TextBox Text="Product 5" FontSize="18" Margin="5,0,0,10" Width="200" BorderThickness="0" Foreground="#40AF73"/>
+                <Label Content="Bar code" FontSize="15" Foreground="#737B8B78"/>
+                <TextBox Text="1234567890123" FontSize="18" Margin="5,0,0,10" Width="200" BorderThickness="0" Foreground="#40AF73"/>
+                <Label Content="Minimal stock" FontSize="15" Foreground="#737B8B78"/>
+                <TextBox Text="5.00" FontSize="18" Margin="5 0 0 0" Width="200" BorderThickness="0" Foreground="#FF0004"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" HorizontalAlignment="Left">
+                <Label Content="Category Name" FontSize="15" Foreground="#737B8B78"/>
+                <ComboBox Width="150"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Top"
+                  Margin="20"
+                  FontSize="16"
+                  FontWeight="SemiBold"
+                  Foreground="Green"
+                  Background="Transparent"
+                  BorderThickness="0"
+                  Padding="0"
+                  HorizontalContentAlignment="Left"
+                  SelectedIndex="1"
+                  VerticalContentAlignment="Center">
+                    <ComboBoxItem>Category 1</ComboBoxItem>
+                    <ComboBoxItem>Category 2</ComboBoxItem>
+                    <ComboBoxItem>Category 2</ComboBoxItem>
+                </ComboBox>
+                <!--<TextBox Text="Product 5" FontSize="18" Margin="5,0,0,10" Width="200" BorderThickness="0" Foreground="#40AF73"/>-->
+                <Label Content="Tax Rate" FontSize="15" Foreground="#737B8B78"/>
+                <TextBox Text="1234567890123" FontSize="18" Margin="5,0,0,10" Width="200" BorderThickness="0" Foreground="#40AF73"/>
+                <Label Content="Shelf" FontSize="15" Foreground="#737B8B78"/>
+                <TextBox Text="5.00" FontSize="18" Margin="5 0 0 0" Width="200" BorderThickness="0" Foreground="#FF0004"/>
+            </StackPanel>
+            <StackPanel Grid.Column="2" HorizontalAlignment="Left">
+                <Label Content="Purchase Price" FontSize="15" Foreground="#737B8B78"/>
+                <TextBox Text="9.55" FontSize="18" Margin="5,0,0,10" Width="200" BorderThickness="0" Foreground="#40AF73"/>
+                <Label Content="Sale Price 1" FontSize="15" Foreground="#737B8B78"/>
+                <TextBox Text="15.20" FontSize="18" Margin="5,0,0,10" Width="200" BorderThickness="0" Foreground="#40AF73"/>
+                <Label Content="Sale Price 2" FontSize="15" Foreground="#737B8B78"/>
+                <TextBox Text="14.80" FontSize="18" Margin="5,0,0,0" Width="200" BorderThickness="0" Foreground="#FF0004"/>
+            </StackPanel>
+        </Grid>
+    </StackPanel>
 </UserControl>
