@@ -21,6 +21,7 @@
 .vscode/
 .vs
 .vs/
+.vshistory/
 
 # Rider
 .idea/
