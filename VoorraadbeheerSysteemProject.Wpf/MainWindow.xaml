@@ -21,7 +21,7 @@
                 <Button Content="Dashboard" Margin="5" HorizontalAlignment="Left" Foreground="#5A6ACF" Background="{x:Null}" BorderBrush="{x:Null}" Width="145"/>
                 <Button Content="Sales" Margin="5" HorizontalAlignment="Left"/>
                 <Button Content="Purchase" Margin="5" HorizontalAlignment="Left"/>
-                <Button Content="Product" Margin="5" HorizontalAlignment="Left"/>
+                <Button Content="Product" Margin="5" HorizontalAlignment="Left" Click="Button_Click"/>
                 <Button Content="Inventory" Margin="5" HorizontalAlignment="Left"/>
                 <Button Content="Reports" Margin="5" HorizontalAlignment="Left"/>
 
@@ -41,7 +41,7 @@
 
         <!-- Main Content Area -->
         <Grid Grid.Column="1">
-            <TextBlock Text="Main Content Here" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <ContentControl x:Name="MainContent" Grid.Column="1"/>
         </Grid>
     </Grid>
 </Window>

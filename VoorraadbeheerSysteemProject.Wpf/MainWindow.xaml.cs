@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VoorraadbeheerSysteemProject.Wpf.Views;
 
 namespace VoorraadbeheerSysteemProject.Wpf;
 
@@ -23,5 +24,10 @@ public partial class MainWindow : Window
         var screenHeight = SystemParameters.PrimaryScreenHeight;
         this.Width = screenWidth;
         this.Height = screenHeight;
+    }
+
+    private void Button_Click(object sender, RoutedEventArgs e)
+    {
+        MainContent.Content = new UcProducts();
     }
 }
