@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("VoorraadbeheerSysteemProject.Wpf")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+30f82cbbd078962f869e75d8f48a9ed9fe08ae0b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c8e4ca7238afd7a3735463c8b15a7aada225f054")]
 [assembly: System.Reflection.AssemblyProductAttribute("VoorraadbeheerSysteemProject.Wpf")]
 [assembly: System.Reflection.AssemblyTitleAttribute("VoorraadbeheerSysteemProject.Wpf")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
