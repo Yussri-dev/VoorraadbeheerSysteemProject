@@ -16,6 +16,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
         public VmBase CurrentViewModel => _navigationStore.CurrentViewModel;
         public ICommand ProductsNavigationCommand { get; }
+        public ICommand DashboardNavigationCommand { get; }
 
         public VmMainWindow(NavigationStore navigationStore)
         {
@@ -23,6 +24,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             _navigationStore.CurrentViewModelChanged += _navigationStore_CurrentViewModelChanged;
             ProductsNavigationCommand = new NavigationCommand<VmProducts>(navigationStore,
                 () => new VmProducts(navigationStore));
+            DashboardNavigationCommand = new NavigationCommand<VmDashboard>(navigationStore,
+                () => new VmDashboard(navigationStore));
         }
 
         private void _navigationStore_CurrentViewModelChanged()

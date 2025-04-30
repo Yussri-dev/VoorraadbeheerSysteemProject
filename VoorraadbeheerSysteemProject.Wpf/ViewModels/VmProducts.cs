@@ -11,7 +11,6 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 {
     public class VmProducts : VmBase
     {
-        public ICommand NavigateDataCommand { get; }
 
         public VmProducts(NavigationStore navigationStore)
         {

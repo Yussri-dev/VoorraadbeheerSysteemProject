@@ -10,16 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace VoorraadbeheerSysteemProject.Wpf.Views
 {
     /// <summary>
-    /// Interaction logic for DashboardView.xaml
+    /// Interaction logic for UcDashboard.xaml
     /// </summary>
-    public partial class DashboardView : Window
+    public partial class UcDashboard : UserControl
     {
-        public DashboardView()
+        public UcDashboard()
         {
             InitializeComponent();
         }

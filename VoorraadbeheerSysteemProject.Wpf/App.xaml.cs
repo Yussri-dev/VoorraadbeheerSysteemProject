@@ -16,7 +16,7 @@ public partial class App : Application
 
     protected override void OnStartup(StartupEventArgs e)
     {
-        _navigationStore.CurrentViewModel = new VmProducts(_navigationStore);
+        _navigationStore.CurrentViewModel = new VmDashboard(_navigationStore);
 
         MainWindow = new MainWindow()
         {
