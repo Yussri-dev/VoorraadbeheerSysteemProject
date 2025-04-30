@@ -4,6 +4,8 @@ using System.Linq;
 using System.Runtime.Intrinsics.Arm;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using VoorraadbeheerSysteemProject.Wpf.Commands;
 using VoorraadbeheerSysteemProject.Wpf.Stores;
 
 namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
@@ -13,11 +15,14 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         private readonly NavigationStore _navigationStore;
 
         public VmBase CurrentViewModel => _navigationStore.CurrentViewModel;
+        public ICommand ProductsNavigationCommand { get; }
 
         public VmMainWindow(NavigationStore navigationStore)
         {
             _navigationStore = navigationStore;
             _navigationStore.CurrentViewModelChanged += _navigationStore_CurrentViewModelChanged;
+            ProductsNavigationCommand = new NavigationCommand<VmProducts>(navigationStore,
+                () => new VmProducts(navigationStore));
         }
 
         private void _navigationStore_CurrentViewModelChanged()

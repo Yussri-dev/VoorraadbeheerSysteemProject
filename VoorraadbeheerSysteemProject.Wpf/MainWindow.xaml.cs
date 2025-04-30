@@ -25,9 +25,4 @@ public partial class MainWindow : Window
         this.Width = screenWidth;
         this.Height = screenHeight;
     }
-
-    private void Button_Click(object sender, RoutedEventArgs e)
-    {
-        MainContent.Content = new UcProducts();
-    }
 }
