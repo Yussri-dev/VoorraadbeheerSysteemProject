@@ -17,26 +17,25 @@
         <!-- Sidebar -->
         <Border Grid.Column="0" Background="#F6F8FC">
             <StackPanel Margin="10" VerticalAlignment="Stretch">
-                <TextBlock Text="Inventory" FontWeight="Bold" FontSize="20" Margin="10"/>
+                <TextBlock Text="Inventory" FontWeight="Bold" FontSize="20" Margin="10" />
 
                 <TextBlock Text="MENU" Margin="10,20,0,5" Foreground="Gray"/>
-                <Button Content="Dashboard" Command="{Binding DashboardNavigationCommand}" Margin="5" HorizontalAlignment="Left" Foreground="#5A6ACF" Background="{x:Null}" BorderBrush="{x:Null}" Width="145"/>
-                <Button Content="Sales" Margin="5" HorizontalAlignment="Left"/>
-                <Button Content="Purchase" Margin="5" HorizontalAlignment="Left"/>
-                <Button Content="Product" Command="{Binding ProductsNavigationCommand}" Margin="5" HorizontalAlignment="Left"/>
-                <Button Content="Inventory" Margin="5" HorizontalAlignment="Left"/>
-                <Button Content="Reports" Margin="5" HorizontalAlignment="Left"/>
+                <Button Content="Dashboard" Command="{Binding DashboardNavigationCommand}" Margin="5" HorizontalAlignment="Left" FontSize="14" Height="30" FontWeight="Bold" Foreground="#5A6ACF" Background="{x:Null}" BorderBrush="{x:Null}" Width="145" HorizontalContentAlignment="Left"/>
+                <Button Content="Sales" Command="{Binding SaleNavigationCommand}" Margin="5" HorizontalAlignment="Left" FontSize="14" Height="30" FontWeight="Bold" Foreground="#5A6ACF" Background="{x:Null}" BorderBrush="{x:Null}" Width="145" HorizontalContentAlignment="Left"/>
+                <Button Content="Purchase" Command="{Binding PurchaseNavigationCommand}" Margin="5" HorizontalAlignment="Left" FontSize="14" Height="30" FontWeight="Bold" Foreground="#5A6ACF" Background="{x:Null}" BorderBrush="{x:Null}" Width="145" HorizontalContentAlignment="Left"/>
+                <Button Content="Product" Command="{Binding ProductsNavigationCommand}" Margin="5" HorizontalAlignment="Left" FontSize="14" Height="30" FontWeight="Bold" Foreground="#5A6ACF" Background="{x:Null}" BorderBrush="{x:Null}" Width="145" HorizontalContentAlignment="Left"/>
+                <Button Content="Inventory" Command="{Binding InventoryNavigationCommand}" Margin="5" HorizontalAlignment="Left" FontSize="14" Height="30" FontWeight="Bold" Foreground="#5A6ACF" Background="{x:Null}" BorderBrush="{x:Null}" Width="145" HorizontalContentAlignment="Left"/>
+                <Button Content="Reports" Command="{Binding ReportNavigationCommand}" Margin="5" HorizontalAlignment="Left" FontSize="14" Height="30" FontWeight="Bold" Foreground="#5A6ACF" Background="{x:Null}" BorderBrush="{x:Null}" Width="145" HorizontalContentAlignment="Left"/>
 
-                <TextBlock Text="OTHERS" Margin="10,20,0,5" Foreground="Gray"/>
-                <Button Content="Settings" Margin="5" HorizontalAlignment="Left"/>
-                <Button Content="Supplier" Margin="5" HorizontalAlignment="Left"/>
-                <Button Content="Customer" Margin="5" HorizontalAlignment="Left"/>
-                <Button Content="Category" Margin="5" HorizontalAlignment="Left"/>
-                <Button Content="Location" Margin="5" HorizontalAlignment="Left"/>
-                <Button Content="Line" Margin="5" HorizontalAlignment="Left"/>
-                <Button Content="Tax" Margin="5" HorizontalAlignment="Left"/>
-                <Button Content="Payment" Margin="5" HorizontalAlignment="Left"/>
-                <Button Content="Accounts" Margin="5" HorizontalAlignment="Left"/>
+                <TextBlock Text="Settings"  Margin="10,20,0,5" Foreground="Gray"/>
+                <Button Content="Supplier" Command="{Binding SupplierNavigationCommand}" Margin="5" HorizontalAlignment="Left" FontSize="14" Height="30" FontWeight="Bold" Foreground="#5A6ACF" Background="{x:Null}" BorderBrush="{x:Null}" Width="145" HorizontalContentAlignment="Left"/>
+                <Button Content="Customer" Command="{Binding CustomerNavigationCommand}" Margin="5" HorizontalAlignment="Left" FontSize="14" Height="30" FontWeight="Bold" Foreground="#5A6ACF" Background="{x:Null}" BorderBrush="{x:Null}" Width="145" HorizontalContentAlignment="Left"/>
+                <Button Content="Category" Command="{Binding CategoryNavigationCommand}" Margin="5" HorizontalAlignment="Left" FontSize="14" Height="30" FontWeight="Bold" Foreground="#5A6ACF" Background="{x:Null}" BorderBrush="{x:Null}" Width="145" HorizontalContentAlignment="Left"/>
+                <!--<Button Content="Location" Command="{Binding LocationNavigationCommand}" Margin="5" HorizontalAlignment="Left"/>-->
+                <Button Content="Line" Command="{Binding LineNavigationCommand}" Margin="5" HorizontalAlignment="Left" FontSize="14" Height="30" FontWeight="Bold" Foreground="#5A6ACF" Background="{x:Null}" BorderBrush="{x:Null}" Width="145" HorizontalContentAlignment="Left"/>
+                <Button Content="Tax" Command="{Binding TaxNavigationCommand}" Margin="5" HorizontalAlignment="Left" FontSize="14" Height="30" FontWeight="Bold" Foreground="#5A6ACF" Background="{x:Null}" BorderBrush="{x:Null}" Width="145" HorizontalContentAlignment="Left"/>
+                <Button Content="Cash Register" Command="{Binding CashRegisterNavigationCommand}" Margin="5" HorizontalAlignment="Left" FontSize="14" Height="30" FontWeight="Bold" Foreground="#5A6ACF" Background="{x:Null}" BorderBrush="{x:Null}" Width="145" HorizontalContentAlignment="Left"/>
+                <Button Content="Accounts" Command="{Binding UserCreateNavigationCommand}" Margin="5" HorizontalAlignment="Left" FontSize="14" Height="30" FontWeight="Bold" Foreground="#5A6ACF" Background="{x:Null}" BorderBrush="{x:Null}" Width="145" HorizontalContentAlignment="Left"/>
                 <Button Content="Help" Margin="5" HorizontalAlignment="Left"/>
             </StackPanel>
         </Border>
@@ -94,6 +93,10 @@
 
                 <DataTemplate DataType="{x:Type viewModels:VmUserLogin}">
                     <userControls:UcUserLogin/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type viewModels:VmCashRegister}">
+                    <userControls:UcCashRegister/>
                 </DataTemplate>
             </ContentControl.Resources>
         </ContentControl>
