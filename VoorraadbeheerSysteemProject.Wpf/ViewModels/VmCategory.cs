@@ -3,19 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
-using VoorraadbeheerSysteemProject.Wpf.Commands;
 using VoorraadbeheerSysteemProject.Wpf.Stores;
 
 namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 {
-    public class VmProducts : VmBase
+    class VmCategory : VmBase
     {
-
-        public VmProducts(NavigationStore navigationStore)
+        public VmCategory(NavigationStore navigationStore)
         {
 
-            
         }
     }
+
 }

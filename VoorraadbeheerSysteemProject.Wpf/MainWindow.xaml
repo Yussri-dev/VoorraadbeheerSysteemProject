@@ -51,6 +51,50 @@
                 <DataTemplate DataType="{x:Type viewModels:VmDashboard}">
                     <userControls:UcDashboard/>
                 </DataTemplate>
+
+                <DataTemplate DataType="{x:Type viewModels:VmCustomer}">
+                    <userControls:UcCustomer/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type viewModels:VmInventory}">
+                    <userControls:UcInventory/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type viewModels:VmLine}">
+                    <userControls:UcLine/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type viewModels:VmPurchase}">
+                    <userControls:UcPurchase/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type viewModels:VmReport}">
+                    <userControls:UcReport/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type viewModels:VmSale}">
+                    <userControls:UcSale/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type viewModels:VmShelf}">
+                    <userControls:UcShelf/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type viewModels:VmSupplier}">
+                    <userControls:UcSupplier/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type viewModels:VmTax}">
+                    <userControls:UcTax/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type viewModels:VmUserCreate}">
+                    <userControls:UcUserCreate/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type viewModels:VmUserLogin}">
+                    <userControls:UcUserLogin/>
+                </DataTemplate>
             </ContentControl.Resources>
         </ContentControl>
         <!--<Grid Grid.Column="1">
