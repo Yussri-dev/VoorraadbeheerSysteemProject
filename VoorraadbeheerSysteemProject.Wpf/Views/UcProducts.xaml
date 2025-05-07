@@ -17,58 +17,51 @@
             </Grid.ColumnDefinitions>
             <StackPanel HorizontalAlignment="Left">
                 <Label Content="Product Name" FontSize="15" Foreground="#737B8B78"/>
-                <TextBox Text="Product 5" FontSize="18" Margin="5,0,0,10" Width="200" BorderThickness="0" Foreground="#40AF73"/>
+                <TextBox Text="Product 5" FontSize="18" Margin="5,0,0,10" Width="300" BorderThickness="0" Foreground="#40AF73"/>
                 <Label Content="Bar code" FontSize="15" Foreground="#737B8B78"/>
-                <TextBox Text="1234567890123" FontSize="18" Margin="5,0,0,10" Width="200" BorderThickness="0" Foreground="#40AF73"/>
+                <TextBox Text="1234567890123" FontSize="18" Margin="5,0,0,10" Width="300" BorderThickness="0" Foreground="#40AF73"/>
                 <Label Content="Minimal stock" FontSize="15" Foreground="#737B8B78"/>
-                <TextBox Text="5.00" FontSize="18" Margin="5 0 0 0" Width="200" BorderThickness="0" Foreground="#FF0004"/>
+                <TextBox Text="5.00" FontSize="18" Margin="5 0 0 0" Width="300" BorderThickness="0" Foreground="#FF0004"/>
             </StackPanel>
             <StackPanel Grid.Column="1" HorizontalAlignment="Left">
                 <Label Content="Category Name" FontSize="15" Foreground="#737B8B78"/>
-                <ComboBox Width="150"
-                          HorizontalAlignment="Left"
-                          VerticalAlignment="Top"
-                          FontSize="16"
-                          Margin="5,0,0,10"
-                          FontWeight="SemiBold"
-                          BorderThickness="0"
-                          Padding="0"
-                          HorizontalContentAlignment="Left"
-                          VerticalContentAlignment="Center">
-                    <ComboBoxItem>Category 1</ComboBoxItem>
+                <ComboBox Style="{StaticResource CustomComboBoxStyle}"
+                          ItemsSource="{Binding FilteredCategories}"
+                          Foreground="#40AF73" 
+                          Width="300" 
+                          FontSize="18" 
+                          SelectedIndex="0"
+                          IsEditable="True"
+                          StaysOpenOnEdit="True"
+                          IsTextSearchEnabled="False"
+                          Text="{Binding SearchTextCategories, UpdateSourceTrigger=PropertyChanged}">
+                    <!--<ComboBoxItem>Category 1</ComboBoxItem>
                     <ComboBoxItem>Category 2</ComboBoxItem>
-                    <ComboBoxItem>Category 2</ComboBoxItem>
+                    <ComboBoxItem>Category 2</ComboBoxItem>-->
                 </ComboBox>
-                <!--<TextBox Text="Product 5" FontSize="18" Margin="5,0,0,10" Width="200" BorderThickness="0" Foreground="#40AF73"/>-->
-                <Label Content="Tax Rate" FontSize="15" Foreground="#737B8B78"/>
-                <ComboBox Width="150"
-                          HorizontalAlignment="Left"
-                          VerticalAlignment="Top"
-                          FontSize="16"
-                          Margin="5,0,0,10"
-                          FontWeight="SemiBold"
-                          BorderThickness="0"
-                          Padding="0"
-                          HorizontalContentAlignment="Left"
-                          VerticalContentAlignment="Center">
-                    <ComboBoxItem>6%</ComboBoxItem>
-                    <ComboBoxItem>12%</ComboBoxItem>
-                    <ComboBoxItem>21%</ComboBoxItem>
+                <Label Content="Tax Rate" FontSize="15" Foreground="#737B8B78" />
+                <ComboBox Style="{StaticResource CustomComboBoxStyle}"
+                          ItemsSource="{Binding FilteredTaxRate}"
+                          Foreground="#40AF73" 
+                          Width="300" 
+                          FontSize="18" 
+                          SelectedIndex="0"
+                          IsEditable="True"
+                          StaysOpenOnEdit="True"
+                          IsTextSearchEnabled="False"
+                          Text="{Binding SearchTextTaxRate, UpdateSourceTrigger=PropertyChanged}">
                 </ComboBox>
                 <Label Content="Shelf" FontSize="15" Foreground="#737B8B78"/>
-                <ComboBox Width="150"
-                          HorizontalAlignment="Left"
-                          VerticalAlignment="Top"
-                          FontSize="16"
-                          Margin="5,0,0,10"
-                          FontWeight="SemiBold"
-                          BorderThickness="0"
-                          Padding="0"
-                          HorizontalContentAlignment="Left"
-                          VerticalContentAlignment="Center">
-                    <ComboBoxItem>Shelf 1</ComboBoxItem>
-                    <ComboBoxItem>Shelf 2</ComboBoxItem>
-                    <ComboBoxItem>Shelf 3</ComboBoxItem>
+                <ComboBox Style="{StaticResource CustomComboBoxStyle}"
+                          ItemsSource="{Binding FilteredShelf}"
+                          Foreground="#40AF73" 
+                          Width="300" 
+                          FontSize="18" 
+                          SelectedIndex="0" 
+                          IsEditable="True"
+                          StaysOpenOnEdit="True"
+                          IsTextSearchEnabled="True"
+                          Text="{Binding SearchTextShelf, UpdateSourceTrigger=PropertyChanged}">
                 </ComboBox>
             </StackPanel>
             <StackPanel Grid.Column="2" HorizontalAlignment="Left">

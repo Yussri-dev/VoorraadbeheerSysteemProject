@@ -8,10 +8,10 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
             <!-- Sidebar -->
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="200"/>
             <!-- Main content -->
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <!-- Sidebar -->
