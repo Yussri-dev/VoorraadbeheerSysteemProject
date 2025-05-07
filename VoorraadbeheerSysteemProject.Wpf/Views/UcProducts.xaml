@@ -4,10 +4,213 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:VoorraadbeheerSysteemProject.Wpf.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="1000" d:DesignWidth="1300">
-    <Grid Background="Yellow">
-        <TextBlock HorizontalAlignment="Left" Margin="490,380,0,0" Background="Red" TextWrapping="Wrap" Text="hello" VerticalAlignment="Top" Height="75" Width="190"/>
+             mc:Ignorable="d">
+    <StackPanel Background="White">
+        <Label Content="Product" Margin="60 90 0 0" FontSize="18" Foreground="#1F384C"/>
+        <Label Content="Total Product : 4" Margin="60 0 0 0" FontSize="15" Foreground="#737B8B78"/>
+        <Grid Margin="60 32 0 0">
+            <!--#region Product Info-->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel HorizontalAlignment="Left">
+                <Label Content="Product Name" FontSize="15" Foreground="#737B8B78"/>
+                <TextBox Text="Product 5" FontSize="18" Margin="5,0,0,10" Width="300" BorderThickness="0" Foreground="#40AF73"/>
+                <Label Content="Bar code" FontSize="15" Foreground="#737B8B78"/>
+                <TextBox Text="1234567890123" FontSize="18" Margin="5,0,0,10" Width="300" BorderThickness="0" Foreground="#40AF73"/>
+                <Label Content="Minimal stock" FontSize="15" Foreground="#737B8B78"/>
+                <TextBox Text="5.00" FontSize="18" Margin="5 0 0 0" Width="300" BorderThickness="0" Foreground="#FF0004"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" HorizontalAlignment="Left">
+                <Label Content="Category Name" FontSize="15" Foreground="#737B8B78"/>
+                <ComboBox Style="{StaticResource CustomComboBoxStyle}"
+                          ItemsSource="{Binding FilteredCategories}"
+                          Foreground="#40AF73" 
+                          Width="300" 
+                          FontSize="18" 
+                          SelectedIndex="0"
+                          IsEditable="True"
+                          StaysOpenOnEdit="True"
+                          IsTextSearchEnabled="False"
+                          Text="{Binding SearchTextCategories, UpdateSourceTrigger=PropertyChanged}">
+                    <!--<ComboBoxItem>Category 1</ComboBoxItem>
+                    <ComboBoxItem>Category 2</ComboBoxItem>
+                    <ComboBoxItem>Category 2</ComboBoxItem>-->
+                </ComboBox>
+                <Label Content="Tax Rate" FontSize="15" Foreground="#737B8B78" />
+                <ComboBox Style="{StaticResource CustomComboBoxStyle}"
+                          ItemsSource="{Binding FilteredTaxRate}"
+                          Foreground="#40AF73" 
+                          Width="300" 
+                          FontSize="18" 
+                          SelectedIndex="0"
+                          IsEditable="True"
+                          StaysOpenOnEdit="True"
+                          IsTextSearchEnabled="False"
+                          Text="{Binding SearchTextTaxRate, UpdateSourceTrigger=PropertyChanged}">
+                </ComboBox>
+                <Label Content="Shelf" FontSize="15" Foreground="#737B8B78"/>
+                <ComboBox Style="{StaticResource CustomComboBoxStyle}"
+                          ItemsSource="{Binding FilteredShelf}"
+                          Foreground="#40AF73" 
+                          Width="300" 
+                          FontSize="18" 
+                          SelectedIndex="0" 
+                          IsEditable="True"
+                          StaysOpenOnEdit="True"
+                          IsTextSearchEnabled="True"
+                          Text="{Binding SearchTextShelf, UpdateSourceTrigger=PropertyChanged}">
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Grid.Column="2" HorizontalAlignment="Left">
+                <Label Content="Purchase Price" FontSize="15" Foreground="#737B8B78"/>
+                <TextBox Text="9.55" FontSize="18" Margin="5,0,0,10" Width="200" BorderThickness="0" Foreground="#40AF73"/>
+                <Label Content="Sale Price 1" FontSize="15" Foreground="#737B8B78"/>
+                <TextBox Text="15.20" FontSize="18" Margin="5,0,0,10" Width="200" BorderThickness="0" Foreground="#40AF73"/>
+                <Label Content="Sale Price 2" FontSize="15" Foreground="#737B8B78"/>
+                <TextBox Text="14.80" FontSize="18" Margin="5,0,0,0" Width="200" BorderThickness="0" Foreground="#FF0004"/>
+            </StackPanel>
+        </Grid>
+        <!--#endregion-->
+        
+        <StackPanel Margin="10 80 30 0">
 
-    </Grid>
+            <!--#region Search boxes-->
+            <StackPanel Orientation="Horizontal" Height="32" HorizontalAlignment="Right">
+                <Label Content="Search by Name" VerticalAlignment="Center"/>
+                <TextBox Width="250" BorderThickness="0" Background="#F6F6FB" VerticalContentAlignment="Center" FontSize="12" Padding="12 0 0 0">
+                    <TextBox.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5 0 0 5"/>
+                        </Style>
+                    </TextBox.Resources>
+                </TextBox>
+                <Button Margin="0 0 20 0" Background="#F6F6FB" BorderThickness="0" Padding="5">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="0 5 5 0"/>
+                        </Style>
+                    </Button.Resources>
+                    <Image Source="/Images/search-icon.png"/>
+                </Button>
+                <Label Content="Search by Code" VerticalAlignment="Center"/>
+                <TextBox Width="250" BorderThickness="0" Background="#F6F6FB" VerticalContentAlignment="Center" FontSize="12" Padding="12 0 0 0">
+                    <TextBox.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5 0 0 5"/>
+                        </Style>
+                    </TextBox.Resources>
+                </TextBox>
+                <Button Margin="0 0 20 0" Background="#F6F6FB" BorderThickness="0" Padding="5">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="0 5 5 0"/>
+                        </Style>
+                    </Button.Resources>
+                    <Image Source="/Images/search-icon.png"/>
+                </Button>
+                <Button Width="70" Margin="0 0 10 0" Foreground="#5A6ACF" Background="#FBFCFE" FontWeight="Bold">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </Button.Resources>
+                    &lt;
+                </Button>
+                <Button Width="70" Foreground="#5A6ACF" Background="#FBFCFE" FontWeight="Bold">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </Button.Resources>
+                    <!--<Button.BitmapEffect>
+                        <DropShadowBitmapEffect
+                            ShadowDepth="2"
+                            Direction="-90"
+                            Color="#4048520D"/>
+                    </Button.BitmapEffect>-->
+                    &gt;
+                </Button>
+            </StackPanel>
+            <!--#endregion-->
+
+            <!--#region Product List-->
+            <DataGrid Name="ProductsDataGrid" ItemsSource="{Binding Products}" 
+                      AutoGenerateColumns="False" 
+                      Margin=" 0 20 0 0" 
+                      Background="Transparent" 
+                      BorderThickness="0" 
+                      GridLinesVisibility="None" 
+                      HeadersVisibility="Column" 
+                      AlternatingRowBackground="#F5F6FB" 
+                      SelectionUnit="FullRow" 
+                      SelectionMode="Single" 
+                      EnableRowVirtualization="False"
+                      IsReadOnly="True">
+                <DataGrid.ColumnHeaderStyle>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="FontSize" Value="14"/>
+                        <Setter Property="FontWeight" Value="SemiBold"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="Margin" Value="0 0 0 8"/>
+                    </Style>
+                </DataGrid.ColumnHeaderStyle>
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="Height" Value="40"/>
+                        <Setter Property="FontSize" Value="12"/>
+                        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                        <Setter Property="SnapsToDevicePixels" Value="True"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="DataGridRow">
+                                    <Border x:Name="RowBorder" Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0">
+                                        <DataGridCellsPresenter />
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="RowBorder" Property="Background" Value="#D0E0FF"/>
+                                            <Setter Property="Foreground" Value="Black"/>
+                                            <Setter Property="BorderThickness" Value="0"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </DataGrid.RowStyle>
+                <DataGrid.CellStyle>
+                    <Style TargetType="DataGridCell">
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                        <Setter Property="Padding" Value="10,0"/>
+                        <Setter Property="VerticalAlignment" Value="Stretch"/>
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="Foreground" Value="Black"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.CellStyle>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="#" Binding="{Binding Number}" Width="40"/>
+                    <DataGridTextColumn Header="Product Name" Binding="{Binding Name}" Width="*"/>
+                    <DataGridTextColumn Header="Purchase" Binding="{Binding Purchase}" Width="80"/>
+                    <DataGridTextColumn Header="Sale 1" Binding="{Binding Sale1}" Width="80"/>
+                    <DataGridTextColumn Header="sale 2" Binding="{Binding Sale2}" Width="80"/>
+                    <DataGridTextColumn Header="Tax Rate" Binding="{Binding TaxRate}" Width="80"/>
+                    <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="120"/>
+                    <DataGridTextColumn Header="Barcode" Binding="{Binding Barcode}" Width="120"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <!--#endregion-->
+        </StackPanel>
+    </StackPanel>
 </UserControl>
