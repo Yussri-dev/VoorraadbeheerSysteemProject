@@ -9,6 +9,7 @@
         <Label Content="Product" Margin="60 90 0 0" FontSize="18" Foreground="#1F384C"/>
         <Label Content="Total Product : 4" Margin="60 0 0 0" FontSize="15" Foreground="#737B8B78"/>
         <Grid Margin="60 32 0 0">
+            <!--#region Product Info-->
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -25,27 +26,50 @@
             <StackPanel Grid.Column="1" HorizontalAlignment="Left">
                 <Label Content="Category Name" FontSize="15" Foreground="#737B8B78"/>
                 <ComboBox Width="150"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Top"
-                  Margin="20"
-                  FontSize="16"
-                  FontWeight="SemiBold"
-                  Foreground="Green"
-                  Background="Transparent"
-                  BorderThickness="0"
-                  Padding="0"
-                  HorizontalContentAlignment="Left"
-                  SelectedIndex="1"
-                  VerticalContentAlignment="Center">
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Top"
+                          FontSize="16"
+                          Margin="5,0,0,10"
+                          FontWeight="SemiBold"
+                          BorderThickness="0"
+                          Padding="0"
+                          HorizontalContentAlignment="Left"
+                          VerticalContentAlignment="Center">
                     <ComboBoxItem>Category 1</ComboBoxItem>
                     <ComboBoxItem>Category 2</ComboBoxItem>
                     <ComboBoxItem>Category 2</ComboBoxItem>
                 </ComboBox>
                 <!--<TextBox Text="Product 5" FontSize="18" Margin="5,0,0,10" Width="200" BorderThickness="0" Foreground="#40AF73"/>-->
                 <Label Content="Tax Rate" FontSize="15" Foreground="#737B8B78"/>
-                <TextBox Text="1234567890123" FontSize="18" Margin="5,0,0,10" Width="200" BorderThickness="0" Foreground="#40AF73"/>
+                <ComboBox Width="150"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Top"
+                          FontSize="16"
+                          Margin="5,0,0,10"
+                          FontWeight="SemiBold"
+                          BorderThickness="0"
+                          Padding="0"
+                          HorizontalContentAlignment="Left"
+                          VerticalContentAlignment="Center">
+                    <ComboBoxItem>6%</ComboBoxItem>
+                    <ComboBoxItem>12%</ComboBoxItem>
+                    <ComboBoxItem>21%</ComboBoxItem>
+                </ComboBox>
                 <Label Content="Shelf" FontSize="15" Foreground="#737B8B78"/>
-                <TextBox Text="5.00" FontSize="18" Margin="5 0 0 0" Width="200" BorderThickness="0" Foreground="#FF0004"/>
+                <ComboBox Width="150"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Top"
+                          FontSize="16"
+                          Margin="5,0,0,10"
+                          FontWeight="SemiBold"
+                          BorderThickness="0"
+                          Padding="0"
+                          HorizontalContentAlignment="Left"
+                          VerticalContentAlignment="Center">
+                    <ComboBoxItem>Shelf 1</ComboBoxItem>
+                    <ComboBoxItem>Shelf 2</ComboBoxItem>
+                    <ComboBoxItem>Shelf 3</ComboBoxItem>
+                </ComboBox>
             </StackPanel>
             <StackPanel Grid.Column="2" HorizontalAlignment="Left">
                 <Label Content="Purchase Price" FontSize="15" Foreground="#737B8B78"/>
@@ -56,5 +80,70 @@
                 <TextBox Text="14.80" FontSize="18" Margin="5,0,0,0" Width="200" BorderThickness="0" Foreground="#FF0004"/>
             </StackPanel>
         </Grid>
+        <!--#endregion-->
+        
+        <StackPanel Margin="10 80 30 0">
+
+            <!--#region Search boxes-->
+            <StackPanel Orientation="Horizontal" Height="32" HorizontalAlignment="Right">
+                <Label Content="Search by Name" VerticalAlignment="Center"/>
+                <TextBox Width="250" BorderThickness="0" Background="#F6F6FB" VerticalContentAlignment="Center" FontSize="12" Padding="12 0 0 0">
+                    <TextBox.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5 0 0 5"/>
+                        </Style>
+                    </TextBox.Resources>
+                </TextBox>
+                <Button Margin="0 0 20 0" Background="#F6F6FB" BorderThickness="0" Padding="5">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="0 5 5 0"/>
+                        </Style>
+                    </Button.Resources>
+                    <Image Source="/Images/search-icon.png"/>
+                </Button>
+                <Label Content="Search by Code" VerticalAlignment="Center"/>
+                <TextBox Width="250" BorderThickness="0" Background="#F6F6FB" VerticalContentAlignment="Center" FontSize="12" Padding="12 0 0 0">
+                    <TextBox.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5 0 0 5"/>
+                        </Style>
+                    </TextBox.Resources>
+                </TextBox>
+                <Button Margin="0 0 20 0" Background="#F6F6FB" BorderThickness="0" Padding="5">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="0 5 5 0"/>
+                        </Style>
+                    </Button.Resources>
+                    <Image Source="/Images/search-icon.png"/>
+                </Button>
+                <Button Width="70" Margin="0 0 10 0" Foreground="#5A6ACF" Background="#FBFCFE" FontWeight="Bold">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </Button.Resources>
+                    &lt;
+                </Button>
+                <Button Width="70" Foreground="#5A6ACF" Background="#FBFCFE" FontWeight="Bold">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </Button.Resources>
+                    <!--<Button.BitmapEffect>
+                        <DropShadowBitmapEffect
+                            ShadowDepth="2"
+                            Direction="-90"
+                            Color="#4048520D"/>
+                    </Button.BitmapEffect>-->
+                    &gt;
+                </Button>
+            </StackPanel>
+            <!--#endregion-->
+
+            
+        </StackPanel>
     </StackPanel>
 </UserControl>
