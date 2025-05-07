@@ -22,7 +22,7 @@
                 <!-- Google Sign-In -->
                 <Button Height="35" Margin="0 10 0 10" Background="White" BorderBrush="LightGray" BorderThickness="1">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Image Source="C:\Users\milan\OneDrive - Hogeschool VIVES\Graduaat Programmeren\logo Google\Google__G__logo.svg.png" 
+                        <Image Source="/Images/Google__G__logo.svg.png" 
                                Height="20" Width="20" Margin="0 0 8 0"/>
                         <TextBlock Text="Continue with Google" VerticalAlignment="Center" Foreground="#5F6368"/>
                     </StackPanel>
