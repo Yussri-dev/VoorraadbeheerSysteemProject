@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:VoorraadbeheerSysteemProject.Wpf.Views" 
              xmlns:viewmodels="clr-namespace:VoorraadbeheerSysteemProject.Wpf.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:VmSale}"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="900"
+             d:DesignHeight="828.793" d:DesignWidth="1123.293"
              Background="White">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -154,7 +154,8 @@
         <Grid Grid.Column="1" Background="#F9F9F9" Grid.ColumnSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
                 <RowDefinition Height="Auto" MinHeight="275.08"/>
             </Grid.RowDefinitions>
 
@@ -187,17 +188,17 @@ Fill="Gray" Stretch="Uniform" Width="16" Height="16" VerticalAlignment="Center" 
 
 
                 <DataGrid Name="ProductsDataGrid" ItemsSource="{Binding Products}"
-          AutoGenerateColumns="False"
-          Margin=" 0 20 0 0"
-          Background="Transparent"
-          BorderThickness="0"
-          GridLinesVisibility="None"
-          HeadersVisibility="Column"
-          AlternatingRowBackground="#F5F6FB"
-          SelectionUnit="FullRow"
-          SelectionMode="Single"
-          EnableRowVirtualization="False"
-          IsReadOnly="True" Width="392">
+                    AutoGenerateColumns="False"
+                    Margin=" 0 20 0 0"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    GridLinesVisibility="None"
+                    HeadersVisibility="Column"
+                    AlternatingRowBackground="#F5F6FB"
+                    SelectionUnit="FullRow"
+                    SelectionMode="Single"
+                    EnableRowVirtualization="False"
+                    IsReadOnly="True" Width="392">
                     <DataGrid.ColumnHeaderStyle>
                         <Style TargetType="DataGridColumnHeader">
                             <Setter Property="Background" Value="Transparent"/>
@@ -379,8 +380,15 @@ Fill="Gray" Stretch="Uniform" Width="16" Height="16" VerticalAlignment="Center" 
                 <ListBoxItem>product name 6</ListBoxItem>-->
             </ListBox>
 
+            <Grid Grid.Row="2">
+                <TextBox BorderThickness="0" Padding="10,8" FontSize="12"/>
+                <Button HorizontalAlignment="Right" Width="30" Background="Transparent" BorderThickness="0">
+                    <Path Data="M11.5 9C10.12 9 9 10.12 9 11.5S10.12 14 11.5 14 14 12.88 14 11.5 12.88 9 11.5 9M20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4M16.79 18.21L13.88 15.3C13.19 15.74 12.37 16 11.5 16C9 16 7 14 7 11.5S9 7 11.5 7 16 9 16 11.5C16 12.38 15.74 13.19 15.3 13.89L18.21 16.79L16.79 18.21Z"
+                        Fill="Gray" Stretch="Uniform" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </Button>
+            </Grid>
             <!-- Numeric Buttons -->
-            <Grid Grid.Row="2" Margin="10,10,10,20">
+            <Grid Grid.Row="3" Margin="10,10,10,20">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
