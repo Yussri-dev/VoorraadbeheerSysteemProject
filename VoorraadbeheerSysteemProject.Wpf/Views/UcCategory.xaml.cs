@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VoorraadbeheerSysteemProject.Wpf.Stores;
+using VoorraadbeheerSysteemProject.Wpf.ViewModels;
 
 namespace VoorraadbeheerSysteemProject.Wpf.Views
 {
@@ -23,6 +25,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.Views
         public UcCategory()
         {
             InitializeComponent();
+  this.DataContext = new VmCategory(new NavigationStore());
         }
     }
 }
