@@ -1,4 +1,5 @@
-﻿<UserControl x:Class="VoorraadbeheerSysteemProject.Wpf.Views.UcReport"
+﻿
+    <UserControl x:Class="VoorraadbeheerSysteemProject.Wpf.Views.UcReport"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,7 +7,267 @@
              xmlns:local="clr-namespace:VoorraadbeheerSysteemProject.Wpf.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+        <Grid Background="White">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+            </Grid>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+
+                <!--buttons-->
+                <Button Grid.Column="1"
+             Content="Print"
+             Command="{Binding PrintCommand}"
+             HorizontalAlignment="Left" 
+             Margin="185,0,0,0"
+             VerticalAlignment="Center"
+             Height="30" Width="80" Background="#F6F6FB " RenderTransformOrigin="-0.062,0.667" >
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+
+                    </Button.Resources>
+                </Button>
+                <Button Grid.Column="1"
+             Content="Reset"
+             Command="{Binding ResetCommand}"
+             HorizontalAlignment="Left"
+             Margin="75,0,0,0" VerticalAlignment="Center" Height="30" Width="80" Background="#F6F6FB">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button Grid.Column="1" 
+             Content="Close" 
+             Command="{Binding CloseCommand}"
+             HorizontalAlignment="Left"
+             Margin="295,0,0,0" VerticalAlignment="Center" Width="80" Height="30" Background="#F6F6FB " RenderTransformOrigin="0.5,0.833">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+
+                <!--Total Amount -->
+                <Label Content="Total Amount" Grid.Column="0" FontWeight="Bold" HorizontalAlignment="Left" Margin="45,39,0,0" VerticalAlignment="Top"/>
+                <TextBox 
+       Grid.Column="0"   
+        HorizontalAlignment="Left"
+       Margin="45,70,0,0"
+       TextWrapping="Wrap"
+       Text="{Binding TotalAmount, Mode=OneWay}"
+       Foreground="#40AF73"
+       VerticalAlignment="Top"
+       Width="120"
+       IsReadOnly="True" />
+
+
+            </Grid>
+            <!-- Titel-->
+
+            <Label Content="Reports" Margin="0,0,645,0"  Grid.Column="0" FontSize="20" FontWeight="Bold" VerticalAlignment="Center" Height="150"/>
+
+            <!--listComboBox-->
+            <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Center" >
+                <!-- Customer  -->
+                <StackPanel>
+                    <TextBlock Text="Customer" FontSize="15" Foreground="#737B8B78" Margin="0,0,0,5"/>
+                    <ComboBox Width="150" 
+                          ItemsSource="{Binding Customers}" 
+                          SelectedItem="{Binding SelectedCustomer}"
+                          Foreground="#40AF73" 
+                          FontSize="18" 
+                          SelectedIndex="0"
+                          IsEditable="True"
+                          StaysOpenOnEdit="True"
+                          IsTextSearchEnabled="False"
+                          />
+                </StackPanel>
+
+                <!-- Start Date  -->
+                <StackPanel Margin="20,0,0,0">
+                    <TextBlock Text="Start Date" FontSize="15" Foreground="#737B8B78" Margin="0,0,0,5"/>
+                    <ComboBox Width="150" 
+                          ItemsSource="{Binding AvailableDates}" 
+                          SelectedItem="{Binding SelectedStartDate}"
+                          Foreground="#40AF73" 
+                          FontSize="18" 
+                          SelectedIndex="0"
+                          IsEditable="True"
+                          StaysOpenOnEdit="True"
+                          IsTextSearchEnabled="False"/>
+                </StackPanel>
+
+                <!-- End Date  -->
+                <StackPanel Margin="20,0,0,0">
+                    <TextBlock Text="End Date" FontSize="15" Foreground="#737B8B78" Margin="0,0,0,5" />
+                    <ComboBox Width="150"
+                            ItemsSource="{Binding AvailableDates}" 
+                          SelectedItem="{Binding SelectedEndDate}" 
+                          Foreground="#40AF73" 
+                          FontSize="18" 
+                          SelectedIndex="0"
+                          IsEditable="True"
+                          StaysOpenOnEdit="True"
+                          IsTextSearchEnabled="False"/>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" >
+
+                <!-- Search boxes-->
+
+                <StackPanel Orientation="Horizontal" Height="32" HorizontalAlignment="Right" Width="720">
+                    <Label Content="Search by Name" VerticalAlignment="Center"/>
+                    <TextBox Width="250" BorderThickness="0" Background="#F6F6FB" VerticalContentAlignment="Center" FontSize="12" Padding="12 0 0 0"
+                         Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" >
+                        <TextBox.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="5 0 0 5"/>
+                            </Style>
+                        </TextBox.Resources>
+                    </TextBox>
+                    <Button Margin="0 0 20 0" Background="#F6F6FB" BorderThickness="0" Padding="5">
+                        <Button.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="0 5 5 0"/>
+                            </Style>
+                        </Button.Resources>
+                        <Image Source="/Images/search-icon.png"/>
+                    </Button>
+                    <Label Content="Search by Code" VerticalAlignment="Center"/>
+                    <TextBox Width="250" BorderThickness="0" Background="#F6F6FB" VerticalContentAlignment="Center" FontSize="12" Padding="12 0 0 0">
+                        <TextBox.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="5 0 0 5"/>
+                            </Style>
+                        </TextBox.Resources>
+                    </TextBox>
+                    <Button Margin="0 0 20 0" Background="#F6F6FB" BorderThickness="0" Padding="5">
+                        <Button.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="0 5 5 0"/>
+                            </Style>
+                        </Button.Resources>
+                        <Image Source="/Images/search-icon.png"/>
+                    </Button>
+                    <Button Width="70" Margin="0 0 10 0" Foreground="#5A6ACF" Background="#FBFCFE" FontWeight="Bold">
+                        <Button.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="5"/>
+                            </Style>
+                        </Button.Resources>
+                        &lt;
+                    </Button>
+                    <Button Width="70" Foreground="#5A6ACF" Background="#FBFCFE" FontWeight="Bold">
+                        <Button.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="5"/>
+                            </Style>
+                        </Button.Resources>
+
+                        &gt;
+                    </Button>
+                </StackPanel>
+
+                <!-- Reports Name-->
+
+                <DataGrid ItemsSource="{Binding FilteredReports}"
+                      AutoGenerateColumns="False"
+                      Margin="0 20 0 0" 
+                      Background="Transparent" 
+                      BorderThickness="0" 
+                      GridLinesVisibility="None" 
+                      HeadersVisibility="Column" 
+                      AlternatingRowBackground="#F5F6FB" 
+                      SelectionUnit="FullRow" 
+                      SelectionMode="Single" 
+                      EnableRowVirtualization="False" 
+                      IsReadOnly="True">
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="FontSize" Value="14"/>
+                            <Setter Property="FontWeight" Value="SemiBold"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="Margin" Value="0 0 0 8"/>
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
+                    <DataGrid.RowStyle>
+                        <Style TargetType="DataGridRow">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="Height" Value="40"/>
+                            <Setter Property="FontSize" Value="12"/>
+                            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                            <Setter Property="SnapsToDevicePixels" Value="True"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="DataGridRow">
+                                        <Border x:Name="RowBorder" Background="{TemplateBinding Background}" 
+              BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0">
+                                            <DataGridCellsPresenter />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter TargetName="RowBorder" Property="Background" Value="#D0E0FF"/>
+                                                <Setter Property="Foreground" Value="Black"/>
+                                                <Setter Property="BorderThickness" Value="0"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGrid.RowStyle>
+                    <DataGrid.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+                            <Setter Property="Padding" Value="10,0"/>
+                            <Setter Property="VerticalAlignment" Value="Stretch"/>
+                            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="Foreground" Value="Black"/>
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.CellStyle>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="#" Binding="{Binding Number}" Width="40" />
+                        <DataGridTextColumn Header="Product Name" Binding="{Binding Name}" Width="*"  />
+                        <DataGridTextColumn Header="Qty" Binding="{Binding Qty }" Width="*"/>
+                        <DataGridTextColumn Header="Purchase" Binding="{Binding  PurchasePrice  }" Width="*"/>
+                        <DataGridTextColumn Header="Sale Price" Binding="{Binding SalePrice  }" Width="*"/>
+                        <DataGridTextColumn Header="Tax Rate" Binding="{Binding TaxRate }" Width="*"/>
+                        <DataGridTextColumn Header="Customer" Binding="{Binding Customer }" Width="*"/>
+                        <DataGridTextColumn Header="Sale Date" Binding="{Binding SaleDate }" Width="*"/>
+                        <DataGridTextColumn Header="Amount" Binding="{Binding Amount }" Width="*"/>
+                    </DataGrid.Columns>
+
+                </DataGrid>
+            </StackPanel>
+
+        </Grid>
+    
 </UserControl>
