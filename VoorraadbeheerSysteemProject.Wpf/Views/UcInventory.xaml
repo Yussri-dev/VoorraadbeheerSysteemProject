@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:VoorraadbeheerSysteemProject.Wpf.Views"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" >
     <StackPanel>
         <!--#region dropboxes-->
@@ -27,28 +28,24 @@
                 </ComboBox>
             </StackPanel>
             <StackPanel Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Left">
-                <Label Content="Date Start"/>
-                <ComboBox Style="{StaticResource CustomComboBoxStyle}"
-                              ItemsSource="{Binding FilteredCategories}"
-                              Foreground="#40AF73"
-                              Width="300" 
-                              FontSize="18"
-                              SelectedIndex="0">
-                    <ComboBoxItem Content="Purchase"/>
-                    <ComboBoxItem Content="Sales"/>
-                </ComboBox>
+                <Label Content="Date Start" FontSize="15" FontWeight="Medium" Foreground="#737B8B78"/>
+                <DatePicker Style="{StaticResource CustomDatePickerStyle}"
+                            Foreground="#40AF73" 
+                            FontSize="18" 
+                            Width="300"
+                            FontWeight="Medium" 
+                            SelectedDate="{x:Static sys:DateTime.Now}"
+                            BorderThickness="0"/>
             </StackPanel>
             <StackPanel Grid.Column="2" VerticalAlignment="Bottom" HorizontalAlignment="Left">
-                <Label Content="Date End"/>
-                <ComboBox Style="{StaticResource CustomComboBoxStyle}"
-                              ItemsSource="{Binding FilteredCategories}"
-                              Foreground="#40AF73"
-                              Width="300" 
-                              FontSize="18"
-                              SelectedIndex="0">
-                    <ComboBoxItem Content="Purchase"/>
-                    <ComboBoxItem Content="Sales"/>
-                </ComboBox>
+                <Label Content="Date End" FontSize="15" FontWeight="Medium" Foreground="#737B8B78"/>
+                <DatePicker Style="{StaticResource CustomDatePickerStyle}"
+                            Foreground="#40AF73" 
+                            FontSize="18" 
+                            Width="300"
+                            FontWeight="Medium" 
+                            SelectedDate="{x:Static sys:DateTime.Now}"
+                            BorderThickness="0"/>
             </StackPanel>
         </Grid>
         <!--#endregion-->

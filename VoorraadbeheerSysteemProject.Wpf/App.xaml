@@ -1,8 +1,10 @@
 ﻿<Application x:Class="VoorraadbeheerSysteemProject.Wpf.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:VoorraadbeheerSysteemProject.Wpf">
+             xmlns:local="clr-namespace:VoorraadbeheerSysteemProject.Wpf"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <Application.Resources>
+        <!--#region custom combobox-->
         <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="ToggleButton">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -102,5 +104,73 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <!--#endregion-->
+        
+        <!--#region custom datepicker-->
+        <Style x:Key="CustomDatePickerStyle" TargetType="DatePicker">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DatePicker">
+                        <Grid>
+                            <Button x:Name="PART_Button"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Focusable="False"
+                            Cursor="Hand"
+                            IsEnabled="True"
+                            Command="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <ContentPresenter x:Name="Content"
+                                                          HorizontalAlignment="Stretch"
+                                                          VerticalAlignment="Stretch"
+                                                          Margin="5"
+                                                          TextBlock.Foreground="{TemplateBinding Foreground}"/>
+                                    </ControlTemplate>
+                                </Button.Template>
+                                <Grid HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Stretch">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <!-- PART_TextBox: The text box where the selected date is shown -->
+                                    <ContentControl x:Name="PART_ContentPresenter"
+                                                    HorizontalAlignment="Stretch"
+                                                    Margin="5"
+                                                    ContentStringFormat="{}{0:dd/MM/yyyy}"
+                                                    TextBlock.Foreground="{TemplateBinding Foreground}"
+                                                    Content="{Binding SelectedDate, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+
+                                    <!--arrow-->
+                                    <Path Data="M 0 0 L 4 4 L 8 0 Z"
+                                              Grid.Column="1"
+                                              Stretch="Uniform"
+                                              Fill="Gray"
+                                              Width="10"
+                                              Height="10"
+                                              HorizontalAlignment="Right"
+                                              VerticalAlignment="Center"/>
+                                    <!--</Button>-->
+                                    
+                                </Grid>
+                            </Button>
+
+                            <Popup x:Name="PART_Popup"
+                                   IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                   Placement="Bottom" 
+                                   StaysOpen="False">
+                                <Calendar x:Name="PART_Calendar"
+                                          SelectedDate="{Binding SelectedDate, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                          DisplayMode="Month"/>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--#endregion-->
     </Application.Resources>
 </Application>
