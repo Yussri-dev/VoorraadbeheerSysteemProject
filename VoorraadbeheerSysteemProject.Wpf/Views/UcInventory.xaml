@@ -8,10 +8,10 @@
              mc:Ignorable="d" >
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.5*"/>
-            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="0.5*" MinHeight="150"/>
+            <RowDefinition Height="0.5*" MinHeight="100"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="0.3*" MinHeight="100"/>
         </Grid.RowDefinitions>
         <!--#region dropboxes-->
         <Grid Margin="60 0 0 0">
@@ -114,86 +114,22 @@
         <!--#endregion-->
         
         <!--#region inventory list-->
-        <DataGrid Name="ProductsDataGrid" 
-                  ItemsSource="{Binding Purchases}" 
-                  AutoGenerateColumns="False" 
-                  Margin=" 40 20 40 0" 
-                  Background="Transparent" 
-                  BorderThickness="0" 
-                  GridLinesVisibility="None" 
-                  HeadersVisibility="Column" 
-                  AlternatingRowBackground="#F5F6FB" 
-                  SelectionUnit="FullRow" 
-                  SelectionMode="Single" 
-                  EnableRowVirtualization="False"
-                  IsReadOnly="True"
+        <ListView Style="{StaticResource CustomListViewStyle}"
+                  ItemsSource="{Binding Purchases}"
                   Grid.Row="2">
-            <DataGrid.Resources>
-                <Style TargetType="TextBlock">
-                    <Setter Property="VerticalAlignment" Value="Center"/>
-                </Style>
-            </DataGrid.Resources>
-            <DataGrid.ColumnHeaderStyle>
-                <Style TargetType="DataGridColumnHeader">
-                    <Setter Property="Background" Value="Transparent"/>
-                    <Setter Property="FontSize" Value="14"/>
-                    <Setter Property="FontWeight" Value="SemiBold"/>
-                    <Setter Property="BorderThickness" Value="0"/>
-                    <Setter Property="Margin" Value="0 0 0 8"/>
-                </Style>
-            </DataGrid.ColumnHeaderStyle>
-            <DataGrid.RowStyle>
-                <Style TargetType="DataGridRow">
-                    <Setter Property="Background" Value="Transparent"/>
-                    <Setter Property="Height" Value="40"/>
-                    <Setter Property="FontSize" Value="12"/>
-                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-                    <Setter Property="SnapsToDevicePixels" Value="True"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="DataGridRow">
-                                <Border x:Name="RowBorder" Background="{TemplateBinding Background}" 
-                    BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0">
-                                    <DataGridCellsPresenter />
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsSelected" Value="True">
-                                        <Setter TargetName="RowBorder" Property="Background" Value="#D0E0FF"/>
-                                        <Setter Property="Foreground" Value="Black"/>
-                                        <Setter Property="BorderThickness" Value="0"/>
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </DataGrid.RowStyle>
-            <DataGrid.CellStyle>
-                <Style TargetType="DataGridCell">
-                    <Setter Property="Padding" Value="10,0"/>
-                    <Setter Property="VerticalAlignment" Value="Stretch"/>
-                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                    <Style.Triggers>
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="Transparent"/>
-                            <Setter Property="Foreground" Value="Black"/>
-                            <Setter Property="BorderThickness" Value="0"/>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </DataGrid.CellStyle>
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="#" Binding="{Binding Number}" Width="40"/>
-                <DataGridTextColumn Header="Product Name" Binding="{Binding ProductName}" Width="*"/>
-                <DataGridTextColumn Header="Purchase" Binding="{Binding Amount}" Width="80"/>
-                <DataGridTextColumn Header="Sale Price" Binding="{Binding SalePrice}" Width="80"/>
-                <DataGridTextColumn Header="Tax Rate" Binding="{Binding TaxRate}" Width="80"/>
-                <DataGridTextColumn Header="Supplier" Binding="{Binding Supplier}" Width="120"/>
-                <DataGridTextColumn Header="Sale Date" Binding="{Binding SaleDate}" Width="120"/>
-                <DataGridTextColumn Header="Qty in Stock" Binding="{Binding Stock}" Width="80"/>
-            </DataGrid.Columns>
-        </DataGrid>
-        <!--#endregion-->
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="#" Width="50" DisplayMemberBinding="{Binding Id}"/>
+                    <GridViewColumn Header="Product Name" Width="Auto" DisplayMemberBinding="{Binding ProductName}"/>
+                    <GridViewColumn Header="Purchase" Width="100" DisplayMemberBinding="{Binding Amount}"/>
+                    <GridViewColumn Header="Sale Price" Width="100" DisplayMemberBinding="{Binding SalePrice}"/>
+                    <GridViewColumn Header="Tax Rate" Width="100" DisplayMemberBinding="{Binding TaxRate}"/>
+                    <GridViewColumn Header="Supplier" Width="100" DisplayMemberBinding="{Binding Supplier}" />
+                    <GridViewColumn Header="Sale Date" Width="100" DisplayMemberBinding="{Binding SaleDate}"/>
+                    <GridViewColumn Header="Qty in Stock" Width="100" DisplayMemberBinding="{Binding Stock}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
         
         <!--#region Buttons-->
         <StackPanel Orientation="Horizontal" 

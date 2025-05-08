@@ -172,5 +172,39 @@
             </Setter>
         </Style>
         <!--#endregion-->
+
+
+        <!--#region custom ListView-->
+        <Style x:Key="CusomListViewItemStyle" TargetType="ListViewItem">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="MinHeight" Value="50"/>
+            <Setter Property="Padding" Value="15,0"/>
+            <Style.Triggers>
+                <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                    <Setter Property="Background" Value="#F5F6FB"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Style for GridViewColumnHeader -->
+        <Style TargetType="GridViewColumnHeader">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Foreground" Value="#1F384C"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="8"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        </Style>
+
+        <!-- Base ListView Style -->
+        <Style x:Key="CustomListViewStyle" TargetType="ListView">
+            <Setter Property="AlternationCount" Value="2"/>
+            <Setter Property="Foreground" Value="#b2b2b2"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Margin" Value="30,0"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="ItemContainerStyle" Value="{StaticResource CusomListViewItemStyle}"/>
+        </Style>
+        <!--#endregion-->
     </Application.Resources>
 </Application>
