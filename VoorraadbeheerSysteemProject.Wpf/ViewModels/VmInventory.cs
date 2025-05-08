@@ -14,6 +14,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
         public VmInventory(NavigationStore navigationStore)
         {
+
+            //fill purchase list with dummy data
             Purchases = new List<Purchase>
             {
                 new Purchase
@@ -48,6 +50,94 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                     Supplier = "Supplier 3",
                     SaleDate = DateTime.Now,
                     Stock = 300
+                },
+                new Purchase
+                {
+                    Id = 4,
+                    ProductName = "Product 3",
+                    Amount = 40,
+                    SalePrice = 45.0,
+                    TaxRate = "6%",
+                    Supplier = "Supplier 2",
+                    SaleDate = DateTime.Now,
+                    Stock = 400
+                },
+                new Purchase
+                {
+                    Id = 4,
+                    ProductName = "Product 3",
+                    Amount = 40,
+                    SalePrice = 45.0,
+                    TaxRate = "6%",
+                    Supplier = "Supplier 2",
+                    SaleDate = DateTime.Now,
+                    Stock = 400
+                },
+                new Purchase
+                {
+                    Id = 4,
+                    ProductName = "Product 3",
+                    Amount = 40,
+                    SalePrice = 45.0,
+                    TaxRate = "6%",
+                    Supplier = "Supplier 2",
+                    SaleDate = DateTime.Now,
+                    Stock = 400
+                },
+                new Purchase
+                {
+                    Id = 4,
+                    ProductName = "Product 3",
+                    Amount = 40,
+                    SalePrice = 45.0,
+                    TaxRate = "6%",
+                    Supplier = "Supplier 2",
+                    SaleDate = DateTime.Now,
+                    Stock = 400
+                },
+                new Purchase
+                {
+                    Id = 4,
+                    ProductName = "Product 3",
+                    Amount = 40,
+                    SalePrice = 45.0,
+                    TaxRate = "6%",
+                    Supplier = "Supplier 2",
+                    SaleDate = DateTime.Now,
+                    Stock = 400
+                },
+                new Purchase
+                {
+                    Id = 4,
+                    ProductName = "Product 3",
+                    Amount = 40,
+                    SalePrice = 45.0,
+                    TaxRate = "6%",
+                    Supplier = "Supplier 2",
+                    SaleDate = DateTime.Now,
+                    Stock = 400,
+                },
+                new Purchase
+                {
+                    Id = 4,
+                    ProductName = "Product 3",
+                    Amount = 40,
+                    SalePrice = 45.0,
+                    TaxRate = "6%",
+                    Supplier = "Supplier 2",
+                    SaleDate = DateTime.Now,
+                    Stock = 400
+                },
+                new Purchase
+                {
+                    Id = 4,
+                    ProductName = "Product 3",
+                    Amount = 40,
+                    SalePrice = 45.0,
+                    TaxRate = "6%",
+                    Supplier = "Supplier 2",
+                    SaleDate = DateTime.Now,
+                    Stock = 400
                 },
                 new Purchase
                 {

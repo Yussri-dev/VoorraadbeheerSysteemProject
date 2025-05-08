@@ -6,9 +6,15 @@
              xmlns:local="clr-namespace:VoorraadbeheerSysteemProject.Wpf.Views"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" >
-    <StackPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.5*"/>
+        </Grid.RowDefinitions>
         <!--#region dropboxes-->
-        <Grid Margin="60 90 60 50">
+        <Grid Margin="60 0 0 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -51,7 +57,11 @@
         <!--#endregion-->
 
         <!--#region searchboxes-->
-        <StackPanel Orientation="Horizontal" Height="32" HorizontalAlignment="Right" Margin="30">
+        <StackPanel Orientation="Horizontal" 
+                    Height="32" 
+                    HorizontalAlignment="Right" 
+                    Margin="30"
+                    Grid.Row="1">
             <Label Content="Search by Name" VerticalAlignment="Center"/>
             <TextBox Width="250" BorderThickness="0" Background="#F6F6FB" VerticalContentAlignment="Center" FontSize="12" Padding="12 0 0 0">
                 <TextBox.Resources>
@@ -104,7 +114,8 @@
         <!--#endregion-->
         
         <!--#region inventory list-->
-        <DataGrid Name="ProductsDataGrid" ItemsSource="{Binding Purchases}" 
+        <DataGrid Name="ProductsDataGrid" 
+                  ItemsSource="{Binding Purchases}" 
                   AutoGenerateColumns="False" 
                   Margin=" 40 20 40 0" 
                   Background="Transparent" 
@@ -115,7 +126,8 @@
                   SelectionUnit="FullRow" 
                   SelectionMode="Single" 
                   EnableRowVirtualization="False"
-                  IsReadOnly="True">
+                  IsReadOnly="True"
+                  Grid.Row="2">
             <DataGrid.Resources>
                 <Style TargetType="TextBlock">
                     <Setter Property="VerticalAlignment" Value="Center"/>
@@ -184,20 +196,53 @@
         <!--#endregion-->
         
         <!--#region Buttons-->
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="100,30">
+        <StackPanel Orientation="Horizontal" 
+                    HorizontalAlignment="Right" 
+                    Margin="100,30"
+                    Grid.Row="3">
             <Button Content="Reset"
                     Background="#DDE4F0"
                     Padding="30,10"
-                    Margin="0 0 15 0"/>
+                    Margin="0 0 15 0"
+                    VerticalAlignment="Bottom"
+                    BorderThickness="0"
+                    Foreground="#5A6ACF"
+                    FontWeight="Medium">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
             <Button Content="Print"
                     Background="#DDE4F0"
                     Padding="30,10"
-                    Margin="0 0 15 0"/>
+                    Margin="0 0 15 0"
+                    VerticalAlignment="Bottom"
+                    BorderThickness="0"
+                    Foreground="#5A6ACF"
+                    FontWeight="Medium">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
             <Button Content="Close"
                     Background="#DDE4F0"
-                    Padding="30,10"/>
+                    Padding="30,10"
+                    VerticalAlignment="Bottom"
+                    BorderThickness="0"
+                    Foreground="#5A6ACF"
+                    FontWeight="Medium">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
         </StackPanel>
         <!--#endregion-->
 
-    </StackPanel>
+    </Grid>
 </UserControl>
