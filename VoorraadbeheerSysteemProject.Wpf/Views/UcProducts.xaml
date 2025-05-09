@@ -131,7 +131,25 @@
             <!--#endregion-->
 
             <!--#region Product List-->
-            <DataGrid Name="ProductsDataGrid" ItemsSource="{Binding Products}" 
+            <ListView Style="{StaticResource CustomListViewStyle}"
+          ItemsSource="{Binding Products}"
+          Grid.Row="2">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="#" Width="50" DisplayMemberBinding="{Binding Number}"/>
+                        <GridViewColumn Header="Product Name" Width="Auto" DisplayMemberBinding="{Binding Name}"/>
+                        <GridViewColumn Header="Purchase" Width="100" DisplayMemberBinding="{Binding Purchase}"/>
+                        <GridViewColumn Header="Sale 1" Width="100" DisplayMemberBinding="{Binding Sale1}"/>
+                        <GridViewColumn Header="Sale 2" Width="100" DisplayMemberBinding="{Binding Sale2}"/>
+                        <GridViewColumn Header="Tax Rate" Width="100" DisplayMemberBinding="{Binding TaxRate}" />
+                        <GridViewColumn Header="Category" Width="100" DisplayMemberBinding="{Binding Category}"/>
+                        <GridViewColumn Header="Barcode" Width="100" DisplayMemberBinding="{Binding Barcode}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+
+            <!--<DataGrid Name="ProductsDataGrid" ItemsSource="{Binding Products}" 
                       AutoGenerateColumns="False" 
                       Margin=" 0 20 0 0" 
                       Background="Transparent" 
@@ -203,7 +221,7 @@
                     <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="120"/>
                     <DataGridTextColumn Header="Barcode" Binding="{Binding Barcode}" Width="120"/>
                 </DataGrid.Columns>
-            </DataGrid>
+            </DataGrid>-->
             <!--#endregion-->
             
             <!--#region Buttons-->
