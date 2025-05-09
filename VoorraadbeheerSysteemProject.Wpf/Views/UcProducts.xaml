@@ -145,8 +145,8 @@
 
         <!--#region Product List-->
         <ListView Style="{StaticResource CustomListViewStyle}"
-        ItemsSource="{Binding Products}"
-        Grid.Row="3">
+                  ItemsSource="{Binding Products}"
+                  Grid.Row="3">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="#" Width="50" DisplayMemberBinding="{Binding Number}"/>
