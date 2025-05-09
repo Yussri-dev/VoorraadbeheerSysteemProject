@@ -6,7 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using VoorraadbeheerSysteemProject.Wpf.Commands;
+using VoorraadbeheerSysteemProject.Wpf.Commands.ProductsCommands;
 using VoorraadbeheerSysteemProject.Wpf.Models;
+using VoorraadbeheerSysteemProject.Wpf.Requests;
 using VoorraadbeheerSysteemProject.Wpf.Services;
 using VoorraadbeheerSysteemProject.Wpf.Stores;
 
@@ -17,19 +19,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         private readonly ApiService _apiService;
         private readonly NavigationStore _navigationStore;
 
-
-
-        public VmSale(NavigationStore navigationStore)
-        {
-            _navigationStore = navigationStore;
-            _apiService = new ApiService("https://inventoryapi-dtavbdhhgdama7cr.switzerlandnorth-01.azurewebsites.net/");
-
-            Products = new ObservableCollection<ProductDTO>();
-            Task.Run(async () => await LoadDataAsync());
-
-            InitialCommands();
-
-        }
+        private ObservableCollection<ProductDTO> _allProducts;
+        public ObservableCollection<ProductSelectedRequest> SelectedProducts { get; set; } = new();
 
         private ObservableCollection<ProductDTO> _products;
 
@@ -42,6 +33,45 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 OnPropertyChanged(nameof(Products));
             }
         }
+
+        private ProductDTO? _selectedProduct;
+        public ProductDTO? SelectedProduct
+        {
+            get => _selectedProduct;
+            set
+            {
+                _selectedProduct = value;
+                OnPropertyChanged(nameof(SelectedProduct));
+
+                (AddSelectedProductCommand as AddSelectedProductCommand)?.RaiseCanExecuteChanged();
+            }
+        }
+
+        private ProductSelectedRequest? _selectedProductInCart;
+        public ProductSelectedRequest? SelectedProductInCart
+        {
+            get => _selectedProductInCart;
+            set
+            {
+                _selectedProductInCart = value;
+                OnPropertyChanged(nameof(SelectedProductInCart));
+            }
+        }
+
+        public VmSale(NavigationStore navigationStore)
+        {
+            _navigationStore = navigationStore;
+            _apiService = new ApiService("https://inventoryapi-dtavbdhhgdama7cr.switzerlandnorth-01.azurewebsites.net/");
+
+            _allProducts = new ObservableCollection<ProductDTO>();
+            Products = new ObservableCollection<ProductDTO>();
+            Task.Run(async () => await LoadDataAsync());
+
+            InitialCommands();
+
+        }
+
+        
 
         private void InitialCommands()
         {
@@ -59,6 +89,13 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             NumberPuntCommand = new AppendNumberCommand(this, ".");
             DeleteCommand = new DeleteInputCommand(this);
             ReturnCommand = new ReturnInputCommand(this);
+
+            ClosingCommand = new ClosingCommand(this);
+
+            SearchProductsCommand = new SearchProductsCommand(this);
+
+            AddSelectedProductCommand = new AddSelectedProductCommand(this);
+
         }
 
         private string _inputText = string.Empty;
@@ -71,12 +108,65 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 OnPropertyChanged(nameof(InputText));
             }
         }
+
+        private string _inputSearchNameText = string.Empty;
+        public string InputSearchNameText
+        {
+            get => _inputSearchNameText;
+            set
+            {
+                _inputSearchNameText = value;
+                OnPropertyChanged(nameof(InputSearchNameText));
+                FilterProducts();
+            }
+        }
+
+        private string _inputSearchBarcodeText = string.Empty;
+        public string InputSearchBarcodeText
+        {
+            get => _inputSearchBarcodeText;
+            set
+            {
+                _inputSearchBarcodeText = value;
+                OnPropertyChanged(nameof(InputSearchBarcodeText));
+                FilterProducts();
+
+            }
+        }
+
+        
+
+        public void FilterProducts()
+        {
+            var query = _allProducts.AsEnumerable();
+
+            if (!string.IsNullOrWhiteSpace(InputSearchNameText))
+            {
+                query = query.Where(p =>
+                    p.Name.Contains(InputSearchNameText, StringComparison.OrdinalIgnoreCase));
+            }
+
+            if (!string.IsNullOrWhiteSpace(InputSearchBarcodeText))
+            {
+                query = query.Where(p =>
+                    p.Barcode.Contains(InputSearchBarcodeText, StringComparison.OrdinalIgnoreCase));
+            }
+
+            Products.Clear();
+            foreach (var product in query)
+            {
+                Products.Add(product);
+            }
+        }
+
+
         private async Task LoadDataAsync()
         {
             var products = await _apiService.GetProductsAsync();
 
             App.Current.Dispatcher.Invoke(() =>
             {
+                _allProducts = new ObservableCollection<ProductDTO>(products); // FIXED
                 Products.Clear();
                 foreach (var product in products)
                 {
@@ -85,9 +175,9 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             });
         }
 
-
-
         #region commands
+        public ICommand AddSelectedProductCommand { get; set; }
+        public ICommand SearchProductsCommand { get; set; }
         public ICommand Number0Command { get; set; }
         public ICommand Number00Command { get; set; }
         public ICommand Number1Command { get; set; }
@@ -102,6 +192,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         public ICommand NumberPuntCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
         public ICommand ReturnCommand { get; set; }
+
+        public ICommand ClosingCommand { get; set; }
 
         #endregion
 

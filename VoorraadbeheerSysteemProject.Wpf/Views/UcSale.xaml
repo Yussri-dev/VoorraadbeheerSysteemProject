@@ -96,7 +96,7 @@
             <!-- Footer Totals -->
             <Grid Grid.Row="2" Margin="0,0,0,60">
 
-                <DataGrid Name="ProductsDataGrid" ItemsSource="{Binding Products}"
+                <!--<DataGrid Name="ProductsDataGrid" ItemsSource="{Binding Products}"
                 AutoGenerateColumns="False"
                 Margin=" 0 20 0 0"
                 Background="Transparent"
@@ -279,7 +279,21 @@
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
                     </DataGrid.Columns>
+                </DataGrid>-->
+
+
+                <DataGrid ItemsSource="{Binding SelectedProducts}"
+                      SelectedItem="{Binding SelectedProductInCart, Mode=TwoWay}"
+
+                      AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Id" Binding="{Binding ProductId}" />
+                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                        <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" />
+                    </DataGrid.Columns>
                 </DataGrid>
+
+
                 <!--<Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -325,7 +339,7 @@
         <Grid Grid.Column="1" Background="#F9F9F9" Grid.ColumnSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="300*"/>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="Auto" MinHeight="275.08"/>
             </Grid.RowDefinitions>
@@ -334,10 +348,14 @@
             <StackPanel Grid.Row="0" Margin="10,20,10,10">
                 <Border BorderThickness="1" BorderBrush="#E0E0E0" Background="White" CornerRadius="4" Margin="0,0,0,10">
                     <Grid>
-                        <TextBox BorderThickness="0" Padding="10,8" FontSize="12"/>
-                        <Button HorizontalAlignment="Right" Width="30" Background="Transparent" BorderThickness="0">
+                        <TextBox Text="{Binding InputSearchNameText, UpdateSourceTrigger=PropertyChanged}"
+                            BorderThickness="0"
+                            Padding="10,8"
+                            FontSize="12"/>
+
+                        <Button  HorizontalAlignment="Right" Width="30" Background="Transparent" BorderThickness="0">
                             <Path Data="M11.5 9C10.12 9 9 10.12 9 11.5S10.12 14 11.5 14 14 12.88 14 11.5 12.88 9 11.5 9M20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4M16.79 18.21L13.88 15.3C13.19 15.74 12.37 16 11.5 16C9 16 7 14 7 11.5S9 7 11.5 7 16 9 16 11.5C16 12.38 15.74 13.19 15.3 13.89L18.21 16.79L16.79 18.21Z"
-               Fill="Gray" Stretch="Uniform" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                Fill="Gray" Stretch="Uniform" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         </Button>
                     </Grid>
 
@@ -345,7 +363,7 @@
 
                 <Border BorderThickness="1" BorderBrush="#E0E0E0" Background="White" CornerRadius="4">
                     <Grid>
-                        <TextBox BorderThickness="0" Padding="10,8" FontSize="12"/>
+                        <TextBox Text="{Binding InputSearchBarcodeText, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Padding="10,8" FontSize="12"/>
                         <Button HorizontalAlignment="Right" Width="30" Background="Transparent" BorderThickness="0">
                             <Path Data="M11.5 9C10.12 9 9 10.12 9 11.5S10.12 14 11.5 14 14 12.88 14 11.5 12.88 9 11.5 9M20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4M16.79 18.21L13.88 15.3C13.19 15.74 12.37 16 11.5 16C9 16 7 14 7 11.5S9 7 11.5 7 16 9 16 11.5C16 12.38 15.74 13.19 15.3 13.89L18.21 16.79L16.79 18.21Z"
 Fill="Gray" Stretch="Uniform" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -355,10 +373,10 @@ Fill="Gray" Stretch="Uniform" Width="16" Height="16" VerticalAlignment="Center" 
             </StackPanel>
 
             <!-- Product List -->
-            <ListBox Grid.Row="1" BorderThickness="0" Background="Transparent" Margin="10,0,10,4">
-
-
+            <Grid Grid.Row="1" Background="Transparent" Margin="2,2,2,2">
                 <DataGrid Name="SalesDataGrid" ItemsSource="{Binding Products}"
+                    SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
+
                     AutoGenerateColumns="False"
                     Margin=" 0 20 0 0"
                     Background="Transparent"
@@ -542,11 +560,10 @@ Fill="Gray" Stretch="Uniform" Width="16" Height="16" VerticalAlignment="Center" 
                         </DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
-                
-            </ListBox>
+            </Grid>
 
             <Grid Grid.Row="2">
-                <TextBox x:Name="InputTextBox" BorderThickness="1" IsReadOnly="True" Padding="10,8" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Background="#F9F9F9"
+                <TextBox x:Name="InputTextBox" BorderThickness="1" IsReadOnly="False" Padding="10,8" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Background="#F9F9F9"
                      Text="{Binding InputText, UpdateSourceTrigger=PropertyChanged}" Width="272"/>
             </Grid>
             <!-- Numeric Buttons -->
@@ -601,7 +618,9 @@ Fill="Gray" Stretch="Uniform" Width="16" Height="16" VerticalAlignment="Center" 
                     <Button Grid.Row="3" Grid.Column="2" Content="." Command="{Binding NumberPuntCommand}"  Height="50" Background="White" BorderBrush="#E0E0E0" Margin="2"/>
 
                     <!-- Add Button -->
-                    <Button Grid.Row="0" Grid.Column="3" Grid.RowSpan="4" Content="Add" Background="White" BorderBrush="#E0E0E0" Margin="2"/>
+                    <Button Grid.Row="0" Grid.Column="3" Grid.RowSpan="4" Content="Add" 
+                            Command="{Binding AddSelectedProductCommand}"
+                            Background="White" BorderBrush="#E0E0E0" Margin="2"/>
                 </Grid>
             </Grid>
         </Grid>
