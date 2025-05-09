@@ -53,6 +53,10 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands.ProductsCommands
                 existing.AmountPrice += quantity * selected.SalePrice1;
             }
             _vmSale.InputText = string.Empty;
+            _vmSale.InputSearchNameText = string.Empty;
+            _vmSale.InputSearchBarcodeText = string.Empty;
+            _vmSale.CalculateTotalAmount();
+
         }
 
 

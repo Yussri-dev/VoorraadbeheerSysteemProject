@@ -45,6 +45,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 OnPropertyChanged(nameof(SelectedProduct));
 
                 (AddSelectedProductCommand as AddSelectedProductCommand)?.RaiseCanExecuteChanged();
+                (RemoveSelectedProductCommand as RemoveSelectedProductCommand)?.RaiseCanExecuteChanged();
             }
         }
 
@@ -59,24 +60,50 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             }
         }
 
-        private int _selectedProductsCount;
-        public int SelectedProductsCount
+        //Total Amount
+        private decimal _totalAmount;
+        public decimal TotalAmount
         {
-            get => _selectedProductsCount;
+            get => _totalAmount;
             set
             {
-                if (_selectedProductsCount != value)
-                {
-                    _selectedProductsCount = value;
-                    OnPropertyChanged(nameof(SelectedProductsCount));
-                }
+                _totalAmount = value;
+                OnPropertyChanged(nameof(TotalAmount));
+                OnPropertyChanged(nameof(FormattedTotalAmount));
             }
         }
 
-        private void UpdateSelectedProductsCount()
+        public string FormattedTotalAmount => TotalAmount.ToString("C");
+
+        // Total Quantity
+        private decimal _totalQuantity;
+        public decimal TotalQuantity
         {
-            SelectedProductsCount = SelectedProducts.Count;
+            get => _totalQuantity;
+            set
+            {
+                _totalQuantity = value;
+                OnPropertyChanged(nameof(TotalQuantity));
+                OnPropertyChanged(nameof(FormattedTotalQuantity));
+            }
         }
+        public string FormattedTotalQuantity => TotalQuantity.ToString("C");
+
+        //Total Lines
+        private int _lineCount;
+        public int LineCount
+        {
+            get => _lineCount;
+            private set
+            {
+                _lineCount = value;
+                OnPropertyChanged(nameof(LineCount));
+                OnPropertyChanged(nameof(FormattedCountLine));
+
+            }
+        }
+        public string FormattedCountLine => LineCount.ToString("N0");
+
 
         public VmSale(NavigationStore navigationStore)
         {
@@ -88,11 +115,31 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             Task.Run(async () => await LoadDataAsync());
 
             InitialCommands();
-            UpdateSelectedProductsCount();
 
         }
 
 
+        public void CalculateTotalAmount()
+        {
+            decimal total = 0;
+            decimal totalQuantity = 0;
+
+            int countLine = SelectedProducts.Count;
+
+            foreach (var product in SelectedProducts)
+            {
+                var productDetails = _allProducts.FirstOrDefault(p => p.ProductId == product.ProductId);
+                if (productDetails != null)
+                {
+                    total += productDetails.SalePrice1 * product.Quantity;
+                    totalQuantity += product.Quantity;
+                }
+            }
+
+            TotalAmount = total;
+            TotalQuantity = totalQuantity;
+            LineCount = countLine;
+        }
 
         private void InitialCommands()
         {
@@ -108,15 +155,18 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             Number8Command = new AppendNumberCommand(this, "8");
             Number9Command = new AppendNumberCommand(this, "9");
             NumberPuntCommand = new AppendNumberCommand(this, ".");
+
             DeleteCommand = new DeleteInputCommand(this);
             ReturnCommand = new ReturnInputCommand(this);
 
-            ClosingCommand = new ClosingCommand(this);
+            //ClosingCommand = new ClosingCommand(this);
 
             SearchProductsCommand = new SearchProductsCommand(this);
 
             AddSelectedProductCommand = new AddSelectedProductCommand(this);
+            RemoveSelectedProductCommand = new RemoveSelectedProductCommand(this);
 
+            ClearSelectedProductCommand = new ClearSelectedProductCommand(this);
         }
 
         private string _inputText = string.Empty;
@@ -155,7 +205,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             }
         }
 
-        
+
 
         public void FilterProducts()
         {
@@ -198,6 +248,9 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
         #region commands
         public ICommand AddSelectedProductCommand { get; set; }
+        public ICommand RemoveSelectedProductCommand { get; set; }
+        public ICommand ClearSelectedProductCommand { get; set; }
+
         public ICommand SearchProductsCommand { get; set; }
         public ICommand Number0Command { get; set; }
         public ICommand Number00Command { get; set; }
@@ -214,7 +267,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         public ICommand DeleteCommand { get; set; }
         public ICommand ReturnCommand { get; set; }
 
-        public ICommand ClosingCommand { get; set; }
+        //public ICommand ClosingCommand { get; set; }
 
         #endregion
 
