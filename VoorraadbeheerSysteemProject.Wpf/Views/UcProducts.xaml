@@ -7,7 +7,7 @@
              mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50" MinHeight="40"/> <!--Title with label-->
+            <RowDefinition Height="80" MinHeight="40"/> <!--Title with label-->
             <RowDefinition Height="0.5*" MinHeight="200"/> <!--Product info-->
             <RowDefinition Height="0.2*" MinHeight="50"/> <!--Search bars-->
             <RowDefinition Height="*"/> <!--ListView-->
@@ -15,7 +15,16 @@
         </Grid.RowDefinitions>
         <StackPanel Margin="60 20 60 0">
             <Label Content="Product" FontSize="18" Foreground="#1F384C"/>
-            <Label Content="Total Product : 4" Margin="60 0 0 0" FontSize="15" Foreground="#737B8B78"/>
+            <Label Margin="60 0 0 0"
+                   FontSize="15"
+                   Foreground="#737B8B78">
+                <Label.Content>
+                    <TextBlock>
+                        <Run Text="Total products: " />
+                        <Run Text="{Binding ProductCount, Mode=OneWay}" />
+                    </TextBlock>
+                </Label.Content>
+            </Label>
         </StackPanel>
         <!--#region Product Info-->
         <Grid Margin="60 20 60 0"
@@ -27,16 +36,17 @@
             </Grid.ColumnDefinitions>
             <StackPanel HorizontalAlignment="Left">
                 <Label Content="Product Name" FontSize="15" Foreground="#737B8B78"/>
-                <TextBox Text="Product 5" FontSize="18" Margin="5,0,0,10" Width="300" BorderThickness="0" Foreground="#40AF73"/>
+                <TextBox Text="{Binding SelectedProduct.Name}" FontSize="18" Margin="5,0,0,10" Width="300" BorderThickness="0" Foreground="#40AF73"/>
                 <Label Content="Bar code" FontSize="15" Foreground="#737B8B78"/>
-                <TextBox Text="1234567890123" FontSize="18" Margin="5,0,0,10" Width="300" BorderThickness="0" Foreground="#40AF73"/>
+                <TextBox Text="{Binding SelectedProduct.Barcode}" FontSize="18" Margin="5,0,0,10" Width="300" BorderThickness="0" Foreground="#40AF73"/>
                 <Label Content="Minimal stock" FontSize="15" Foreground="#737B8B78"/>
-                <TextBox Text="5.00" FontSize="18" Margin="5 0 0 0" Width="300" BorderThickness="0" Foreground="#FF0004"/>
+                <TextBox Text="{Binding SelectedProduct.MinStock}" FontSize="18" Margin="5 0 0 0" Width="300" BorderThickness="0" Foreground="#FF0004"/>
             </StackPanel>
             <StackPanel Grid.Column="1" HorizontalAlignment="Left">
                 <Label Content="Category Name" FontSize="15" Foreground="#737B8B78"/>
                 <ComboBox Style="{StaticResource CustomComboBoxStyle}"
                           ItemsSource="{Binding FilteredCategories}"
+                          SelectedItem="{Binding SelectedProduct.CategoryName, Mode=TwoWay}"
                           Foreground="#40AF73" 
                           Width="300" 
                           FontSize="18" 
@@ -44,14 +54,12 @@
                           IsEditable="True"
                           StaysOpenOnEdit="True"
                           IsTextSearchEnabled="False"
-                          Text="{Binding SearchTextCategories, UpdateSourceTrigger=PropertyChanged}">
-                    <!--<ComboBoxItem>Category 1</ComboBoxItem>
-                    <ComboBoxItem>Category 2</ComboBoxItem>
-                    <ComboBoxItem>Category 2</ComboBoxItem>-->
+                          Text="{Binding SearchTextCategories, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 </ComboBox>
                 <Label Content="Tax Rate" FontSize="15" Foreground="#737B8B78" />
                 <ComboBox Style="{StaticResource CustomComboBoxStyle}"
                           ItemsSource="{Binding FilteredTaxRate}"
+                          SelectedItem="{Binding SelectedProduct.TaxRate, Mode=TwoWay}"
                           Foreground="#40AF73" 
                           Width="300" 
                           FontSize="18" 
@@ -59,11 +67,12 @@
                           IsEditable="True"
                           StaysOpenOnEdit="True"
                           IsTextSearchEnabled="False"
-                          Text="{Binding SearchTextTaxRate, UpdateSourceTrigger=PropertyChanged}">
+                          Text="{Binding SearchTextTaxRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 </ComboBox>
                 <Label Content="Shelf" FontSize="15" Foreground="#737B8B78"/>
                 <ComboBox Style="{StaticResource CustomComboBoxStyle}"
                           ItemsSource="{Binding FilteredShelf}"
+                          SelectedItem="{Binding SelectedProduct.ShelfName}"
                           Foreground="#40AF73" 
                           Width="300" 
                           FontSize="18" 
@@ -76,11 +85,11 @@
             </StackPanel>
             <StackPanel Grid.Column="2" HorizontalAlignment="Left">
                 <Label Content="Purchase Price" FontSize="15" Foreground="#737B8B78"/>
-                <TextBox Text="9.55" FontSize="18" Margin="5,0,0,10" Width="200" BorderThickness="0" Foreground="#40AF73"/>
+                <TextBox Text="{Binding SelectedProduct.PurchasePrice}" FontSize="18" Margin="5,0,0,10" Width="200" BorderThickness="0" Foreground="#40AF73"/>
                 <Label Content="Sale Price 1" FontSize="15" Foreground="#737B8B78"/>
-                <TextBox Text="15.20" FontSize="18" Margin="5,0,0,10" Width="200" BorderThickness="0" Foreground="#40AF73"/>
+                <TextBox Text="{Binding SelectedProduct.SalePrice1}" FontSize="18" Margin="5,0,0,10" Width="200" BorderThickness="0" Foreground="#40AF73"/>
                 <Label Content="Sale Price 2" FontSize="15" Foreground="#737B8B78"/>
-                <TextBox Text="14.80" FontSize="18" Margin="5,0,0,0" Width="200" BorderThickness="0" Foreground="#FF0004"/>
+                <TextBox Text="{Binding SelectedProduct.SalePrice2}" FontSize="18" Margin="5,0,0,0" Width="200" BorderThickness="0" Foreground="#FF0004"/>
             </StackPanel>
         </Grid>
         <!--#endregion-->
@@ -146,16 +155,17 @@
         <!--#region Product List-->
         <ListView Style="{StaticResource CustomListViewStyle}"
                   ItemsSource="{Binding Products}"
+                  SelectedItem="{Binding SelectedProduct}"
                   Grid.Row="3">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="#" Width="50" DisplayMemberBinding="{Binding Number}"/>
+                    <GridViewColumn Header="#" Width="50" DisplayMemberBinding="{Binding ProductId}"/>
                     <GridViewColumn Header="Product Name" Width="Auto" DisplayMemberBinding="{Binding Name}"/>
-                    <GridViewColumn Header="Purchase" Width="100" DisplayMemberBinding="{Binding Purchase}"/>
-                    <GridViewColumn Header="Sale 1" Width="100" DisplayMemberBinding="{Binding Sale1}"/>
-                    <GridViewColumn Header="Sale 2" Width="100" DisplayMemberBinding="{Binding Sale2}"/>
+                    <GridViewColumn Header="Purchase" Width="100" DisplayMemberBinding="{Binding PurchasePrice}"/>
+                    <GridViewColumn Header="Sale 1" Width="100" DisplayMemberBinding="{Binding SalePrice1}"/>
+                    <GridViewColumn Header="Sale 2" Width="100" DisplayMemberBinding="{Binding SalePrice2}"/>
                     <GridViewColumn Header="Tax Rate" Width="100" DisplayMemberBinding="{Binding TaxRate}" />
-                    <GridViewColumn Header="Category" Width="100" DisplayMemberBinding="{Binding Category}"/>
+                    <GridViewColumn Header="Category" Width="100" DisplayMemberBinding="{Binding CategoryName}"/>
                     <GridViewColumn Header="Barcode" Width="100" DisplayMemberBinding="{Binding Barcode}"/>
                 </GridView>
             </ListView.View>

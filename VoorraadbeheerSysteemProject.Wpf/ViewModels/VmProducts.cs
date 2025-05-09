@@ -7,69 +7,59 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using VoorraadbeheerSysteemProject.Wpf.Commands;
 using VoorraadbeheerSysteemProject.Wpf.Stores;
+using VoorraadbeheerSysteemProject.Wpf.Models;
+using VoorraadbeheerSysteemProject.Wpf.Services;
 
 namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 {
     public class VmProducts : VmBase
     {
+        private readonly ApiService _apiService;
+
+        private IList<ProductDTO> _products;
+        private ProductDTO? _selectedProduct;
+
+
+        public IList<ProductDTO> Products { 
+            get => _products; 
+            set {
+                _products = value;
+                OnPropertyChanged(nameof(Products));
+                OnPropertyChanged(nameof(ProductCount));
+            }
+        }
+
+        public ProductDTO? SelectedProduct
+        {
+            get { return _selectedProduct; }
+            set { 
+                _selectedProduct = value;
+                OnPropertyChanged(nameof(SelectedProduct));
+
+                //update text to match selected product
+                SearchTextCategories = _selectedProduct?.CategoryName ?? "";
+                SearchTextShelf = _selectedProduct?.ShelfName ?? "";
+                SearchTextTaxRate = _selectedProduct?.TaxRate.ToString() ?? "";
+            }
+        }
+
+        public int ProductCount
+        {
+            get => _products?.Count ?? 0;
+        }
+
+
         public VmProducts(NavigationStore navigationStore)
         {
 
             //NavigateDataCommand = new NavigationCommand<vmLogin>(navigationStore,
             //    () => new vmLogin(navigationStore));
 
+            //initialize the api service
+            _apiService = new ApiService("https://inventoryapi-dtavbdhhgdama7cr.switzerlandnorth-01.azurewebsites.net/");
 
-
-
-            //temp filling of products
-            Products = new List<Product>()
-            {
-                new Product()
-                {
-                    Number = 1,
-                    Name = "Product 1",
-                    Purchase = 10.0,
-                    Sale1 = 15.0,
-                    Sale2 = 20.0,
-                    TaxRate = "21%",
-                    Category = "Category 1",
-                    Barcode = "1234567890123"
-                },
-                new Product()
-                {
-                    Number = 2,
-                    Name = "Product 2",
-                    Purchase = 20.0,
-                    Sale1 = 25.0,
-                    Sale2 = 30.0,
-                    TaxRate = "6%",
-                    Category = "Category 2",
-                    Barcode = "2345678901234"
-                },
-                new Product()
-                {
-                    Number = 3,
-                    Name = "Product 3",
-                    Purchase = 30.0,
-                    Sale1 = 35.0,
-                    Sale2 = 40.0,
-                    TaxRate = "21%",
-                    Category = "Category 3",
-                    Barcode = "3456789012345"
-                },
-                new Product()
-                {
-                    Number = 4,
-                    Name = "Product 4",
-                    Purchase = 40.0,
-                    Sale1 = 45.0,
-                    Sale2 = 50.0,
-                    TaxRate = "6%",
-                    Category = "Category 4",
-                    Barcode = "4567890123456"
-                }
-            };
-
+            //get products from api
+            Task.Run(LoadDataAsync);
 
             //temp filling of categories
             AllCategories = new List<string> {
@@ -98,9 +88,6 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             FilteredShelf = AllShelf;
 
         }
-
-        public IList<Product> Products { get; set; }
-
 
         #region category filter
         private string _searchTextCategories;
@@ -221,22 +208,12 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         }
         #endregion
 
+        //methods
+        private async Task LoadDataAsync()
+        {
+            Products = await _apiService.GetProductsAsync();
+        }
 
 
     }
-
-    //temp class
-    public class Product
-    {
-        public int Number { get; set; }
-        public string? Name { get; set; }
-        public double Purchase { get; set; }
-        public double Sale1 { get; set; }
-        public double Sale2 { get; set; }
-        public string? TaxRate { get; set; }
-        public string? Category { get; set; }
-        public string? Barcode { get; set; }
-    }
-
-
 }
