@@ -20,27 +20,41 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands.ProductsCommands
         }
         public bool CanExecute(object? parameter) => true;
         //{
-        //    return _vmSale.SelectedProduct != null;
+        //    return _vmSale.SelectedProductInCart != null;
         //}
 
         public void Execute(object? parameter)
         {
             var selected = _vmSale.SelectedProduct;
-            var Quantity = Convert.ToDecimal(_vmSale.InputText);
             if (selected == null)
                 return;
 
-            // Prevent duplicate entries
-            if (!_vmSale.SelectedProducts.Any(p => p.ProductId == selected.ProductId))
+            if (!decimal.TryParse(_vmSale.InputText, out var quantity) || quantity <= 0)
+                return;
+
+            // Vérifie si le produit est déjà dans la liste
+            var existing = _vmSale.SelectedProducts.FirstOrDefault(p => p.ProductId == selected.ProductId);
+
+
+            if (existing == null)
             {
                 _vmSale.SelectedProducts.Add(new ProductSelectedRequest
                 {
                     ProductId = selected.ProductId,
                     Name = selected.Name,
-                    Quantity = Quantity
+                    Quantity = quantity,
+                    SalePrice = selected.SalePrice1,
+                    AmountPrice = quantity * selected.SalePrice1
                 });
             }
+            else
+            {
+                existing.Quantity += quantity;
+                existing.AmountPrice += quantity * selected.SalePrice1;
+            }
+            _vmSale.InputText = string.Empty;
         }
+
 
         public void RaiseCanExecuteChanged()
         {

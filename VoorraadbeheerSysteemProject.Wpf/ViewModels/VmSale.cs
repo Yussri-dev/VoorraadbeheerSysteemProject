@@ -34,6 +34,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             }
         }
 
+
         private ProductDTO? _selectedProduct;
         public ProductDTO? SelectedProduct
         {
@@ -58,6 +59,25 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             }
         }
 
+        private int _selectedProductsCount;
+        public int SelectedProductsCount
+        {
+            get => _selectedProductsCount;
+            set
+            {
+                if (_selectedProductsCount != value)
+                {
+                    _selectedProductsCount = value;
+                    OnPropertyChanged(nameof(SelectedProductsCount));
+                }
+            }
+        }
+
+        private void UpdateSelectedProductsCount()
+        {
+            SelectedProductsCount = SelectedProducts.Count;
+        }
+
         public VmSale(NavigationStore navigationStore)
         {
             _navigationStore = navigationStore;
@@ -68,10 +88,11 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             Task.Run(async () => await LoadDataAsync());
 
             InitialCommands();
+            UpdateSelectedProductsCount();
 
         }
 
-        
+
 
         private void InitialCommands()
         {
