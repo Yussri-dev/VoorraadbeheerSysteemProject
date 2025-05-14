@@ -16,15 +16,16 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
     {
         private readonly ApiService _apiService;
 
-        private IList<ProductDTO> _products;
-        private IList<ProductDTO> _filteredProducts;
+        private ObservableCollection<ProductDTO> _products;
+        private ObservableCollection<ProductDTO> _filteredProducts;
         private ProductDTO? _selectedProduct;
 
         private string _searchTextName = "";
         private string _searchTextBarcode = "";
 
+        public ICommand DisableOrEnableProductCommand { get; }
 
-        public IList<ProductDTO> Products { 
+        public ObservableCollection<ProductDTO> Products { 
             get => _products; 
             set {
                 _products = value;
@@ -33,13 +34,14 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             }
         }
 
-        public IList<ProductDTO> FilteredProducts
+        public ObservableCollection<ProductDTO> FilteredProducts
         {
             get => _filteredProducts;
             set
             {
                 _filteredProducts = value;
                 OnPropertyChanged(nameof(FilteredProducts));
+
             }
         }
 
@@ -49,6 +51,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             set { 
                 _selectedProduct = value;
                 OnPropertyChanged(nameof(SelectedProduct));
+                OnPropertyChanged(nameof(ProductIsActive));
+
 
                 //update text to match selected product
                 SearchTextCategories = _selectedProduct?.CategoryName ?? "";
@@ -57,12 +61,20 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             }
         }
 
+        public string ProductIsActive
+        {
+            get
+            {
+                if (_selectedProduct is null || _selectedProduct.IsActivate) return "disable";
+
+                return "enable";
+            }
+        }
+
         public int ProductCount
         {
             get => _products?.Count ?? 0;
         }
-
-        
 
         public string SearchTextName
         {
@@ -91,7 +103,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             }
         }
 
-
+        #region constructors
         public VmProducts(NavigationStore navigationStore)
         {
 
@@ -99,12 +111,14 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             //    () => new vmLogin(navigationStore));
 
             //initialize the api service
-            _apiService = new ApiService("https://inventoryapi-dtavbdhhgdama7cr.switzerlandnorth-01.azurewebsites.net/");
+            _apiService = new ApiService("https://f557-2a02-2c40-270-2029-58ea-66d1-3111-66b1.ngrok-free.app/");
 
             //get products from api
             Task.Run(LoadDataAsync);
 
+            DisableOrEnableProductCommand = new DisableOrEnableProductCommand(DisableOrEnableProduct);
         }
+        #endregion
 
         #region category filter
         private string _searchTextCategories;
@@ -227,27 +241,41 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
 
 
-        //methods
+        #region Methods
+
+
+        private void DisableOrEnableProduct(object parameter)
+        {
+            if(SelectedProduct == null)
+                return;
+
+            SelectedProduct.IsActivate = !SelectedProduct.IsActivate;
+            OnPropertyChanged(nameof(ProductIsActive));
+            //OnPropertyChanged(nameof(SelectedProduct));
+            //OnPropertyChanged(nameof(FilteredProducts));
+        }
+
+
         private void FilterProducts()
         {
-            IList<ProductDTO> filterdProducts = Products;
-            
-            if(!String.IsNullOrWhiteSpace(SearchTextName))
-                filterdProducts = filterdProducts?.Where(p => p.Name.ToLower().Contains(SearchTextName.ToLower())).ToList() ?? new List<ProductDTO>();
+            var filterdProducts = Products.AsEnumerable();
+
+            if (!String.IsNullOrWhiteSpace(SearchTextName))
+                filterdProducts = filterdProducts?.Where(p => p.Name.ToLower().Contains(SearchTextName.ToLower()));
 
             if (!String.IsNullOrWhiteSpace(SearchTextBarcode))
-                filterdProducts = filterdProducts?.Where(p => p.Barcode.ToLower().Contains(SearchTextBarcode.ToLower())).ToList() ?? new List<ProductDTO>();
+                filterdProducts = filterdProducts?.Where(p => p.Barcode.ToLower().Contains(SearchTextBarcode.ToLower()));
 
-            FilteredProducts = filterdProducts;
+            FilteredProducts = new ObservableCollection<ProductDTO>(filterdProducts);
         }
 
         private async Task LoadDataAsync()
         {
-            Products = await _apiService.GetProductsAsync();
+            Products = new ObservableCollection<ProductDTO>(await _apiService.GetProductsAsync());
 
             if(Products.Count == 0)
             {
-                Products = new List<ProductDTO>()
+                Products = new ObservableCollection<ProductDTO>()
                 {
                     new ProductDTO(){ ProductId = 0, Name = "product 1", PurchasePrice = 13.20m, SalePrice1 = 15.60m, SalePrice2 = 17.60m, TaxRate = 6, CategoryName = "category 1", Barcode = "4534843785"},
                     new ProductDTO(){ ProductId = 1, Name = "special product 1", PurchasePrice = 13.20m, SalePrice1 = 15.60m, SalePrice2 = 17.60m, TaxRate = 6, CategoryName = "category 1", Barcode = "46348644"},
@@ -257,7 +285,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
             }
             //sort products by name
-            FilteredProducts = Products.OrderBy(p => p.Name).ToList();
+            FilteredProducts = new ObservableCollection<ProductDTO>(Products.OrderBy(p => p.Name).ToList());
 
             //temp filling of categories
             AllCategories = new List<string> {
@@ -286,9 +314,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             FilteredShelf = AllShelf;
 
 
-
         }
-
+        #endregion
 
     }
 }
