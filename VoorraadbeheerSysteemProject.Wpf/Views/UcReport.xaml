@@ -189,84 +189,29 @@
                     </Button>
                 </StackPanel>
 
-                <!-- Reports Name-->
+                <!-- Reports list-->
 
-                <DataGrid ItemsSource="{Binding FilteredReports}"
-                      AutoGenerateColumns="False"
-                      Margin="0 20 0 0" 
-                      Background="Transparent" 
-                      BorderThickness="0" 
-                      GridLinesVisibility="None" 
-                      HeadersVisibility="Column" 
-                      AlternatingRowBackground="#F5F6FB" 
-                      SelectionUnit="FullRow" 
-                      SelectionMode="Single" 
-                      EnableRowVirtualization="False" 
-                      IsReadOnly="True">
-                    <DataGrid.ColumnHeaderStyle>
-                        <Style TargetType="DataGridColumnHeader">
-                            <Setter Property="Background" Value="Transparent"/>
-                            <Setter Property="FontSize" Value="14"/>
-                            <Setter Property="FontWeight" Value="SemiBold"/>
-                            <Setter Property="BorderThickness" Value="0"/>
-                            <Setter Property="Margin" Value="0 0 0 8"/>
-                        </Style>
-                    </DataGrid.ColumnHeaderStyle>
-                    <DataGrid.RowStyle>
-                        <Style TargetType="DataGridRow">
-                            <Setter Property="Background" Value="Transparent"/>
-                            <Setter Property="Height" Value="40"/>
-                            <Setter Property="FontSize" Value="12"/>
-                            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-                            <Setter Property="SnapsToDevicePixels" Value="True"/>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="DataGridRow">
-                                        <Border x:Name="RowBorder" Background="{TemplateBinding Background}" 
-              BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0">
-                                            <DataGridCellsPresenter />
-                                        </Border>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="IsSelected" Value="True">
-                                                <Setter TargetName="RowBorder" Property="Background" Value="#D0E0FF"/>
-                                                <Setter Property="Foreground" Value="Black"/>
-                                                <Setter Property="BorderThickness" Value="0"/>
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </DataGrid.RowStyle>
-                    <DataGrid.CellStyle>
-                        <Style TargetType="DataGridCell">
-                            <Setter Property="VerticalContentAlignment" Value="Center"/>
-                            <Setter Property="Padding" Value="10,0"/>
-                            <Setter Property="VerticalAlignment" Value="Stretch"/>
-                            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                            <Style.Triggers>
-                                <Trigger Property="IsSelected" Value="True">
-                                    <Setter Property="Background" Value="Transparent"/>
-                                    <Setter Property="Foreground" Value="Black"/>
-                                    <Setter Property="BorderThickness" Value="0"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </DataGrid.CellStyle>
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="#" Binding="{Binding Number}" Width="40" />
-                        <DataGridTextColumn Header="Product Name" Binding="{Binding Name}" Width="*"  />
-                        <DataGridTextColumn Header="Qty" Binding="{Binding Qty }" Width="*"/>
-                        <DataGridTextColumn Header="Purchase" Binding="{Binding  PurchasePrice  }" Width="*"/>
-                        <DataGridTextColumn Header="Sale Price" Binding="{Binding SalePrice  }" Width="*"/>
-                        <DataGridTextColumn Header="Tax Rate" Binding="{Binding TaxRate }" Width="*"/>
-                        <DataGridTextColumn Header="Customer" Binding="{Binding Customer }" Width="*"/>
-                        <DataGridTextColumn Header="Sale Date" Binding="{Binding SaleDate }" Width="*"/>
-                        <DataGridTextColumn Header="Amount" Binding="{Binding Amount }" Width="*"/>
-                    </DataGrid.Columns>
+            <ListView ItemsSource="{Binding FilteredReports}"
+          Margin="0 20 0 0"
+          SelectionMode="Single"
+          Style="{StaticResource CustomListViewStyle}">
 
-                </DataGrid>
-            </StackPanel>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="#" Width="40" DisplayMemberBinding="{Binding Number}" />
+                        <GridViewColumn Header="Product Name" Width="Auto" DisplayMemberBinding="{Binding Name}" />
+                        <GridViewColumn Header="Qty" Width="Auto" DisplayMemberBinding="{Binding Qty}" />
+                        <GridViewColumn Header="Purchase" Width="Auto" DisplayMemberBinding="{Binding PurchasePrice}" />
+                        <GridViewColumn Header="Sale Price" Width="Auto" DisplayMemberBinding="{Binding SalePrice}" />
+                        <GridViewColumn Header="Tax Rate" Width="Auto" DisplayMemberBinding="{Binding TaxRate}" />
+                        <GridViewColumn Header="Customer" Width="Auto" DisplayMemberBinding="{Binding Customer}" />
+                        <GridViewColumn Header="Sale Date" Width="Auto" DisplayMemberBinding="{Binding SaleDate}" />
+                        <GridViewColumn Header="Amount" Width="Auto" DisplayMemberBinding="{Binding Amount}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+        </StackPanel>
 
         </Grid>
     
