@@ -96,202 +96,39 @@
             <!-- Footer Totals -->
             <Grid Grid.Row="2" Margin="0,0,0,60">
 
-                <DataGrid Name="ProductsDataGrid" ItemsSource="{Binding Products}"
-                AutoGenerateColumns="False"
-                Margin=" 0 20 0 0"
-                Background="Transparent"
-                BorderThickness="0"
-                GridLinesVisibility="None"
-                HeadersVisibility="Column"
-                AlternatingRowBackground="#F5F6FB"
-                SelectionUnit="FullRow"
-                SelectionMode="Single"
-                EnableRowVirtualization="False"
-                IsReadOnly="True">
-                    <DataGrid.ColumnHeaderStyle>
-                        <Style TargetType="DataGridColumnHeader">
-                            <Setter Property="Background" Value="Transparent"/>
-                            <Setter Property="FontSize" Value="14"/>
-                            <Setter Property="FontWeight" Value="SemiBold"/>
-                            <Setter Property="BorderThickness" Value="0"/>
-                            <Setter Property="Margin" Value="0 0 0 8"/>
-                        </Style>
-                    </DataGrid.ColumnHeaderStyle>
-                    <DataGrid.RowStyle>
-                        <Style TargetType="DataGridRow">
-                            <Setter Property="Background" Value="Transparent"/>
-                            <Setter Property="Height" Value="40"/>
-                            <Setter Property="FontSize" Value="12"/>
-                            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-                            <Setter Property="SnapsToDevicePixels" Value="True"/>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="DataGridRow">
-                                        <Border x:Name="RowBorder" Background="{TemplateBinding Background}"
-                                            BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0">
-                                            <DataGridCellsPresenter />
-                                        </Border>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="IsSelected" Value="True">
-                                                <Setter TargetName="RowBorder" Property="Background" Value="#D0E0FF"/>
-                                                <Setter Property="Foreground" Value="Black"/>
-                                                <Setter Property="BorderThickness" Value="0"/>
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </DataGrid.RowStyle>
-                    <DataGrid.CellStyle>
-                        <Style TargetType="DataGridCell">
-                            <Setter Property="VerticalContentAlignment" Value="Center"/>
-                            <Setter Property="Padding" Value="10,0"/>
-                            <Setter Property="VerticalAlignment" Value="Stretch"/>
-                            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                            <Style.Triggers>
-                                <Trigger Property="IsSelected" Value="True">
-                                    <Setter Property="Background" Value="Transparent"/>
-                                    <Setter Property="Foreground" Value="Black"/>
-                                    <Setter Property="BorderThickness" Value="0"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </DataGrid.CellStyle>
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Product Name" Binding="{Binding Name}" Width="100">
-                            <DataGridTextColumn.HeaderStyle>
-                                <Style TargetType="DataGridColumnHeader">
-                                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                                    <Setter Property="VerticalContentAlignment" Value="Center"/>
-                                </Style>
-                            </DataGridTextColumn.HeaderStyle>
-                            <DataGridTextColumn.ElementStyle>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="HorizontalAlignment" Value="Left"/>
-                                    <Setter Property="VerticalAlignment" Value="Center"/>
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
+                <ListView 
+                    ItemsSource="{Binding SelectedProducts}" 
+                    SelectedItem="{Binding SelectedProductInCart, Mode=TwoWay}"
+                    Style="{StaticResource CustomListViewStyle}"
+                    Background="Transparent">
 
-                        <DataGridTextColumn Header="Purchase" Binding="{Binding PurchasePrice}" Width="80">
-                            <DataGridTextColumn.HeaderStyle>
-                                <Style TargetType="DataGridColumnHeader">
-                                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                                    <Setter Property="VerticalContentAlignment" Value="Center"/>
-                                </Style>
-                            </DataGridTextColumn.HeaderStyle>
-                            <DataGridTextColumn.ElementStyle>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="HorizontalAlignment" Value="Left"/>
-                                    <Setter Property="VerticalAlignment" Value="Center"/>
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Id" DisplayMemberBinding="{Binding ProductId}" Width="0" />
+                            <GridViewColumn Header="Quantity" DisplayMemberBinding="{Binding Quantity}" Width="150" />
+                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="200" />
+                            <GridViewColumn Header="SalePrice" DisplayMemberBinding="{Binding SalePrice}" Width="100" />
+                            <GridViewColumn Header="Amount" DisplayMemberBinding="{Binding AmountPrice}" Width="100" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
 
-                        <DataGridTextColumn Header="Sale 1" Binding="{Binding SalePrice1}" Width="80">
-                            <DataGridTextColumn.HeaderStyle>
-                                <Style TargetType="DataGridColumnHeader">
-                                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                                    <Setter Property="VerticalContentAlignment" Value="Center"/>
-                                </Style>
-                            </DataGridTextColumn.HeaderStyle>
-                            <DataGridTextColumn.ElementStyle>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="HorizontalAlignment" Value="Left"/>
-                                    <Setter Property="VerticalAlignment" Value="Center"/>
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-
-                        <DataGridTextColumn Header="Sale 2" Binding="{Binding SalePrice2}" Width="80">
-                            <DataGridTextColumn.HeaderStyle>
-                                <Style TargetType="DataGridColumnHeader">
-                                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                                    <Setter Property="VerticalContentAlignment" Value="Center"/>
-                                </Style>
-                            </DataGridTextColumn.HeaderStyle>
-                            <DataGridTextColumn.ElementStyle>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="HorizontalAlignment" Value="Left"/>
-                                    <Setter Property="VerticalAlignment" Value="Center"/>
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-
-                        <DataGridTextColumn Header="Tax Rate" Binding="{Binding TaxRate}" Width="80">
-                            <DataGridTextColumn.HeaderStyle>
-                                <Style TargetType="DataGridColumnHeader">
-                                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                                    <Setter Property="VerticalContentAlignment" Value="Center"/>
-                                </Style>
-                            </DataGridTextColumn.HeaderStyle>
-                            <DataGridTextColumn.ElementStyle>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="HorizontalAlignment" Value="Left"/>
-                                    <Setter Property="VerticalAlignment" Value="Center"/>
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-
-                        <DataGridTextColumn Header="Category" Binding="{Binding CategoryName}" Width="120">
-                            <DataGridTextColumn.HeaderStyle>
-                                <Style TargetType="DataGridColumnHeader">
-                                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                                    <Setter Property="VerticalContentAlignment" Value="Center"/>
-                                </Style>
-                            </DataGridTextColumn.HeaderStyle>
-                            <DataGridTextColumn.ElementStyle>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="HorizontalAlignment" Value="Left"/>
-                                    <Setter Property="VerticalAlignment" Value="Center"/>
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-
-                        <DataGridTextColumn Header="Barcode" Binding="{Binding Barcode}" Width="120">
-                            <DataGridTextColumn.HeaderStyle>
-                                <Style TargetType="DataGridColumnHeader">
-                                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                                    <Setter Property="VerticalContentAlignment" Value="Center"/>
-                                </Style>
-                            </DataGridTextColumn.HeaderStyle>
-                            <DataGridTextColumn.ElementStyle>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="HorizontalAlignment" Value="Left"/>
-                                    <Setter Property="VerticalAlignment" Value="Center"/>
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-
-                        <DataGridTextColumn Header="#" Binding="{Binding ProductId}" Width="40">
-                            <DataGridTextColumn.HeaderStyle>
-                                <Style TargetType="DataGridColumnHeader">
-                                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                                    <Setter Property="VerticalContentAlignment" Value="Center"/>
-                                </Style>
-                            </DataGridTextColumn.HeaderStyle>
-                            <DataGridTextColumn.ElementStyle>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="HorizontalAlignment" Value="Left"/>
-                                    <Setter Property="VerticalAlignment" Value="Center"/>
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
-                <!--<Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>-->
             </Grid>
             <Grid Grid.Row="3">
                 <!-- Total Qty on left -->
                 <Grid HorizontalAlignment="Left" Width="180">
-                    <StackPanel Margin="20,10,0,0">
+                    <!--<StackPanel Margin="20,10,0,0">
+                        
                         <TextBlock Text="Total Qty" FontSize="12"/>
                         <TextBlock FontSize="18" FontWeight="Bold" Foreground="#4CAF50" Margin="0,5,0,0"><Run Language="fr-fr" Text="0.00"/></TextBlock>
+
+                        
+                    </StackPanel>-->
+                    <StackPanel Margin="20,10,20,0">
+                        <TextBlock Text="Total Qty" FontSize="12"/>
+                        <TextBlock FontSize="18" FontWeight="Bold" Foreground="#4CAF50" Margin="0,5,0,0">
+                            <Run Text="{Binding FormattedTotalQuantity, Mode=OneWay}"/>
+                        </TextBlock>
                     </StackPanel>
                 </Grid>
 
@@ -299,22 +136,26 @@
                 <Grid HorizontalAlignment="Center" Width="180">
                     <StackPanel Margin="20,10,0,0">
                         <TextBlock Text="Number of Lines" FontSize="12"/>
-                        <TextBlock FontSize="18" FontWeight="Bold" Foreground="#4CAF50" Margin="0,5,0,0"><Run Language="fr-fr" Text="0"/><Run Text=".00"/></TextBlock>
+                        <TextBlock FontSize="18" FontWeight="Bold" Foreground="#4CAF50" Margin="0,5,0,0">
+                            <Run Text="{Binding FormattedCountLine, Mode=OneWay}"/>
+                        </TextBlock>
                     </StackPanel>
                 </Grid>
 
-                <!-- Total Gain on right -->
+                <!-- Total Amount on right -->
                 <Grid HorizontalAlignment="Right" Width="180">
                     <StackPanel Margin="20,10,20,0">
                         <TextBlock Text="Total Gain" FontSize="12"/>
-                        <TextBlock FontSize="18" FontWeight="Bold" Foreground="#4CAF50" Margin="0,5,0,0"><Run Language="fr-fr" Text="0.00"/><Run Text=" €"/></TextBlock>
+                        <TextBlock FontSize="18" FontWeight="Bold" Foreground="#4CAF50" Margin="0,5,0,0">
+                            <Run Text="{Binding FormattedTotalAmount, Mode=OneWay}"/>
+                        </TextBlock>
                     </StackPanel>
                 </Grid>
             </Grid>
             <Grid Grid.Row="4">
                 <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,0,10">
-                    <Button Content="Reset" Width="140" Height="50" Background="White" BorderBrush="#E0E0E0" Margin="5"/>
-                    <Button Content="Delete" Width="140" Height="50" Background="White" BorderBrush="#E0E0E0" Margin="5"/>
+                    <Button Content="Reset" Command="{Binding ClearSelectedProductCommand}" Width="140" Height="50" Background="White" BorderBrush="#E0E0E0" Margin="5"/>
+                    <Button Content="Delete" Command="{Binding RemoveSelectedProductCommand}" Width="140" Height="50" Background="White" BorderBrush="#E0E0E0" Margin="5"/>
                     <Button Content="Add" Width="140" Height="50" Background="White" BorderBrush="#E0E0E0" Margin="5"/>
                     <Button Content="Close" Width="140" Height="50" Background="White" BorderBrush="#E0E0E0" Margin="5"/>
                 </StackPanel>
@@ -325,7 +166,7 @@
         <Grid Grid.Column="1" Background="#F9F9F9" Grid.ColumnSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="300*"/>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="Auto" MinHeight="275.08"/>
             </Grid.RowDefinitions>
@@ -334,10 +175,14 @@
             <StackPanel Grid.Row="0" Margin="10,20,10,10">
                 <Border BorderThickness="1" BorderBrush="#E0E0E0" Background="White" CornerRadius="4" Margin="0,0,0,10">
                     <Grid>
-                        <TextBox BorderThickness="0" Padding="10,8" FontSize="12"/>
-                        <Button HorizontalAlignment="Right" Width="30" Background="Transparent" BorderThickness="0">
+                        <TextBox Text="{Binding InputSearchNameText, UpdateSourceTrigger=PropertyChanged}"
+                            BorderThickness="0"
+                            Padding="10,8"
+                            FontSize="12"/>
+
+                        <Button  HorizontalAlignment="Right" Width="30" Background="Transparent" BorderThickness="0">
                             <Path Data="M11.5 9C10.12 9 9 10.12 9 11.5S10.12 14 11.5 14 14 12.88 14 11.5 12.88 9 11.5 9M20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4M16.79 18.21L13.88 15.3C13.19 15.74 12.37 16 11.5 16C9 16 7 14 7 11.5S9 7 11.5 7 16 9 16 11.5C16 12.38 15.74 13.19 15.3 13.89L18.21 16.79L16.79 18.21Z"
-               Fill="Gray" Stretch="Uniform" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                Fill="Gray" Stretch="Uniform" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         </Button>
                     </Grid>
 
@@ -345,20 +190,36 @@
 
                 <Border BorderThickness="1" BorderBrush="#E0E0E0" Background="White" CornerRadius="4">
                     <Grid>
-                        <TextBox BorderThickness="0" Padding="10,8" FontSize="12"/>
+                        <TextBox Text="{Binding InputSearchBarcodeText, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Padding="10,8" FontSize="12"/>
                         <Button HorizontalAlignment="Right" Width="30" Background="Transparent" BorderThickness="0">
                             <Path Data="M11.5 9C10.12 9 9 10.12 9 11.5S10.12 14 11.5 14 14 12.88 14 11.5 12.88 9 11.5 9M20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4M16.79 18.21L13.88 15.3C13.19 15.74 12.37 16 11.5 16C9 16 7 14 7 11.5S9 7 11.5 7 16 9 16 11.5C16 12.38 15.74 13.19 15.3 13.89L18.21 16.79L16.79 18.21Z"
-Fill="Gray" Stretch="Uniform" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            Fill="Gray" Stretch="Uniform" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         </Button>
                     </Grid>
                 </Border>
             </StackPanel>
 
+
+            <ListView 
+                Grid.Row="1"
+                ItemsSource="{Binding Products}" 
+                SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
+                Style="{StaticResource CustomListViewStyle}"
+                Background="Transparent">   
+
+                <ListView.View>
+                    <GridView>
+                        <!--<GridViewColumn Header="Id" DisplayMemberBinding="{Binding ProductId}" Width="100" />-->
+                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="200" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
             <!-- Product List -->
-            <ListBox Grid.Row="1" BorderThickness="0" Background="Transparent" Margin="10,0,10,4">
-
-
+            <!--<Grid Grid.Row="1" Background="Transparent" Margin="2,2,2,2">
                 <DataGrid Name="SalesDataGrid" ItemsSource="{Binding Products}"
+                    SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
+
                     AutoGenerateColumns="False"
                     Margin=" 0 20 0 0"
                     Background="Transparent"
@@ -542,8 +403,7 @@ Fill="Gray" Stretch="Uniform" Width="16" Height="16" VerticalAlignment="Center" 
                         </DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
-                
-            </ListBox>
+            </Grid>-->
 
             <Grid Grid.Row="2">
                 <TextBox x:Name="InputTextBox" BorderThickness="1" IsReadOnly="True" Padding="10,8" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Background="#F9F9F9"
@@ -601,7 +461,9 @@ Fill="Gray" Stretch="Uniform" Width="16" Height="16" VerticalAlignment="Center" 
                     <Button Grid.Row="3" Grid.Column="2" Content="." Command="{Binding NumberPuntCommand}"  Height="50" Background="White" BorderBrush="#E0E0E0" Margin="2"/>
 
                     <!-- Add Button -->
-                    <Button Grid.Row="0" Grid.Column="3" Grid.RowSpan="4" Content="Add" Background="White" BorderBrush="#E0E0E0" Margin="2"/>
+                    <Button Grid.Row="0" Grid.Column="3" Grid.RowSpan="4" Content="Add" 
+                            Command="{Binding AddSelectedProductCommand}"
+                            Background="White" BorderBrush="#E0E0E0" Margin="2"/>
                 </Grid>
             </Grid>
         </Grid>
