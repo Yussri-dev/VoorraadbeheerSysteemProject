@@ -6,7 +6,131 @@
              xmlns:local="clr-namespace:VoorraadbeheerSysteemProject.Wpf.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+    <Grid Background="White">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!--buttons-->
+            <Button Grid.Column="1"
+                Content="Print"
+                Command="{Binding PrintCommand}"
+                HorizontalAlignment="Left" 
+                Margin="185,0,0,0"
+                VerticalAlignment="Center"
+                Height="30" Width="80" Background="#F6F6FB " RenderTransformOrigin="-0.062,0.667" >
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+
+                </Button.Resources>
+            </Button>
+            <Button Grid.Column="1"
+                Content="Reset"
+                Command="{Binding ResetCommand}"
+                HorizontalAlignment="Left"
+                Margin="75,0,0,0" VerticalAlignment="Center" Height="30" Width="80" Background="#F6F6FB">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button Grid.Column="1" 
+                Content="Close" 
+                Command="{Binding CloseCommand}"
+                HorizontalAlignment="Left"
+                Margin="295,0,0,0" VerticalAlignment="Center" Width="80" Height="30" Background="#F6F6FB " RenderTransformOrigin="0.5,0.833">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+
+            <Label Content="Total Rows" Grid.Column="0" FontWeight="Bold" HorizontalAlignment="Left" Margin="45,39,0,0" VerticalAlignment="Top"/>
+            <TextBox 
+         Grid.Column="0"        
+           HorizontalAlignment="Left"
+          Margin="45,70,0,0"
+          TextWrapping="Wrap"
+          Text="{Binding TotalTax}"
+          Foreground="#40AF73"
+          VerticalAlignment="Top"
+          Width="120"
+          IsReadOnly="True" />
+
+
+        </Grid>
+        <Label Content="Tax" Margin="0,65,645,0" Grid.Row="0" Grid.Column="0" FontSize="20" FontWeight="Bold" VerticalAlignment="Top" Height="80"/>
+
+        <!-- Tax list-->
+
+        <ListView Grid.Row="1"
+      ItemsSource="{Binding FilteredTax}"
+      SelectionMode="Single"
+      Style="{StaticResource CustomListViewStyle}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="#" Width="30" DisplayMemberBinding="{Binding Number}" />
+                    <GridViewColumn Header="Tax Rate" DisplayMemberBinding="{Binding Name}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+
+        <!-- Search box-->
+
+        <StackPanel  Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Height="32"   HorizontalAlignment="Left" Margin="355,113,0,5" Width="445">
+            <Label Content="Search by Name" Width="100"/>
+            <TextBox Width="130"  Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="#F6F6FB" VerticalContentAlignment="Center" FontSize="12" Padding="12 0 0 0">
+                <TextBox.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="5 0 0 5"/>
+                    </Style>
+                </TextBox.Resources>
+            </TextBox>
+            <Button Margin="0 0 20 0" Background="#F6F6FB" BorderThickness="0" Padding="5">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="0 5 5 0"/>
+                    </Style>
+                </Button.Resources>
+                <Image Source="/Images/search-icon.png"/>
+            </Button>
+
+            <Button Width="70" Margin="0 0 10 0" Foreground="#5A6ACF" Background="#FBFCFE" FontWeight="Bold" Content="&lt;">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button Width="73" Foreground="#5A6ACF" Background="#FBFCFE" FontWeight="Bold" Content="&gt;">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+        </StackPanel>
+
     </Grid>
 </UserControl>
