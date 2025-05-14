@@ -246,10 +246,12 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
         private void DisableOrEnableProduct(object parameter)
         {
-            if(SelectedProduct == null)
+            if(_selectedProduct == null)
                 return;
 
-            SelectedProduct.IsActivate = !SelectedProduct.IsActivate;
+            _selectedProduct.IsActivate = !_selectedProduct.IsActivate;
+            _products[_products.IndexOf(_selectedProduct)] = _selectedProduct;
+            FilterProducts();
             OnPropertyChanged(nameof(ProductIsActive));
             //OnPropertyChanged(nameof(SelectedProduct));
             //OnPropertyChanged(nameof(FilteredProducts));
