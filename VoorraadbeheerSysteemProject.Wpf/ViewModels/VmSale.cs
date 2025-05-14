@@ -108,7 +108,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         public VmSale(NavigationStore navigationStore)
         {
             _navigationStore = navigationStore;
-            _apiService = new ApiService("https://inventoryapi-dtavbdhhgdama7cr.switzerlandnorth-01.azurewebsites.net/");
+            //_apiService = new ApiService("https://inventoryapi-dtavbdhhgdama7cr.switzerlandnorth-01.azurewebsites.net/");
+            _apiService = new ApiService("https://f557-2a02-2c40-270-2029-58ea-66d1-3111-66b1.ngrok-free.app/");
 
             _allProducts = new ObservableCollection<ProductDTO>();
             Products = new ObservableCollection<ProductDTO>();
