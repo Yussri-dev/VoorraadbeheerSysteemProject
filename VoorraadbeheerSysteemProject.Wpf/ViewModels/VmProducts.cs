@@ -49,7 +49,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             #endregion
 
             #region Product properties
-        public ObservableCollection<ProductDTO> Products { 
+        public ObservableCollection<ProductDTO> Products 
+        { 
             get => _products; 
             set {
                 _products = value;
@@ -84,13 +85,6 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             }
         }
 
-                //update text to match selected product
-                SearchTextCategories = _selectedProduct?.CategoryName ?? "";
-                SearchTextShelf = _selectedProduct?.ShelfName ?? "";
-                SearchTextTaxRate = _selectedProduct?.TaxRate.ToString() ?? "";
-            }
-        }
-
         public string ProductIsActive
         {
             get
@@ -100,8 +94,6 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 return "enable";
             }
         }
-        #endregion
-
         public int ProductCount
         {
             get => _products?.Count ?? 0;
@@ -231,8 +223,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         }
         #endregion
 
-
-        #region filter methods
+        #region Methods
+            #region filter methods
         private void FilterProducts()
         {
             var filterdProducts = Products.AsEnumerable();
@@ -301,7 +293,6 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         }
         #endregion
 
-        #region Methods
             #region command methods
         private void DisableOrEnableProduct(object parameter)
         {
@@ -316,9 +307,13 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             //OnPropertyChanged(nameof(FilteredProducts));
         }
 
-        private void SaveProduct(object parameter)
+        private async void SaveProduct(object parameter)
         {
-            throw new NotImplementedException();
+            if(_selectedProduct == null)
+                return;
+
+            //TODO check if there are changes
+            await _apiService.PutProductAsync(_selectedProduct);
         }
             #endregion
 

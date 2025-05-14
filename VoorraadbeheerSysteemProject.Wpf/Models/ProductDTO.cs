@@ -31,19 +31,19 @@ namespace VoorraadbeheerSysteemProject.Wpf.Models
         public bool IsSecondItemDiscountEligible { get; set; } 
         public bool IsBuyThreeForFiveEligible { get; set; }
 
-        public int ShelfId { get; set; }
+        public int ShelfId { get; set; } = 1;
         public string ShelfName { get; set; } = string.Empty;
 
-        public int CategoryId { get; set; }
+        public int CategoryId { get; set; } = 1;
         public string CategoryName { get; set; } = string.Empty;
 
-        public int UnitId { get; set; }
+        public int UnitId { get; set; } = 1;
         public string UnitName { get; set; } = string.Empty;
 
-        public int TaxId { get; set; }
+        public int TaxId { get; set; } = 1;
         public decimal TaxRate { get; set; }
 
-        public int LineId { get; set; }
+        public int LineId { get; set; } = 1;
         public string LineName { get; set; } = string.Empty;
     }
 }

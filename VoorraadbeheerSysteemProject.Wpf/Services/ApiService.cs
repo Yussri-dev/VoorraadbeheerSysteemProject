@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using VoorraadbeheerSysteemProject.Wpf.Models;
@@ -32,6 +33,21 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services
             catch (Exception ex)
             {
                 return new List<ProductDTO>();
+            }
+        }
+
+        public async Task PutProductAsync(ProductDTO product)
+        {
+            try
+            {
+                var response = await _httpClient.PutAsJsonAsync($"api/product/{product.ProductId}", product);
+                response.EnsureSuccessStatusCode();
+
+                //return await response.Content.ReadFromJsonAsync<ProductDTO>();
+            }
+            catch (Exception ex)
+            {
+                return;
             }
         }
     }
