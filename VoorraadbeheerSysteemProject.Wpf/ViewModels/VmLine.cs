@@ -11,7 +11,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
     public class VmLine : VmBase
     {
         private string _searchText;
-        private int _totalCategories;
+        private int _totalLines;
         private ObservableCollection<LineModel> _filteredLine;
         private ObservableCollection<LineModel> _allLines;
 
@@ -26,12 +26,12 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             }
         }
 
-        public int TotalCategories
+        public int TotalLines
         {
-            get => _totalCategories;
+            get => _totalLines;
             set
             {
-                _totalCategories = value;
+                _totalLines = value;
                 OnPropertyChanged();
             }
         }
@@ -58,7 +58,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             };
 
             FilteredLine = new ObservableCollection<LineModel>(_allLines);
-            TotalCategories = _allLines.Count;
+            TotalLines = _allLines.Count;
         }
 
         private void FilterLines()
@@ -74,7 +74,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 );
             }
 
-            TotalCategories = FilteredLine.Count;
+            TotalLines = FilteredLine.Count;
         }
 
         
