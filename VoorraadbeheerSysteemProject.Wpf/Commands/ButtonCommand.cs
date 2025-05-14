@@ -9,27 +9,14 @@ using VoorraadbeheerSysteemProject.Wpf.ViewModels;
 
 namespace VoorraadbeheerSysteemProject.Wpf.Commands
 {
-    public class DisableOrEnableProductCommand : CommandBase
+    public class ButtonCommand : CommandBase
     {
         private Action<object> _action;
 
-        public DisableOrEnableProductCommand(Action<object> action)
+        public ButtonCommand(Action<object> action)
         {
             _action = action;
         }
-
-        //public void UpdateSelectedProduct()
-        //{
-        //    RaiseCanExecuteChanged();
-        //}
-
-        //public override bool CanExecute(object? parameter)
-        //{
-        //    if(parameter == null)
-        //        return false;
-
-        //    return true;
-        //}
 
         public override void Execute(object? parameter)
         {

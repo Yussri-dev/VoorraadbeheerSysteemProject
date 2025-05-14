@@ -42,13 +42,13 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         private string _searchTextCategories;
 
 
-
-        #region command properties
+        #region properties
+            #region command properties
         public ICommand DisableOrEnableProductCommand { get; }
         public ICommand SaveCommand { get; }
-        #endregion
+            #endregion
 
-        #region Product properties
+            #region Product properties
         public ObservableCollection<ProductDTO> Products { 
             get => _products; 
             set {
@@ -101,7 +101,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         }
         #endregion
 
-        #region category properties
+            #region category properties
         public ObservableCollection<string> AllCategories
         {
             get => _categories;
@@ -115,7 +115,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         }
         #endregion
 
-        #region tax rate properties
+            #region tax rate properties
         public ObservableCollection<string> FilteredTaxRate
         {
             get => _filteredTaxRate;
@@ -129,7 +129,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         }
         #endregion
 
-        #region shelf properties
+            #region shelf properties
         public ObservableCollection<string> FilteredShelf
         {
             get => _filteredShelf;
@@ -143,7 +143,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         }
         #endregion
 
-        #region search/filter text properties
+            #region search/filter text properties
         public string SearchTextName
         {
             get { return _searchTextName; }
@@ -204,12 +204,11 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             }
         }
         #endregion
-
+        #endregion
 
         #region constructors
         public VmProducts(NavigationStore navigationStore)
         {
-
             //NavigateDataCommand = new NavigationCommand<vmLogin>(navigationStore,
             //    () => new vmLogin(navigationStore));
 
@@ -219,7 +218,9 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             //get products from api
             Task.Run(LoadDataAsync);
 
-            DisableOrEnableProductCommand = new DisableOrEnableProductCommand(DisableOrEnableProduct);
+            //initialize the commands
+            DisableOrEnableProductCommand = new ButtonCommand(DisableOrEnableProduct);
+            SaveCommand = new ButtonCommand(SaveProduct);
         }
         #endregion
 
@@ -294,7 +295,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         #endregion
 
         #region Methods
-
+            #region command methods
         private void DisableOrEnableProduct(object parameter)
         {
             if (_selectedProduct == null)
@@ -307,6 +308,12 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             //OnPropertyChanged(nameof(SelectedProduct));
             //OnPropertyChanged(nameof(FilteredProducts));
         }
+
+        private void SaveProduct(object parameter)
+        {
+            throw new NotImplementedException();
+        }
+            #endregion
 
         private async Task LoadDataAsync()
         {
