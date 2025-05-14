@@ -172,6 +172,8 @@
                     <GridViewColumn Header="Tax Rate" Width="100" DisplayMemberBinding="{Binding TaxRate}" />
                     <GridViewColumn Header="Category" Width="100" DisplayMemberBinding="{Binding CategoryName}"/>
                     <GridViewColumn Header="Barcode" Width="100" DisplayMemberBinding="{Binding Barcode}"/>
+                    <!--Temp column-->
+                    <GridViewColumn Header="enabled" Width="100" DisplayMemberBinding="{Binding IsActivate}"/>
                 </GridView>
             </ListView.View>
         </ListView>
@@ -182,7 +184,9 @@
                     HorizontalAlignment="Right" 
                     Margin="100,30"
                     Grid.Row="4">
-            <Button Content="Reset"
+            <Button Content="{Binding ProductIsActive}"
+                    Command="{Binding DisableOrEnableProductCommand}"
+                    CommandParameter="{Binding SelectedProduct}"
                     Background="#DDE4F0"
                     Padding="30,10"
                     Margin="0 0 15 0"
