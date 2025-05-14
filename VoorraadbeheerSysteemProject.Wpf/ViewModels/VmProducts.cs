@@ -77,6 +77,12 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 OnPropertyChanged(nameof(SelectedProduct));
                 OnPropertyChanged(nameof(ProductIsActive));
 
+                //update text to match selected product
+                SearchTextCategories = _selectedProduct?.CategoryName ?? "";
+                SearchTextShelf = _selectedProduct?.ShelfName ?? "";
+                SearchTextTaxRate = _selectedProduct?.TaxRate.ToString() ?? "";
+            }
+        }
 
                 //update text to match selected product
                 SearchTextCategories = _selectedProduct?.CategoryName ?? "";
@@ -94,6 +100,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 return "enable";
             }
         }
+        #endregion
 
         public int ProductCount
         {
