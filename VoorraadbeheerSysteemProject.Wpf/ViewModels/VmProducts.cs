@@ -17,7 +17,11 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         private readonly ApiService _apiService;
 
         private IList<ProductDTO> _products;
+        private IList<ProductDTO> _filteredProducts;
         private ProductDTO? _selectedProduct;
+
+        private string _searchTextName = "";
+        private string _searchTextBarcode = "";
 
 
         public IList<ProductDTO> Products { 
@@ -26,6 +30,16 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 _products = value;
                 OnPropertyChanged(nameof(Products));
                 OnPropertyChanged(nameof(ProductCount));
+            }
+        }
+
+        public IList<ProductDTO> FilteredProducts
+        {
+            get => _filteredProducts;
+            set
+            {
+                _filteredProducts = value;
+                OnPropertyChanged(nameof(FilteredProducts));
             }
         }
 
@@ -48,6 +62,35 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             get => _products?.Count ?? 0;
         }
 
+        
+
+        public string SearchTextName
+        {
+            get { return _searchTextName; }
+            set { 
+                _searchTextName = value;
+                ////delete text in barcode search box
+                _searchTextBarcode = "";
+                OnPropertyChanged(nameof(SearchTextBarcode));
+                OnPropertyChanged(nameof(SearchTextName));
+                FilterProducts();
+            }
+        }
+
+        public string SearchTextBarcode
+        {
+            get { return _searchTextBarcode; }
+            set
+            {
+                _searchTextBarcode = value;
+                ////delete text in name search box
+                _searchTextName = "";
+                OnPropertyChanged(nameof(SearchTextName));
+                OnPropertyChanged(nameof(SearchTextBarcode));
+                FilterProducts();
+            }
+        }
+
 
         public VmProducts(NavigationStore navigationStore)
         {
@@ -60,32 +103,6 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
             //get products from api
             Task.Run(LoadDataAsync);
-
-            //temp filling of categories
-            AllCategories = new List<string> {
-                "no category selected",
-                "category 1",
-                "category 2",
-                "category 3",
-            };
-            FilteredCategories = AllCategories;
-
-            //temp filling of tax rates
-            AllTaxRate = new List<string> {
-                "no tax rate selected",
-                "6%",
-                "21%"
-            };
-            FilteredTaxRate = AllTaxRate;
-
-            //temp filling of shelves
-            AllShelf = new List<string> {
-                "no shelf selected",
-                "shelf 1",
-                "shelf 2",
-                "shelf 3"
-            };
-            FilteredShelf = AllShelf;
 
         }
 
@@ -208,10 +225,68 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         }
         #endregion
 
+
+
         //methods
+        private void FilterProducts()
+        {
+            IList<ProductDTO> filterdProducts = Products;
+            
+            if(!String.IsNullOrWhiteSpace(SearchTextName))
+                filterdProducts = filterdProducts?.Where(p => p.Name.ToLower().Contains(SearchTextName.ToLower())).ToList() ?? new List<ProductDTO>();
+
+            if (!String.IsNullOrWhiteSpace(SearchTextBarcode))
+                filterdProducts = filterdProducts?.Where(p => p.Barcode.ToLower().Contains(SearchTextBarcode.ToLower())).ToList() ?? new List<ProductDTO>();
+
+            FilteredProducts = filterdProducts;
+        }
+
         private async Task LoadDataAsync()
         {
             Products = await _apiService.GetProductsAsync();
+
+            if(Products.Count == 0)
+            {
+                Products = new List<ProductDTO>()
+                {
+                    new ProductDTO(){ ProductId = 0, Name = "product 1", PurchasePrice = 13.20m, SalePrice1 = 15.60m, SalePrice2 = 17.60m, TaxRate = 6, CategoryName = "category 1", Barcode = "4534843785"},
+                    new ProductDTO(){ ProductId = 1, Name = "special product 1", PurchasePrice = 13.20m, SalePrice1 = 15.60m, SalePrice2 = 17.60m, TaxRate = 6, CategoryName = "category 1", Barcode = "46348644"},
+                    new ProductDTO(){ ProductId = 2, Name = "product 2", PurchasePrice = 13.20m, SalePrice1 = 15.60m, SalePrice2 = 17.60m, TaxRate = 6, CategoryName = "category 5", Barcode = "87641864164"},
+                    new ProductDTO(){ ProductId = 3, Name = "extremely special product 1", PurchasePrice = 13.20m, SalePrice1 = 15.60m, SalePrice2 = 17.60m, TaxRate = 6, CategoryName = "category 2", Barcode = "5384353843"}
+                };
+
+            }
+            //sort products by name
+            FilteredProducts = Products.OrderBy(p => p.Name).ToList();
+
+            //temp filling of categories
+            AllCategories = new List<string> {
+                "no category selected",
+                "category 1",
+                "category 2",
+                "category 3",
+            };
+            FilteredCategories = AllCategories;
+
+            //temp filling of tax rates
+            AllTaxRate = new List<string> {
+                "no tax rate selected",
+                "6%",
+                "21%"
+            };
+            FilteredTaxRate = AllTaxRate;
+
+            //temp filling of shelves
+            AllShelf = new List<string> {
+                "no shelf selected",
+                "shelf 1",
+                "shelf 2",
+                "shelf 3"
+            };
+            FilteredShelf = AllShelf;
+
+
+
         }
 
 
