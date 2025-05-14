@@ -71,7 +71,7 @@
             HorizontalAlignment="Left"
            Margin="45,70,0,0"
            TextWrapping="Wrap"
-           Text="{Binding TotalCategories}"
+           Text="{Binding TotalLines}"
            Foreground="#40AF73"
            VerticalAlignment="Top"
            Width="120"
@@ -81,7 +81,7 @@
         </Grid>
         <Label Content="Line" Margin="0,65,645,0" Grid.Row="0" Grid.Column="0" FontSize="20" FontWeight="Bold" VerticalAlignment="Top" Height="80"/>
 
-        <!-- Line list-->
+        <!-- Tax list-->
 
         <ListView Grid.Row="1"
        ItemsSource="{Binding FilteredLine}"
