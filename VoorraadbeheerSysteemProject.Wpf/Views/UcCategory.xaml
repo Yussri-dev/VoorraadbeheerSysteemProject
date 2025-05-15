@@ -30,8 +30,8 @@
 
             <!--buttons-->
             <Button Grid.Column="1"
-                    Content="Print"
-                    Command="{Binding PrintCommand}"
+                    Content="Update"
+                    Command="{Binding UpdateCommand}"
                     HorizontalAlignment="Left" 
                     Margin="185,0,0,0"
                     VerticalAlignment="Center"
@@ -66,28 +66,27 @@
                 </Button.Resources>
             </Button>
 
+            <!-- Total categories -->
             <Label Content="Total categories" Grid.Column="0" FontWeight="Bold" HorizontalAlignment="Left" Margin="45,39,0,0" VerticalAlignment="Top"/>
-            <TextBox 
-             Grid.Column="0"        
-               HorizontalAlignment="Left"
-              Margin="45,70,0,0"
-              TextWrapping="Wrap"
-              Text="{Binding TotalCategories}"
-              Foreground="#40AF73"
-              VerticalAlignment="Top"
-              Width="120"
-              IsReadOnly="True" />
+            <TextBlock
+                      Grid.Column="0"        
+                      HorizontalAlignment="Left"
+                     Margin="45,70,0,0"
+                     TextWrapping="Wrap"
+                     Text="{Binding TotalCategories, Mode=OneWay}"
+                     Foreground="#40AF73"
+                     VerticalAlignment="Top"
+                     Width="120"/>
 
-        
-    </Grid> 
+        </Grid> 
         <Label Content="Category" Margin="0,65,645,0" Grid.Row="0" Grid.Column="0" FontSize="20" FontWeight="Bold" VerticalAlignment="Top" Height="80"/>
 
         <!-- category list-->
 
         <ListView Grid.Row="1"
-          ItemsSource="{Binding FilteredCategories}"
+          ItemsSource="{Binding FilteredCategories}" 
           SelectionMode="Single"
-          Style="{StaticResource CustomListViewStyle}">
+          Style="{StaticResource CustomListViewStyle}" >
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="#" Width="30" DisplayMemberBinding="{Binding Number}" />
@@ -108,7 +107,7 @@
                     </Style>
                 </TextBox.Resources>
             </TextBox>
-            <Button Margin="0 0 20 0" Background="#F6F6FB" BorderThickness="0" Padding="5">
+            <Button Margin="0 0 20 0"  Command="{Binding SearchCommand}" Background="#F6F6FB" BorderThickness="0" Padding="5">
                 <Button.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="0 5 5 0"/>
@@ -117,14 +116,14 @@
                 <Image Source="/Images/search-icon.png"/>
             </Button>
 
-            <Button Width="70" Margin="0 0 10 0" Foreground="#5A6ACF" Background="#FBFCFE" FontWeight="Bold" Content="&lt;">
+            <Button Width="70" Margin="0 0 10 0" Foreground="#5A6ACF" Background="#FBFCFE" FontWeight="Bold" Content="&lt;" Command="{Binding }">
                 <Button.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="5"/>
                     </Style>
                 </Button.Resources>
             </Button>
-            <Button Width="73" Foreground="#5A6ACF" Background="#FBFCFE" FontWeight="Bold" Content="&gt;">
+            <Button Width="73" Foreground="#5A6ACF" Background="#FBFCFE" FontWeight="Bold" Content="&gt;" Command="{Binding }" >
                 <Button.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="5"/>
