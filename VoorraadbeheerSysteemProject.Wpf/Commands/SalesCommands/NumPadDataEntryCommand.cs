@@ -6,23 +6,16 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using VoorraadbeheerSysteemProject.Wpf.ViewModels;
 
-namespace VoorraadbeheerSysteemProject.Wpf.Commands
+namespace VoorraadbeheerSysteemProject.Wpf.Commands.SalesCommands
 {
-    class AppendNumberCommand : ICommand
+    class NumPadDataEntryCommand : ICommand
     {
-        private readonly VmNumPadDataEntry _vmSale;
+        private readonly VmNumPadDataEntry _vmNumpad;
         private readonly string _number;
 
-        //public AppendNumberCommand(VmSale vmSale, string number)
-        //{
-        //    _vmSale = vmSale;
-        //    _number = number;
-
-        //}
-
-        public AppendNumberCommand(VmNumPadDataEntry vmSale, string number)
+        public NumPadDataEntryCommand(VmNumPadDataEntry vmNumpad, string number)
         {
-            _vmSale = vmSale;
+            _vmNumpad = vmNumpad;
             _number = number;
 
         }
@@ -34,14 +27,14 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands
         {
             if (_number == ".")
             {
-                if (!_vmSale.InputText.Contains("."))
+                if (!_vmNumpad.InputText.Contains("."))
                 {
-                    _vmSale.InputText += _number;
+                    _vmNumpad.InputText += _number;
                 }
             }
             else
             {
-                _vmSale.InputText += _number;
+                _vmNumpad.InputText += _number;
             }
         }
     }

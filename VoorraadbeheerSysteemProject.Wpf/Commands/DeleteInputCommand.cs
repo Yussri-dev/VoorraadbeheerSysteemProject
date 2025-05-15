@@ -10,9 +10,9 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands
 {
     class DeleteInputCommand : ICommand
     {
-        private readonly VmSale _vmSale;
+        private readonly VmNumPadDataEntry _vmSale;
 
-        public DeleteInputCommand(VmSale vmSale)
+        public DeleteInputCommand(VmNumPadDataEntry vmSale)
         {
             _vmSale = vmSale;
         }

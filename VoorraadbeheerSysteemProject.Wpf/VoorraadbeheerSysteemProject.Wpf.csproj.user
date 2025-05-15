@@ -17,6 +17,9 @@
     <Compile Update="Views\UcLine.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\UcNumericPad.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\UcProducts.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -27,6 +30,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\UcSale.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\SaleDataEntryDialog.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\UcSaleDataEntry.xaml.cs">
