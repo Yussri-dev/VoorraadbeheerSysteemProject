@@ -12,11 +12,13 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands.ProductsCommands
     class AddSelectedProductCommand : ICommand
     {
         private readonly VmSale _vmSale;
+        private readonly VmNumPadDataEntry _vmNumPad;
 
         public event EventHandler? CanExecuteChanged;
-        public AddSelectedProductCommand(VmSale vmSale)
+        public AddSelectedProductCommand(VmSale vmSale, VmNumPadDataEntry vmNumPad)
         {
             _vmSale = vmSale;
+            _vmNumPad = vmNumPad;
         }
         public bool CanExecute(object? parameter) => true;
         //{
@@ -29,7 +31,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands.ProductsCommands
             if (selected == null)
                 return;
 
-            if (!decimal.TryParse(_vmSale.InputText, out var quantity) || quantity <= 0)
+            if (!decimal.TryParse(_vmNumPad.InputText, out var quantity) || quantity <= 0)
                 return;
 
             // Vérifie si le produit est déjà dans la liste
@@ -52,7 +54,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands.ProductsCommands
                 existing.Quantity += quantity;
                 existing.AmountPrice += quantity * selected.SalePrice1;
             }
-            _vmSale.InputText = string.Empty;
+            _vmNumPad.InputText = string.Empty;
             _vmSale.InputSearchNameText = string.Empty;
             _vmSale.InputSearchBarcodeText = string.Empty;
             _vmSale.CalculateTotalAmount();

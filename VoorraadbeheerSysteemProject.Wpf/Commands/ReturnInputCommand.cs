@@ -11,9 +11,9 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands
     class ReturnInputCommand : ICommand
     {
 
-        private readonly VmSale _vmSale;
+        private readonly VmNumPadDataEntry _vmSale;
 
-        public ReturnInputCommand(VmSale vmSale)
+        public ReturnInputCommand(VmNumPadDataEntry vmSale)
         {
             _vmSale = vmSale;
         }
