@@ -13,6 +13,7 @@ using VoorraadbeheerSysteemProject.Wpf.Views;
 using System.Windows.Input;
 using VoorraadbeheerSysteemProject.Wpf.Requests;
 using VoorraadbeheerSysteemProject.Wpf.Commands.SalesCommands;
+using VoorraadbeheerSysteemProject.Wpf.Services.Sales;
 
 namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 {
@@ -20,10 +21,21 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
     {
         //private readonly NavigationStore _navigationStore;
         private readonly VmSale _vmSale;
+        private readonly SalesRequests _salesRequests;
 
-        public ObservableCollection<SaleSelectedAmountRequest> SelectedAmount { get; set; }
+        public ObservableCollection<SaleSelectedAmountRequest> SelectedAmounts { get; set; }
 
-        public decimal CurrentAmountPrice { get; set; }
+        private SaleSelectedAmountRequest? _selectedAmount;
+        public SaleSelectedAmountRequest? SelectedAmount
+        {
+            get => _selectedAmount;
+            set
+            {
+                _selectedAmount = value;
+                OnPropertyChanged(nameof(SelectedAmount));
+            }
+        }
+        //public decimal CurrentAmountPrice { get; set; }
 
         public VmNumPadDataEntry(VmSale vmSale)
         {
@@ -31,8 +43,11 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
             AddSelectedProductCommand = new AddSelectedProductCommand(_vmSale, this);
             AddSaleAmountCommand = new AddSaleAmountCommand(this);
-            SelectedAmount = new ObservableCollection<SaleSelectedAmountRequest>();
-            SelectedAmount.CollectionChanged += (s, e) =>
+            SelectedAmounts = new ObservableCollection<SaleSelectedAmountRequest>();
+
+            _salesRequests = new SalesRequests("https://localhost:5001/");
+
+            SelectedAmounts.CollectionChanged += (s, e) =>
             {
                 OnPropertyChanged(nameof(FormattedSelectedAmountTotal));
             };
@@ -103,7 +118,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         }
 
 
-        public string FormattedSelectedAmountTotal => SelectedAmount.Sum(s => s.AmountPrice).ToString("C");
+        public string FormattedSelectedAmountTotal => SelectedAmounts.Sum(s => s.AmountPrice).ToString("C");
 
         private void InitialCommands()
         {
@@ -123,10 +138,38 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             DeleteCommand = new DeleteInputCommand(this);
             ReturnCommand = new ReturnInputCommand(this);
 
+            ValidateSaleDataCommand = new ValidateSaleDataCommand(_vmSale,this);
+            RemoveSelectedSaleAmountCommand = new RemoveSelectedSaleAmountCommand(this);
+
+            ClearSaleAmountCommand = new ClearSaleAmountCommand(this);
             //AddSelectedProductCommand = new AddSelectedProductCommand(_vmSale,this);
         }
 
+        public async Task<SaleDTO?> SaveSaleAsync(SaleDTO saleDto)
+        {
+            try
+            {
+                var createdSale = await _salesRequests.PostSaleAsync(saleDto);
+
+                if (createdSale != null)
+                {
+                    return createdSale;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
         #region commands
+        public ICommand ClearSaleAmountCommand { get; set; }
+        public ICommand RemoveSelectedSaleAmountCommand { get; set; }
+        public ICommand ValidateSaleDataCommand { get; set; }
         public ICommand AddSaleAmountCommand { get; set; }
         public ICommand AddSelectedProductCommand { get; set; }
         public ICommand RemoveSelectedProductCommand { get; set; }

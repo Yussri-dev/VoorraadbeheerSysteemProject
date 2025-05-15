@@ -100,8 +100,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="80"/>
             <!-- Summary section -->
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="400"/>
+            <RowDefinition Height="80"/>
             <!-- Keypad and control buttons -->
         </Grid.RowDefinitions>
 
@@ -150,9 +150,9 @@
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,20,0"/>
 
             <!-- Numeric Keypad + Return & Del -->
-            <Grid Grid.Column="0" Margin="0,0,0,15">
+            <Grid Grid.Column="0">
                 <ListView 
-                    ItemsSource="{Binding SelectedAmount}" 
+                    ItemsSource="{Binding SelectedAmounts}" 
                     Style="{StaticResource CustomListViewStyle}"
                     Background="Transparent"
                     FontSize="16" Margin="10,0,10,84">
@@ -170,18 +170,18 @@
                 <!-- Use the correct DataContext binding here -->
                 <!--<local:UcNumericPad DataContext="{Binding}" Margin="16,0,46,0" />-->
                 <local:UcNumericPad 
-                    AddCommand="{Binding AddSaleAmountCommand}" />
+                    AddCommand="{Binding AddSaleAmountCommand}" Margin="31,0,31,0" />
             </Grid>
 
         </Grid>
 
 
         <Grid Grid.Row="2">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="90,0,0,0" Height="50">
-                <Button Content="Reset" Width="140" Height="50" Background="White" BorderBrush="#E0E0E0" Margin="5"/>
-                <Button Content="Delete"  Width="140" Height="50" Background="White" BorderBrush="#E0E0E0" Margin="5"/>
-                <Button Content="Add"  Width="140" Height="50" Background="White" BorderBrush="#E0E0E0" Margin="5"/>
-                <Button Content="Close" Width="140" Height="50" Background="White" BorderBrush="#E0E0E0" Margin="5"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="90,0,0,0" Height="80">
+                <Button Content="Reset" Command="{Binding ClearSaleAmountCommand}" Width="140" Height="50" Background="White" BorderBrush="#E0E0E0" Margin="5"/>
+                <Button Content="Delete" Command="{Binding RemoveSelectedSaleAmountCommand}" Width="140" Height="50" Background="White" BorderBrush="#E0E0E0" Margin="5"/>
+                <Button Content="Add"  Command="{Binding ValidateSaleDataCommand}" Width="140" Height="50" Background="White" BorderBrush="#E0E0E0" Margin="5"/>
+                <Button Content="Close"  Width="140" Height="50" Background="White" BorderBrush="#E0E0E0" Margin="5"/>
             </StackPanel>
         </Grid>
     </Grid>
