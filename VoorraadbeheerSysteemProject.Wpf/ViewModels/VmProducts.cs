@@ -46,6 +46,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             #region command properties
         public ICommand DisableOrEnableProductCommand { get; }
         public ICommand SaveCommand { get; }
+        public ICommand ResetButtonCommand { get; }
             #endregion
 
             #region Product properties
@@ -220,6 +221,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             //initialize the commands
             DisableOrEnableProductCommand = new ButtonCommand(DisableOrEnableProduct);
             SaveCommand = new ButtonCommand(SaveProduct);
+            ResetButtonCommand = new ButtonCommand(Reset);
         }
         #endregion
 
@@ -314,6 +316,11 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
             //TODO check if there are changes
             await _apiService.PutProductAsync(_selectedProduct);
+        }
+
+        private void Reset(object parameter)
+        {
+            SelectedProduct = null;
         }
             #endregion
 
