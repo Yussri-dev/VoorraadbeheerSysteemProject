@@ -205,7 +205,7 @@
                 ItemsSource="{Binding Products}" 
                 SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
                 Style="{StaticResource CustomListViewStyle}"
-                Background="Transparent">   
+                Background="Transparent">
 
                 <ListView.View>
                     <GridView>
@@ -412,7 +412,11 @@
             <!-- Numeric Buttons -->
             <Grid Grid.Row="3" Margin="10,10,10,20">
 
-                <local:UcNumericPad DataContext="{Binding NumPadViewModel}" />
+                <!--<local:UcNumericPad DataContext="{Binding NumPadViewModel}" />-->
+                <local:UcNumericPad DataContext="{Binding NumPadViewModel}"
+                    AddCommand="{Binding AddSelectedProductCommand}" />
+
+
                 <!--<Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -442,27 +446,37 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    --><!-- Row 1 --><!--
+                    -->
+                <!-- Row 1 -->
+                <!--
                     <Button Grid.Row="0" Grid.Column="0" Content="1" Command="{Binding Number1Command}" Background="White" BorderBrush="#E0E0E0" Margin="2"/>
                     <Button Grid.Row="0" Grid.Column="1" Content="2" Command="{Binding Number2Command}" Background="White" BorderBrush="#E0E0E0" Margin="2"/>
                     <Button Grid.Row="0" Grid.Column="2" Content="3" Command="{Binding Number3Command}" Height="50" Background="White" BorderBrush="#E0E0E0" Margin="2"/>
 
-                    --><!-- Row 2 --><!--
+                    -->
+                <!-- Row 2 -->
+                <!--
                     <Button Grid.Row="1" Grid.Column="0" Content="4" Command="{Binding Number4Command}" Background="White" BorderBrush="#E0E0E0" Margin="2"/>
                     <Button Grid.Row="1" Grid.Column="1" Content="5" Command="{Binding Number5Command}" Background="White" BorderBrush="#E0E0E0" Margin="2"/>
                     <Button Grid.Row="1" Grid.Column="2" Content="6" Command="{Binding Number6Command}" Height="50" Background="White" BorderBrush="#E0E0E0" Margin="2"/>
 
-                    --><!-- Row 3 --><!--
+                    -->
+                <!-- Row 3 -->
+                <!--
                     <Button Grid.Row="2" Grid.Column="0" Content="7" Command="{Binding Number7Command}" Background="White" BorderBrush="#E0E0E0" Margin="2"/>
                     <Button Grid.Row="2" Grid.Column="1" Content="8" Command="{Binding Number8Command}" Background="White" BorderBrush="#E0E0E0" Margin="2"/>
                     <Button Grid.Row="2" Grid.Column="2" Content="9" Command="{Binding Number9Command}" Height="50" Background="White" BorderBrush="#E0E0E0" Margin="2"/>
 
-                    --><!-- Row 4 --><!--
+                    -->
+                <!-- Row 4 -->
+                <!--
                     <Button Grid.Row="3" Grid.Column="0" Content="00" Command="{Binding Number00Command}" Background="White" BorderBrush="#E0E0E0" Margin="2"/>
                     <Button Grid.Row="3" Grid.Column="1" Content="0" Command="{Binding Number0Command}" Background="White" BorderBrush="#E0E0E0" Margin="2"/>
                     <Button Grid.Row="3" Grid.Column="2" Content="." Command="{Binding NumberPuntCommand}"  Height="50" Background="White" BorderBrush="#E0E0E0" Margin="2"/>
 
-                    --><!-- Add Button --><!--
+                    -->
+                <!-- Add Button -->
+                <!--
                     <Button Grid.Row="0" Grid.Column="3" Grid.RowSpan="4" Content="Add" 
                             Command="{Binding AddSelectedProductCommand}"
                             Background="White" BorderBrush="#E0E0E0" Margin="2"/>

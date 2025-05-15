@@ -62,8 +62,8 @@
 
             <!-- Add Button -->
             <Button Grid.Row="0" Grid.Column="3" Grid.RowSpan="4" Content="Add" 
-                     Command="{Binding AddSelectedProductCommand}"
-                Background="White" BorderBrush="#E0E0E0" Margin="2"/>
+                Command="{Binding AddCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+            Background="White" BorderBrush="#E0E0E0" Margin="2"/>
         </Grid>
     </Grid>
 </UserControl>
