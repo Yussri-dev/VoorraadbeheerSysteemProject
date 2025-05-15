@@ -11,17 +11,21 @@ using VoorraadbeheerSysteemProject.Wpf.Models;
 using VoorraadbeheerSysteemProject.Wpf.Services;
 using System.ComponentModel;
 using System.Windows;
+using System.Diagnostics.CodeAnalysis;
 
 namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 {
     public class VmProducts : VmBase
     {
         private readonly ApiService _apiService;
+        private int _pageNumber = 1;
+        private int _pageSize = 10;
 
         //productDTO
         private ObservableCollection<ProductDTO> _products;
         private ObservableCollection<ProductDTO> _filteredProducts;
         private ProductDTO _selectedProduct = new ProductDTO();
+        private int _productCount = 0;
 
         //categoryDTO
         private ObservableCollection<CategoryDTO> _categories;
@@ -45,12 +49,24 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
 
         #region properties
-            #region command properties
+        public int PageNumber
+        {
+            get => _pageNumber;
+            set
+            {
+                _pageNumber = value;
+                OnPropertyChanged(nameof(PageNumber));
+            }
+        }
+
+        #region command properties
         public ICommand DisableOrEnableProductCommand { get; }
         public ICommand SaveCommand { get; }
         public ICommand ResetButtonCommand { get; }
         public ICommand AddButtonCommand { get; }
         public ICommand NavigateDashboardCommand { get; }
+        public ICommand PreviousPageButtonCommand { get; }
+        public ICommand NextPageButtonCommand { get; }
         #endregion
 
         #region Product properties
@@ -91,6 +107,15 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             }
         }
 
+        public int ProductCount
+        {
+            get => _productCount;
+            set
+            {
+                _productCount = value;
+                OnPropertyChanged(nameof(ProductCount));
+            }
+        }
         public string ProductIsActive
         {
             get
@@ -99,10 +124,6 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
                 return "enable";
             }
-        }
-        public int ProductCount
-        {
-            get => _products?.Count ?? 0;
         }
         #endregion
 
@@ -134,7 +155,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         }
         #endregion
 
-            #region shelf properties
+    #region shelf properties
         public ObservableCollection<ShelfDTO> FilteredShelf
         {
             get => _filteredShelf;
@@ -230,6 +251,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             SaveCommand = new ButtonCommand(SaveProduct);
             ResetButtonCommand = new ButtonCommand(Reset);
             AddButtonCommand = new ButtonCommand(AddProduct);
+            PreviousPageButtonCommand = new ButtonCommand(PreviousPage);
+            NextPageButtonCommand = new ButtonCommand(NextPage);
         }
         #endregion
 
@@ -304,6 +327,29 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         #endregion
 
             #region command methods
+        private async void PreviousPage(object parameter)
+        {
+            if (_pageNumber <= 1) return;
+
+            PageNumber--;
+
+            //get products from api
+            Products = new ObservableCollection<ProductDTO>(await _apiService.GetProductsAsync(_pageNumber));
+            FilterProducts();
+        }
+
+        private async void NextPage(object parameter)
+        {
+            if (_pageNumber >= Math.Ceiling(ProductCount / (double)_pageSize)) return;
+
+            PageNumber++;
+
+            //get products from api
+            Products = new ObservableCollection<ProductDTO>(await _apiService.GetProductsAsync(_pageNumber));
+            FilterProducts();
+        }
+
+
         private void DisableOrEnableProduct(object parameter)
         {
             if ( String.IsNullOrEmpty(_selectedProduct.Barcode))
@@ -440,6 +486,11 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
         private async Task LoadDataAsync()
         {
+            //get product count
+            ProductCount = await _apiService.GetProductCountAsync();
+
+
+            //get products from api
             Products = new ObservableCollection<ProductDTO>(await _apiService.GetProductsAsync());
 
             if(Products.Count == 0)
@@ -453,14 +504,12 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 };
 
             }
-            //sort products by name
             FilteredProducts = new ObservableCollection<ProductDTO>(Products.OrderBy(p => p.Name).ToList());
 
+
+            //get categories from api
             AllCategories = new ObservableCollection<CategoryDTO>(await _apiService.GetCategoriesAsync());
 
-
-
-            //temp filling of categories
             if(AllCategories.Count == 0)
             {
                 AllCategories = new ObservableCollection<CategoryDTO> {

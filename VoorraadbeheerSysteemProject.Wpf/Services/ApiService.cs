@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -21,12 +22,12 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services
             _httpClient.BaseAddress = new Uri(_baseUrl);
         }
 
-        public async Task<List<ProductDTO>> GetProductsAsync()
+        public async Task<List<ProductDTO>> GetProductsAsync(int pageNumber = 1, int pageSize=10)
         {
             try
             {
                 //var response = await _httpClient.GetAsync("api/product");
-                var response = await _httpClient.GetAsync("api/product?pageNumber=1&pageSize=100"); //pageNumber pageSize
+                var response = await _httpClient.GetAsync($"api/product?pageNumber={pageNumber}&pageSize={pageSize}"); //pageNumber pageSize
                 response.EnsureSuccessStatusCode();
 
                 return await response.Content.ReadFromJsonAsync<List<ProductDTO>>();
@@ -34,6 +35,21 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services
             catch (Exception ex)
             {
                 return new List<ProductDTO>();
+            }
+        }
+
+        public async Task<int> GetProductCountAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync("api/product/count");
+                response.EnsureSuccessStatusCode();
+
+                return await response.Content.ReadFromJsonAsync<int>();
+            }
+            catch (Exception ex)
+            {
+                return 0;
             }
         }
 
