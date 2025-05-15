@@ -50,5 +50,62 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services
                 return;
             }
         }
+
+        public async Task PostProductAsync(ProductDTO product)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync("api/product", product);
+                response.EnsureSuccessStatusCode();
+                
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
+        }
+
+        public async Task<List<CategoryDTO>> GetCategoriesAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync("/api/category");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<List<CategoryDTO>>();
+            }
+            catch (Exception ex)
+            {
+                return new List<CategoryDTO>();
+            }
+        }
+
+        public async Task<List<TaxDTO>> GetTaxRatesAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync("/api/Tax");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<List<TaxDTO>>();
+            }
+            catch (Exception ex)
+            {
+                return new List<TaxDTO>();
+            }
+        }
+
+        //public async Task<List<ShelfDTO>> GetShelfsAsync()
+        //{
+        //    try
+        //    {
+        //        var response = await _httpClient.GetAsync("/api/shelf");
+        //        response.EnsureSuccessStatusCode();
+        //        return await response.Content.ReadFromJsonAsync<List<ShelfDTO>>();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new List<ShelfDTO>();
+        //    }
+        //}
+
     }
 }
