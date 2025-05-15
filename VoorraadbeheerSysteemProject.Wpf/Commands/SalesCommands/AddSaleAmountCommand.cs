@@ -47,7 +47,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands.SalesCommands
             if (!decimal.TryParse(_vmNumPad.InputText, out var amountPrice) || amountPrice <= 0)
                 return;
 
-            _vmNumPad.SelectedAmount.Add(new SaleSelectedAmountRequest
+            _vmNumPad.SelectedAmounts.Add(new SaleSelectedAmountRequest
             {
                 AmountPrice = amountPrice
             });
