@@ -50,6 +50,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         public ICommand SaveCommand { get; }
         public ICommand ResetButtonCommand { get; }
         public ICommand AddButtonCommand { get; }
+        public ICommand NavigateDashboardCommand { get; }
         #endregion
 
         #region Product properties
@@ -215,6 +216,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         {
             //NavigateDataCommand = new NavigationCommand<vmLogin>(navigationStore,
             //    () => new vmLogin(navigationStore));
+            NavigateDashboardCommand = new NavigationCommand<VmDashboard>(navigationStore,
+                () => new VmDashboard(navigationStore));
 
             //initialize the api service
             _apiService = new ApiService("https://7ec3-2a02-2c40-270-2029-ddf8-5e41-2ecd-60cd.ngrok-free.app/");
