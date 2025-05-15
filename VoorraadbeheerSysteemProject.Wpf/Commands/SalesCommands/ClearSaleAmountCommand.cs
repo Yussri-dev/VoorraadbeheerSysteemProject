@@ -8,26 +8,24 @@ using VoorraadbeheerSysteemProject.Wpf.ViewModels;
 
 namespace VoorraadbeheerSysteemProject.Wpf.Commands.SalesCommands
 {
-    class RemoveSelectedSaleAmountCommand :ICommand
+    class ClearSaleAmountCommand : ICommand
     {
         private readonly VmNumPadDataEntry _vmNumPad;
-        public event EventHandler? CanExecuteChanged;
 
-        public RemoveSelectedSaleAmountCommand(VmNumPadDataEntry vmNumPad)
+        public ClearSaleAmountCommand(VmNumPadDataEntry vmNumPad)
         {
             _vmNumPad = vmNumPad;
         }
+        public event EventHandler? CanExecuteChanged;
+
         public bool CanExecute(object? parameter) => true;
+
 
         public void Execute(object? parameter)
         {
-            if (_vmNumPad.SelectedAmounts == null)
-                return;
-
-            _vmNumPad.SelectedAmounts.Remove(_vmNumPad.SelectedAmount);
+            _vmNumPad.SelectedAmounts.Clear();
             //_vmNumPad.SelectedAmounts = null;
-
-            //_vmNumPad.CalculateTotalAmount();
+            //_vmSale.CalculateTotalAmount();
         }
 
         public void RaiseCanExecuteChanged()
