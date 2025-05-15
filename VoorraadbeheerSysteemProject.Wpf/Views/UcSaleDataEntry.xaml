@@ -9,9 +9,13 @@
     <Grid Background="White" Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="80"/>
-            --><!-- Summary section --><!--
+            -->
+<!-- Summary section -->
+<!--
             <RowDefinition Height="*"/>
-            --><!-- Keypad and control buttons --><!--
+            -->
+<!-- Keypad and control buttons -->
+<!--
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0" Margin="0,0,0,20">
@@ -21,7 +25,9 @@
                 <ColumnDefinition Width="220"/>
             </Grid.ColumnDefinitions>
 
-            --><!-- Total Gain --><!--
+            -->
+<!-- Total Gain -->
+<!--
             <StackPanel Grid.Column="0" Margin="10,10,10,0">
                 <TextBlock Text="Total Gain" FontSize="12"/>
                 <TextBlock FontSize="18" FontWeight="Bold" Foreground="#4CAF50" Margin="0,5,0,0">
@@ -29,7 +35,9 @@
                 </TextBlock>
             </StackPanel>
 
-            --><!-- Number of Lines --><!--
+            -->
+<!-- Number of Lines -->
+<!--
             <StackPanel Grid.Column="1" Margin="10,10,10,0">
                 <TextBlock Text="Number of Lines" FontSize="12"/>
                 <TextBlock FontSize="18" FontWeight="Bold" Foreground="#4CAF50" Margin="0,5,0,0">
@@ -37,7 +45,9 @@
                 </TextBlock>
             </StackPanel>
 
-            --><!-- Total Quantity --><!--
+            -->
+<!-- Total Quantity -->
+<!--
             <StackPanel Grid.Column="2" Margin="10,10,10,0">
                 <TextBlock Text="Total Qty" FontSize="12"/>
                 <TextBlock FontSize="18" FontWeight="Bold" Foreground="#4CAF50" Margin="0,5,0,0">
@@ -46,19 +56,29 @@
             </StackPanel>
         </Grid>
 
-        --><!-- Controls and Keypad --><!--
+        -->
+<!-- Controls and Keypad -->
+<!--
         <Grid Grid.Row="1" Margin="0,10,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*"/>
-                --><!-- Control buttons --><!--
+                -->
+<!-- Control buttons -->
+<!--
                 <ColumnDefinition Width="3*"/>
-                --><!-- Keypad --><!--
+                -->
+<!-- Keypad -->
+<!--
             </Grid.ColumnDefinitions>
 
-            --><!-- Control Buttons --><!--
+            -->
+<!-- Control Buttons -->
+<!--
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,20,0"/>
 
-            --><!-- Numeric Keypad + Return & Del --><!--
+            -->
+<!-- Numeric Keypad + Return & Del -->
+<!--
             <Grid Grid.Column="1" Margin="0,-9,0,24">
                 <local:UcNumericPad DataContext="{Binding NumPadViewModel}" Margin="16,0,46,0" />
             </Grid>
@@ -73,13 +93,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:viewmodels="clr-namespace:VoorraadbeheerSysteemProject.Wpf.ViewModels" 
-             xmlns:local="clr-namespace:VoorraadbeheerSysteemProject.Wpf.Views"
+             xmlns:local="clr-namespace:VoorraadbeheerSysteemProject.Wpf.Views" 
+             d:DataContext="{d:DesignInstance Type=viewmodels:VmNumPadDataEntry}"
              mc:Ignorable="d">
     <Grid Background="White" Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="80"/>
             <!-- Summary section -->
             <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
             <!-- Keypad and control buttons -->
         </Grid.RowDefinitions>
 
@@ -128,11 +150,39 @@
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,20,0"/>
 
             <!-- Numeric Keypad + Return & Del -->
-            <Grid Grid.Column="1" Margin="0,-9,0,24">
+            <Grid Grid.Column="0" Margin="0,0,0,15">
+                <ListView 
+                    ItemsSource="{Binding SelectedAmount}" 
+                    Style="{StaticResource CustomListViewStyle}"
+                    Background="Transparent"
+                    FontSize="16" Margin="10,0,10,84">
+
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Amount" DisplayMemberBinding="{Binding AmountPrice}" Width="150" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <TextBlock FontSize="18" FontWeight="Bold" Foreground="#4CAF50" Margin="23,307,23,21"><Run Text="{Binding FormattedSelectedAmountTotal, Mode=OneWay}"/></TextBlock>
+            </Grid>
+            <!-- Numeric Keypad + Return & Del -->
+            <Grid Grid.Column="1" Margin="0,0,0,15">
                 <!-- Use the correct DataContext binding here -->
-                <local:UcNumericPad DataContext="{Binding}" Margin="16,0,46,0" />
+                <!--<local:UcNumericPad DataContext="{Binding}" Margin="16,0,46,0" />-->
+                <local:UcNumericPad 
+                    AddCommand="{Binding AddSaleAmountCommand}" />
             </Grid>
 
+        </Grid>
+
+
+        <Grid Grid.Row="2">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="90,0,0,0" Height="50">
+                <Button Content="Reset" Width="140" Height="50" Background="White" BorderBrush="#E0E0E0" Margin="5"/>
+                <Button Content="Delete"  Width="140" Height="50" Background="White" BorderBrush="#E0E0E0" Margin="5"/>
+                <Button Content="Add"  Width="140" Height="50" Background="White" BorderBrush="#E0E0E0" Margin="5"/>
+                <Button Content="Close" Width="140" Height="50" Background="White" BorderBrush="#E0E0E0" Margin="5"/>
+            </StackPanel>
         </Grid>
     </Grid>
 </UserControl>

@@ -11,6 +11,8 @@ using VoorraadbeheerSysteemProject.Wpf.Services;
 using VoorraadbeheerSysteemProject.Wpf.Stores;
 using VoorraadbeheerSysteemProject.Wpf.Views;
 using System.Windows.Input;
+using VoorraadbeheerSysteemProject.Wpf.Requests;
+using VoorraadbeheerSysteemProject.Wpf.Commands.SalesCommands;
 
 namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 {
@@ -19,12 +21,21 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         //private readonly NavigationStore _navigationStore;
         private readonly VmSale _vmSale;
 
+        public ObservableCollection<SaleSelectedAmountRequest> SelectedAmount { get; set; }
+
+        public decimal CurrentAmountPrice { get; set; }
+
         public VmNumPadDataEntry(VmSale vmSale)
         {
             _vmSale = vmSale;
 
             AddSelectedProductCommand = new AddSelectedProductCommand(_vmSale, this);
-
+            AddSaleAmountCommand = new AddSaleAmountCommand(this);
+            SelectedAmount = new ObservableCollection<SaleSelectedAmountRequest>();
+            SelectedAmount.CollectionChanged += (s, e) =>
+            {
+                OnPropertyChanged(nameof(FormattedSelectedAmountTotal));
+            };
             InitialCommands();
         }
         public decimal GetTotalAmount()
@@ -91,6 +102,9 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             }
         }
 
+
+        public string FormattedSelectedAmountTotal => SelectedAmount.Sum(s => s.AmountPrice).ToString("C");
+
         private void InitialCommands()
         {
             Number0Command = new AppendNumberCommand(this, "0");
@@ -109,10 +123,11 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             DeleteCommand = new DeleteInputCommand(this);
             ReturnCommand = new ReturnInputCommand(this);
 
-            AddSelectedProductCommand = new AddSelectedProductCommand(_vmSale,this);
+            //AddSelectedProductCommand = new AddSelectedProductCommand(_vmSale,this);
         }
 
         #region commands
+        public ICommand AddSaleAmountCommand { get; set; }
         public ICommand AddSelectedProductCommand { get; set; }
         public ICommand RemoveSelectedProductCommand { get; set; }
         public ICommand ClearSelectedProductCommand { get; set; }

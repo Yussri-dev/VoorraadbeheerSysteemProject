@@ -158,7 +158,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         }
         #endregion
 
-
+        #region InputText and Calcul
         private string _inputText = string.Empty;
         public string InputText
         {
@@ -239,6 +239,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         }
         public string FormattedCountLine => LineCount.ToString("N0");
 
+        #endregion
 
 
         #region commands

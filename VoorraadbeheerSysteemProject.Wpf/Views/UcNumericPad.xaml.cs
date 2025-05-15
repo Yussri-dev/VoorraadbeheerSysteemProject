@@ -25,6 +25,19 @@ namespace VoorraadbeheerSysteemProject.Wpf.Views
             InitializeComponent();
         }
 
+        public static readonly DependencyProperty AddCommandProperty =
+        DependencyProperty.Register(
+            nameof(AddCommand),
+            typeof(ICommand),
+            typeof(UcNumericPad),
+            new PropertyMetadata(null));
+
+        public ICommand AddCommand
+        {
+            get => (ICommand)GetValue(AddCommandProperty);
+            set => SetValue(AddCommandProperty, value);
+        }
+
         public ICommand Number1Command
         {
             get { return (ICommand)GetValue(Number1CommandProperty); }
