@@ -32,8 +32,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         private ObservableCollection<TaxDTO> _filteredTaxRate;
 
         //ShelfDTO
-        private ObservableCollection<string> _shelfs;
-        private ObservableCollection<string> _filteredShelf;
+        private ObservableCollection<ShelfDTO> _shelfs;
+        private ObservableCollection<ShelfDTO> _filteredShelf;
 
 
         //search/filter
@@ -134,13 +134,13 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         #endregion
 
             #region shelf properties
-        public ObservableCollection<string> FilteredShelf
+        public ObservableCollection<ShelfDTO> FilteredShelf
         {
             get => _filteredShelf;
             set { _filteredShelf = value; OnPropertyChanged(); }
         }
 
-        public ObservableCollection<string> AllShelf
+        public ObservableCollection<ShelfDTO> AllShelf
         {
             get => _shelfs;
             set { _shelfs = value; OnPropertyChanged(); }
@@ -217,7 +217,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             //    () => new vmLogin(navigationStore));
 
             //initialize the api service
-            _apiService = new ApiService("https://73c3-2a02-2c40-270-2029-ddf8-5e41-2ecd-60cd.ngrok-free.app/");
+            _apiService = new ApiService("https://7ec3-2a02-2c40-270-2029-ddf8-5e41-2ecd-60cd.ngrok-free.app/");
 
             //get products from api
             Task.Run(LoadDataAsync);
@@ -284,14 +284,14 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         public void FilterShelf()
         {
             if (string.IsNullOrWhiteSpace(_searchTextShelf))
-                FilteredShelf = new ObservableCollection<string>(
-                    _shelfs ?? new ObservableCollection<string>());
+                FilteredShelf = new ObservableCollection<ShelfDTO>(
+                    _shelfs ?? new ObservableCollection<ShelfDTO>());
             else
             {
-                FilteredShelf = new ObservableCollection<string>(
+                FilteredShelf = new ObservableCollection<ShelfDTO>(
                     _shelfs
                     .Where(
-                        items => items.ToLower()
+                        items => items.Name.ToLower()
                         .Contains(_searchTextShelf.ToLower())
                     )
                     .ToList()
@@ -317,6 +317,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             if(_selectedProduct == null)
                 return;
 
+            _selectedProduct.DateModified = DateTime.Now;
+
             //TODO check if there are changes
             await _apiService.PutProductAsync(_selectedProduct);
         }
@@ -338,25 +340,93 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 MessageBox.Show("Please select a tax rate");
                 return;
             }
-            newProduct.TaxRate = SelectedProduct.Tax.TaxId;
+            newProduct.TaxId = SelectedProduct.Tax.TaxId;
 
-            newProduct.ShelfId = 1;
+
+            if(SelectedProduct.Shelf == null)
+            {
+                MessageBox.Show("Please select a shelf");
+                return;
+            }
+            newProduct.ShelfId = SelectedProduct.Shelf.ShelfId;
 
 
 
             //check textboxes
             if(String.IsNullOrWhiteSpace(newProduct.Name))
+            { 
                 MessageBox.Show("Please fill in a name");
+                return;
+            }
+            if(newProduct.MinStock <= 0)
+            {
+                MessageBox.Show("Minimal Stock must be greater than 0");
+                return;
+            }
+            if(newProduct.PurchasePrice <= 0)
+            {
+                MessageBox.Show("Purchase price must be greater than 0");
+                return;
+            }
+            if(newProduct.SalePrice1 <= 0)
+            {
+                MessageBox.Show("Sale price 1 must be greater than 0");
+                return;
+            }
+            if(newProduct.SalePrice2 <= 0)
+            {
+                MessageBox.Show("Sale price 2 must be greater than 0");
+                return;
+            }
 
 
+
+            //generate barcode
+            //13 lang begin met 1 in begin count products
+            newProduct.Barcode = newProduct.Barcode.Trim();
+
+            if (String.IsNullOrWhiteSpace(newProduct.Barcode))
+            {
+                var barcode = ProductCount.ToString();
+                var barcodeLenght = barcode.Length;
+                    if (barcodeLenght < 13)
+                    {
+                        for (int i = 0; i < 12 - barcodeLenght; i++)
+                        {
+                            barcode = "0" + barcode;
+                        }
+                        barcode = "1" + barcode;
+                    }
+                newProduct.Barcode = barcode;
+            }
+            else if(!Int32.TryParse(newProduct.Barcode, out int barcodeInt))
+            {
+                MessageBox.Show("Barcode must be a number (leave empty to auto-generate a barcode");
+                return;
+            }
+            else if(newProduct.Barcode.Length != 13)
+            {
+                MessageBox.Show("Barcode must be 13 characters long (leave empty to auto-generate a barcode)");
+                return;
+            }
+
+            newProduct.DateCreated = DateTime.Now;
 
             //temp fill in data
+            newProduct.LineId = 1;
+            newProduct.UnitId = 1;
+            newProduct.PackUnitType = "Box";
+
+
+
+            //get from session
             newProduct.CreatedBy = "admin";
 
 
-            newProduct.Barcode = "8465181"; //13 lang begin met 1 in begin count products
             await _apiService.PostProductAsync(newProduct);
-            OnPropertyChanged(nameof(FilterCategories));
+            //refresh the product list
+            Products = new ObservableCollection<ProductDTO>(await _apiService.GetProductsAsync());
+            FilterProducts();
         }
 
         private void Reset(object parameter)
@@ -414,13 +484,17 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             }
             FilteredTaxRate = new ObservableCollection<TaxDTO>(AllTaxRate.OrderBy(t => t.TaxRate));
 
+            AllShelf = new ObservableCollection<ShelfDTO>(await _apiService.GetShelfsAsync());
+
             //temp filling of shelves
-            AllShelf = new ObservableCollection<string> {
-                "no shelf selected",
-                "shelf 1",
-                "shelf 2",
-                "shelf 3"
-            };
+            if(AllShelf.Count == 0)
+            {
+                AllShelf = new ObservableCollection<ShelfDTO> {
+                    new ShelfDTO(){ ShelfId = 1, Name = "shelf 1"},
+                    new ShelfDTO(){ ShelfId = 2, Name = "shelf 2"},
+                    new ShelfDTO(){ ShelfId = 3, Name = "shelf 3"},
+                };
+            }
             FilteredShelf = AllShelf;
 
 

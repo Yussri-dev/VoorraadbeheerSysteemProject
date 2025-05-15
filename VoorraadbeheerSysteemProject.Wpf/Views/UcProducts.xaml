@@ -74,7 +74,8 @@
                 <Label Content="Shelf" FontSize="15" Foreground="#737B8B78"/>
                 <ComboBox Style="{StaticResource CustomComboBoxStyle}"
                           ItemsSource="{Binding FilteredShelf}"
-                          SelectedItem="{Binding SelectedProduct.ShelfName}"
+                          SelectedItem="{Binding SelectedProduct.Shelf}"
+                          DisplayMemberPath="Name"
                           Foreground="#40AF73" 
                           Width="300" 
                           FontSize="18" 

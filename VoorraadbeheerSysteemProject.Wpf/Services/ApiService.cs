@@ -25,7 +25,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services
         {
             try
             {
-                var response = await _httpClient.GetAsync("api/product");
+                //var response = await _httpClient.GetAsync("api/product");
+                var response = await _httpClient.GetAsync("api/product?pageNumber=1&pageSize=100"); //pageNumber pageSize
                 response.EnsureSuccessStatusCode();
 
                 return await response.Content.ReadFromJsonAsync<List<ProductDTO>>();
@@ -93,19 +94,19 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services
             }
         }
 
-        //public async Task<List<ShelfDTO>> GetShelfsAsync()
-        //{
-        //    try
-        //    {
-        //        var response = await _httpClient.GetAsync("/api/shelf");
-        //        response.EnsureSuccessStatusCode();
-        //        return await response.Content.ReadFromJsonAsync<List<ShelfDTO>>();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return new List<ShelfDTO>();
-        //    }
-        //}
+        public async Task<List<ShelfDTO>> GetShelfsAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync("/api/shelf");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<List<ShelfDTO>>();
+            }
+            catch (Exception ex)
+            {
+                return new List<ShelfDTO>();
+            }
+        }
 
     }
 }
