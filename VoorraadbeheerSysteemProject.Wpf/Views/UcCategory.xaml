@@ -89,7 +89,7 @@
           Style="{StaticResource CustomListViewStyle}" >
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="#" Width="30" DisplayMemberBinding="{Binding Number}" />
+                    <GridViewColumn Header="#" Width="30" DisplayMemberBinding="{Binding CategoryId}" />
                     <GridViewColumn Header="Category Name" DisplayMemberBinding="{Binding Name}" />
                 </GridView>
             </ListView.View>

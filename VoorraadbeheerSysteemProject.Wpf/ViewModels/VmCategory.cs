@@ -69,7 +69,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             int counter = 1;
             foreach (var cat in list)
             {
-                cat.Number = counter++;
+                cat.CategoryId = counter++;
                 Categories.Add(cat);
                 FilteredCategories.Add(cat);
             }
@@ -102,7 +102,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             int counter = 1;
             foreach (var cat in list)
             {
-                cat.Number = counter++;
+                cat.CategoryId = counter++;
                 Categories.Add(cat);
                 FilteredCategories.Add(cat);
             }
