@@ -52,6 +52,10 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         //Constructor
         public VmSale(NavigationStore navigationStore)
         {
+
+            NavigateDashboardCommand = new NavigationCommand<VmDashboard>(navigationStore,
+                () => new VmDashboard(navigationStore));
+
             _navigationStore = navigationStore;
             _apiService = new ApiService("https://localhost:5001/");
             _salesRequest = new SalesRequests("https://localhost:5001/");
@@ -248,6 +252,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         #endregion
 
         #region commands
+        public ICommand NavigateDashboardCommand { get; set; }
         public ICommand AddSelectedProductCommand { get; set; }
         public ICommand RemoveSelectedProductCommand { get; set; }
         public ICommand ClearSelectedProductCommand { get; set; }
