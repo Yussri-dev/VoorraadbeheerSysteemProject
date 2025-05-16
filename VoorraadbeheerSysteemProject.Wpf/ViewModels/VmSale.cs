@@ -120,7 +120,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         private void InitialCommands()
         {
             OpenDialogCommand = new OpenDialogCommand(this, NumPadViewModel);
-            SearchProductsCommand = new SearchProductsCommand(this);
+            //SearchProductsCommand = new SearchProductsCommand(this);
+            //SearchProductsCommand = new SearchCommand(param => FilterProducts());
             AddSelectedProductCommand = new AddSelectedProductCommand(this, NumPadViewModel);
             RemoveSelectedProductCommand = new RemoveSelectedProductCommand(this);
             ClearSelectedProductCommand = new ClearSelectedProductCommand(this);

@@ -14,6 +14,8 @@ using System.Windows.Input;
 using VoorraadbeheerSysteemProject.Wpf.Requests;
 using VoorraadbeheerSysteemProject.Wpf.Commands.SalesCommands;
 using VoorraadbeheerSysteemProject.Wpf.Services.Sales;
+using VoorraadbeheerSysteemProject.Wpf.Services.Purchases;
+using VoorraadbeheerSysteemProject.Wpf.Commands.PurchasesCommands;
 
 namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 {
@@ -21,7 +23,10 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
     {
         #region Fields & Constructors
         private readonly VmSale _vmSale;
+        private readonly VmPurchase _vmPurchase;
         private readonly SalesRequests _salesRequests;
+        private readonly PurchasesRequests _purchasesRequests;
+
         private SaleSelectedAmountRequest? _selectedAmount;
         public SaleSelectedAmountRequest? SelectedAmount
         {
@@ -89,11 +94,22 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             SelectedAmounts.CollectionChanged += (s, e) =>
             {
                 OnPropertyChanged(nameof(MessageMontant));
-
             };
 
-            InitialCommands();
+            InitialCommandsSales();
         }
+
+        public VmNumPadDataEntry(VmPurchase vmPurchase)
+        {
+            _vmPurchase = vmPurchase;
+
+            AddSelectedProductCommand = new AddSelectedProductToPurchaseCommand(_vmPurchase, this);
+
+            _purchasesRequests = new PurchasesRequests("https://localhost:5001/");
+
+            InitialCommandsPurchases();
+        }
+
 
         #endregion
 
@@ -135,7 +151,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             }
         }
 
-        private void InitialCommands()
+        private void InitialCommand()
         {
             Number0Command = new AppendNumberCommand(this, "0");
             Number00Command = new AppendNumberCommand(this, "00");
@@ -149,18 +165,23 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             Number8Command = new AppendNumberCommand(this, "8");
             Number9Command = new AppendNumberCommand(this, "9");
             NumberPuntCommand = new AppendNumberCommand(this, ".");
-
             DeleteCommand = new DeleteInputCommand(this);
             ReturnCommand = new ReturnInputCommand(this);
-
+            CloseWindowCommand = new ClosingCommand();
+        }
+        private void InitialCommandsSales()
+        {
+            InitialCommand();
             ValidateSaleDataCommand = new ValidateSaleDataCommand(_vmSale, this);
             RemoveSelectedSaleAmountCommand = new RemoveSelectedSaleAmountCommand(this);
-
             ClearSaleAmountCommand = new ClearSaleAmountCommand(this);
+        }
 
-            CloseWindowCommand = new ClosingCommand();
+        private void InitialCommandsPurchases()
+        {
+            InitialCommand();
+            ValidatePurchaseDataCommand = new ValidatePurchaseDataCommand(_vmPurchase);
 
-            //AddSelectedProductCommand = new AddSelectedProductCommand(_vmSale,this);
         }
         #endregion
 
@@ -217,6 +238,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         public ICommand ClearSaleAmountCommand { get; set; }
         public ICommand RemoveSelectedSaleAmountCommand { get; set; }
         public ICommand ValidateSaleDataCommand { get; set; }
+        public ICommand ValidatePurchaseDataCommand { get; set; }
         public ICommand AddSaleAmountCommand { get; set; }
         public ICommand AddSelectedProductCommand { get; set; }
         public ICommand RemoveSelectedProductCommand { get; set; }
