@@ -180,8 +180,14 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="90,0,0,0" Height="80">
                 <Button Content="Reset" Command="{Binding ClearSaleAmountCommand}" Width="140" Height="50" Background="White" BorderBrush="#E0E0E0" Margin="5"/>
                 <Button Content="Delete" Command="{Binding RemoveSelectedSaleAmountCommand}" Width="140" Height="50" Background="White" BorderBrush="#E0E0E0" Margin="5"/>
-                <Button Content="Add"  Command="{Binding ValidateSaleDataCommand}" Width="140" Height="50" Background="White" BorderBrush="#E0E0E0" Margin="5"/>
-                <Button Content="Close"  Width="140" Height="50" Background="White" BorderBrush="#E0E0E0" Margin="5"/>
+                <Button Content="Add"  
+                         Command="{Binding ValidateSaleDataCommand}"
+        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                        Width="140" Height="50" Background="White" BorderBrush="#E0E0E0" Margin="5"/>
+                <Button Content="Close" 
+                        Command="{Binding CloseWindowCommand}"
+        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" 
+                        Width="140" Height="50" Background="White" BorderBrush="#E0E0E0" Margin="5"/>
             </StackPanel>
         </Grid>
     </Grid>
