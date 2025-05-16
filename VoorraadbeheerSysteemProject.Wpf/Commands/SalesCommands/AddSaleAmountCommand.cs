@@ -20,27 +20,6 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands.SalesCommands
             _vmNumPad = vmNumPad;
         }
         public bool CanExecute(object? parameter) => true;
-        //{
-        //    return _vmSale.SelectedProductInCart != null;
-        //}
-
-        //public void Execute(object? parameter)
-        //{
-        //    var selected = _vmNumPad.SelectedAmount;
-
-        //    if (!decimal.TryParse(_vmNumPad.InputText, out var quantity) || quantity <= 0)
-        //        return;
-
-
-        //    _vmNumPad.SelectedAmount.Add(new SaleSelectedAmountRequest
-        //    {
-        //        AmountPrice = selected.AmountPrice,
-        //    });
-        //    _vmNumPad.InputText = string.Empty;
-
-        //    //_vmSale.CalculateTotalAmount();
-
-        //}
 
         public void Execute(object? parameter)
         {
