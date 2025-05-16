@@ -25,6 +25,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
         //search / filter
         private string _searchTextName;
+        private string _searchTextBarcode;
 
 
         #region Properties
@@ -68,11 +69,22 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             }
         }
 
-        #endregion
+        public string SearchTextBarcode
+        {
+            get { return _searchTextBarcode; }
+            set
+            {
+                _searchTextBarcode = value;
+                OnPropertyChanged(nameof(SearchTextBarcode));
+                FilterListView();
+            }
+        }
 
         #endregion
 
-        #region Constructors
+            #endregion
+
+            #region Constructors
         public VmInventory(NavigationStore navigationStore)
         {
             NavigateDashboardCommand = new NavigationCommand<VmDashboard>(navigationStore,
@@ -99,6 +111,9 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
             if (!String.IsNullOrWhiteSpace(SearchTextName))
                 filteredPurchases = filteredPurchases.Where(p => p.ProductName.ToLower().Contains(SearchTextName.ToLower()));
+
+            if (!String.IsNullOrWhiteSpace(SearchTextBarcode))
+                filteredPurchases = filteredPurchases.Where(p => p.Barcode.ToLower().Contains(SearchTextBarcode.ToLower()));
 
             FilteredPurchases = new ObservableCollection<PurchaseFlatDTO>(filteredPurchases);
 
@@ -143,11 +158,11 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             Purchases = new ObservableCollection<PurchaseFlatDTO>
                 {
 
-                    new PurchaseFlatDTO{ PurchaseItemId = 1, ProductName = "Product 1", Price = 10, SalePrice1 = 15, TaxAmount = 21, SupplierName = "Supplier 1", PurchaseDate = DateTime.Now, QuantityStock = 100 },
-                    new PurchaseFlatDTO{ PurchaseItemId = 2, ProductName = "Product 2", Price = 25, SalePrice1 = 30, TaxAmount = 6, SupplierName = "Supplier 2", PurchaseDate = DateTime.Now, QuantityStock = 64  },
-                    new PurchaseFlatDTO{ PurchaseItemId = 3, ProductName = "Product 3", Price = 5, SalePrice1 = 10, TaxAmount = 12, SupplierName = "supplier 2", PurchaseDate = DateTime.Now, QuantityStock = 256  },
-                    new PurchaseFlatDTO{ PurchaseItemId = 4, ProductName = "Product 4", Price = 15, SalePrice1 = 20, TaxAmount = 21, SupplierName = "supplier 3", PurchaseDate = DateTime.MinValue, QuantityStock = 48946  },
-                    new PurchaseFlatDTO{ PurchaseItemId = 5, ProductName = "Product 5", Price = 30, SalePrice1 = 40, TaxAmount = 6, SupplierName = "supplier 1", PurchaseDate = DateTime.MaxValue, QuantityStock = 165  },
+                    new PurchaseFlatDTO{ PurchaseItemId = 1, ProductName = "Product 1", Price = 10, SalePrice1 = 15, TaxAmount = 21, SupplierName = "Supplier 1", PurchaseDate = DateTime.Now, QuantityStock = 100, Barcode = "1234567891234" },
+                    new PurchaseFlatDTO{ PurchaseItemId = 2, ProductName = "Product 2", Price = 25, SalePrice1 = 30, TaxAmount = 6, SupplierName = "Supplier 2", PurchaseDate = DateTime.Now, QuantityStock = 64, Barcode = "1234567891234"  },
+                    new PurchaseFlatDTO{ PurchaseItemId = 3, ProductName = "Product 3", Price = 5, SalePrice1 = 10, TaxAmount = 12, SupplierName = "supplier 2", PurchaseDate = DateTime.Now, QuantityStock = 256, Barcode = "1234567891234"  },
+                    new PurchaseFlatDTO{ PurchaseItemId = 4, ProductName = "Product 4", Price = 15, SalePrice1 = 20, TaxAmount = 21, SupplierName = "supplier 3", PurchaseDate = DateTime.MinValue, QuantityStock = 48946, Barcode = "1234567891234"  },
+                    new PurchaseFlatDTO{ PurchaseItemId = 5, ProductName = "Product 5", Price = 30, SalePrice1 = 40, TaxAmount = 6, SupplierName = "supplier 1", PurchaseDate = DateTime.MaxValue, QuantityStock = 165, Barcode = "1234567891234"  },
                 };
         }
         #endregion
