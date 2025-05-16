@@ -14,6 +14,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         private readonly ApiCategory _apiCategory = new();
         private string _searchText;
         private int _totalCategories;
+        private string _newCategoryName;
         public ObservableCollection<CategoryDTO> Categories { get; set; }
         public ObservableCollection<CategoryDTO> FilteredCategories { get; set; }
 
@@ -28,7 +29,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             ResetCommand = new ResetCommand(this);
             CloseCommand = new CloseCommand(navigationStore);
             SearchCommand = new SearchCommand(this);
-            ;
+            AddCommand = new AddCommand(this);
 
         }
 
@@ -37,7 +38,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         public ICommand ResetCommand { get; }
         public ICommand CloseCommand { get; }
         public ICommand SearchCommand { get; }
-       
+        public ICommand AddCommand { get; }
+
         public string SearchText
         {
             get => _searchText;
@@ -110,7 +112,33 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             TotalCategories = FilteredCategories.Count;
         }
 
+
+        public string NewCategoryName
+        {
+            get => _newCategoryName;
+            set
+            {
+                _newCategoryName = value;
+                OnPropertyChanged();
+            }
         }
 
-    
+
+
+        // add New Category Name 
+
+        public async Task AddCategoryAsync()
+        {
+            if (string.IsNullOrWhiteSpace(NewCategoryName))
+                return;
+
+            var newCategory = new CategoryDTO { Name = NewCategoryName };
+            await _apiCategory.PostCategoryAsync(newCategory);
+            NewCategoryName = string.Empty;
+            RefreshCategories();
+        }
+
+    }
+
+
 }

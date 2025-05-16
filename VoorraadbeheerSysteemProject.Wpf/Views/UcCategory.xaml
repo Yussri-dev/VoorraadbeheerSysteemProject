@@ -157,12 +157,14 @@
                    Height="35"
                    Width="120"  />
 
-            <TextBox 
-                Text="{Binding NewCategoryName, UpdateSourceTrigger=PropertyChanged}" 
-                Width="306"
-                Height="37"
-                />
-
+            <Border CornerRadius="5" BorderBrush="Gray" BorderThickness="1" Background="White" Width="306" Height="37">
+                <TextBox 
+                     Text="{Binding NewCategoryName, UpdateSourceTrigger=PropertyChanged}" 
+                     BorderThickness="0"
+                     Background="Transparent"
+                     Padding="5"
+                     VerticalContentAlignment="Center"/>
+            </Border>
         </StackPanel>
     </Grid>
 </UserControl>
