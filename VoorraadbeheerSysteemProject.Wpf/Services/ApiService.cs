@@ -124,5 +124,19 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services
             }
         }
 
+        public async Task<List<PurchaseItemDTO>> GetPurchaseItemsAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync("/api/purchaseitem");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<List<PurchaseItemDTO>>();
+            }
+            catch (Exception ex)
+            {
+                return new List<PurchaseItemDTO>();
+            }
+        }
+
     }
 }

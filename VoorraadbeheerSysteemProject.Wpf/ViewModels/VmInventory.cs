@@ -1,171 +1,77 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Configuration;
 using System.Linq;
 using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
+using VoorraadbeheerSysteemProject.Wpf.Models;
+using VoorraadbeheerSysteemProject.Wpf.Services;
 using VoorraadbeheerSysteemProject.Wpf.Stores;
 
 namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 {
     class VmInventory : VmBase
     {
-        public IList<Purchase> Purchases { get; set; }
+        private readonly ApiService _apiService;
 
+        //PurchaseItemDTO
+        private ObservableCollection<PurchaseItemDTO> _purchases;
+
+
+        #region Properties
+        public ObservableCollection<PurchaseItemDTO> Purchases { 
+            get => _purchases; 
+            set {
+                _purchases = value;
+                OnPropertyChanged(nameof(Purchases));
+            } 
+        }
+        #endregion
+
+        #region Constructors
         public VmInventory(NavigationStore navigationStore)
         {
+            _apiService = new ApiService(ConfigurationManager.AppSettings.Get("NGrokApiUri"));
 
-            //fill purchase list with dummy data
-            Purchases = new List<Purchase>
-            {
-                new Purchase
-                {
-                    Id = 1,
-                    ProductName = "Product 1",
-                    Amount = 10,
-                    SalePrice = 15.0,
-                    TaxRate = "21%",
-                    Supplier = "Supplier 1",
-                    SaleDate = DateTime.Now,
-                    Stock = 100
-                },
-                new Purchase
-                {
-                    Id = 2,
-                    ProductName = "Product 2",
-                    Amount = 20,
-                    SalePrice = 25.0,
-                    TaxRate = "6%",
-                    Supplier = "Supplier 2",
-                    SaleDate = DateTime.Now,
-                    Stock = 200
-                },
-                new Purchase
-                {
-                    Id = 3,
-                    ProductName = "Product 2",
-                    Amount = 30,
-                    SalePrice = 35.0,
-                    TaxRate = "21%",
-                    Supplier = "Supplier 3",
-                    SaleDate = DateTime.Now,
-                    Stock = 300
-                },
-                new Purchase
-                {
-                    Id = 4,
-                    ProductName = "Product 3",
-                    Amount = 40,
-                    SalePrice = 45.0,
-                    TaxRate = "6%",
-                    Supplier = "Supplier 2",
-                    SaleDate = DateTime.Now,
-                    Stock = 400
-                },
-                new Purchase
-                {
-                    Id = 4,
-                    ProductName = "Product 3",
-                    Amount = 40,
-                    SalePrice = 45.0,
-                    TaxRate = "6%",
-                    Supplier = "Supplier 2",
-                    SaleDate = DateTime.Now,
-                    Stock = 400
-                },
-                new Purchase
-                {
-                    Id = 4,
-                    ProductName = "Product 3",
-                    Amount = 40,
-                    SalePrice = 45.0,
-                    TaxRate = "6%",
-                    Supplier = "Supplier 2",
-                    SaleDate = DateTime.Now,
-                    Stock = 400
-                },
-                new Purchase
-                {
-                    Id = 4,
-                    ProductName = "Product 3",
-                    Amount = 40,
-                    SalePrice = 45.0,
-                    TaxRate = "6%",
-                    Supplier = "Supplier 2",
-                    SaleDate = DateTime.Now,
-                    Stock = 400
-                },
-                new Purchase
-                {
-                    Id = 4,
-                    ProductName = "Product 3",
-                    Amount = 40,
-                    SalePrice = 45.0,
-                    TaxRate = "6%",
-                    Supplier = "Supplier 2",
-                    SaleDate = DateTime.Now,
-                    Stock = 400
-                },
-                new Purchase
-                {
-                    Id = 4,
-                    ProductName = "Product 3",
-                    Amount = 40,
-                    SalePrice = 45.0,
-                    TaxRate = "6%",
-                    Supplier = "Supplier 2",
-                    SaleDate = DateTime.Now,
-                    Stock = 400,
-                },
-                new Purchase
-                {
-                    Id = 4,
-                    ProductName = "Product 3",
-                    Amount = 40,
-                    SalePrice = 45.0,
-                    TaxRate = "6%",
-                    Supplier = "Supplier 2",
-                    SaleDate = DateTime.Now,
-                    Stock = 400
-                },
-                new Purchase
-                {
-                    Id = 4,
-                    ProductName = "Product 3",
-                    Amount = 40,
-                    SalePrice = 45.0,
-                    TaxRate = "6%",
-                    Supplier = "Supplier 2",
-                    SaleDate = DateTime.Now,
-                    Stock = 400
-                },
-                new Purchase
-                {
-                    Id = 4,
-                    ProductName = "Product 3",
-                    Amount = 40,
-                    SalePrice = 45.0,
-                    TaxRate = "6%",
-                    Supplier = "Supplier 2",
-                    SaleDate = DateTime.Now,
-                    Stock = 400
-                },
-            };
+            Task.Run(LoadDataAsync);
+
+            
         }
+        #endregion
 
-        //temp purchase class
-        public class Purchase
+        #region Methods
+        private async Task LoadDataAsync()
         {
-            public int Id { get; set; }
-            public string? ProductName { get; set; }
-            public int Amount { get; set; }
-            public double SalePrice { get; set; }
-            public string? TaxRate { get; set; }
-            public string? Supplier { get; set; }
-            public DateTime SaleDate { get; set; }
-            public int Stock { get; set; }
+            Purchases = new ObservableCollection<PurchaseItemDTO>(await _apiService.GetPurchaseItemsAsync());
 
+            if(Purchases.Count == 0)
+            {
+                //fill purchase list with dummy data
+                Purchases = new ObservableCollection<PurchaseItemDTO>
+                {
+
+                    new PurchaseItemDTO
+                    {
+                        PurchaseItemId = 1,
+                        ProductName = "Product 1", //from ProductDTO
+                        Price = 10,
+                        TaxAmount = 21,
+
+                        //SupplierName = "Supplier 1", //from PurchaseDTO
+                        //PurchaseDate = DateTime.Now, //from PurchaseDTO
+                        //Stock = 100  //from ProductDTO
+                    },
+                    new PurchaseItemDTO{ PurchaseId = 2, ProductName = "Product 2", Price = 25, TaxAmount = 6  },
+                    new PurchaseItemDTO{ PurchaseId = 3, ProductName = "Product 3", Price = 5, TaxAmount = 12  },
+                    new PurchaseItemDTO{ PurchaseId = 4, ProductName = "Product 4", Price = 15, TaxAmount = 21  },
+                    new PurchaseItemDTO{ PurchaseId = 5, ProductName = "Product 5", Price = 30, TaxAmount = 6  },
+                };
+
+            }
         }
+        #endregion
     }
 }
 

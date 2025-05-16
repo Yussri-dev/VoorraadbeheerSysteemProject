@@ -119,11 +119,11 @@
                   Grid.Row="2">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="#" Width="50" DisplayMemberBinding="{Binding Id}"/>
+                    <GridViewColumn Header="#" Width="50" DisplayMemberBinding="{Binding PurchaseItemId}"/>
                     <GridViewColumn Header="Product Name" Width="Auto" DisplayMemberBinding="{Binding ProductName}"/>
-                    <GridViewColumn Header="Purchase" Width="100" DisplayMemberBinding="{Binding Amount}"/>
+                    <GridViewColumn Header="Purchase" Width="100" DisplayMemberBinding="{Binding Price}"/>
                     <GridViewColumn Header="Sale Price" Width="100" DisplayMemberBinding="{Binding SalePrice}"/>
-                    <GridViewColumn Header="Tax Rate" Width="100" DisplayMemberBinding="{Binding TaxRate}"/>
+                    <GridViewColumn Header="Tax Rate" Width="100" DisplayMemberBinding="{Binding TaxAmount}"/>
                     <GridViewColumn Header="Supplier" Width="100" DisplayMemberBinding="{Binding Supplier}" />
                     <GridViewColumn Header="Sale Date" Width="100" DisplayMemberBinding="{Binding SaleDate}"/>
                     <GridViewColumn Header="Qty in Stock" Width="100" DisplayMemberBinding="{Binding Stock}"/>
