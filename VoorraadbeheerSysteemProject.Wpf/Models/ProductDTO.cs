@@ -33,15 +33,18 @@ namespace VoorraadbeheerSysteemProject.Wpf.Models
 
         public int ShelfId { get; set; }
         public string ShelfName { get; set; } = string.Empty;
+        public ShelfDTO Shelf { get; set; }
 
         public int CategoryId { get; set; }
         public string CategoryName { get; set; } = string.Empty;
+        public CategoryDTO? Category { get; set; }
 
         public int UnitId { get; set; }
         public string UnitName { get; set; } = string.Empty;
 
         public int TaxId { get; set; }
         public decimal TaxRate { get; set; }
+        public TaxDTO? Tax { get; set; }
 
         public int LineId { get; set; }
         public string LineName { get; set; } = string.Empty;
