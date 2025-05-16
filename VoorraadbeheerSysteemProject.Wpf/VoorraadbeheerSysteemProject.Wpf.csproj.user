@@ -2,6 +2,9 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
+    <Compile Update="Views\Printing\PrintPurchases.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\UcCashRegister.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -55,6 +58,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Views\Printing\PrintPurchases.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\UcDashboard.xaml">
       <SubType>Designer</SubType>
     </Page>

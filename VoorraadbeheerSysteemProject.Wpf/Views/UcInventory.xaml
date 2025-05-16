@@ -35,23 +35,25 @@
             </StackPanel>
             <StackPanel Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Left">
                 <Label Content="Date Start" FontSize="15" FontWeight="Medium" Foreground="#737B8B78"/>
-                <DatePicker Style="{StaticResource CustomDatePickerStyle}"
+                <DatePicker SelectedDate="{Binding SelectedStartDate}"
+                            Style="{StaticResource CustomDatePickerStyle}"
                             Foreground="#40AF73" 
                             FontSize="18" 
                             Width="300"
                             FontWeight="Medium" 
-                            SelectedDate="{x:Static sys:DateTime.Now}"
                             BorderThickness="0"/>
+                            <!--SelectedDate="{x:Static sys:DateTime.Now}"-->
             </StackPanel>
             <StackPanel Grid.Column="2" VerticalAlignment="Bottom" HorizontalAlignment="Left">
                 <Label Content="Date End" FontSize="15" FontWeight="Medium" Foreground="#737B8B78"/>
-                <DatePicker Style="{StaticResource CustomDatePickerStyle}"
+                <DatePicker SelectedDate="{Binding SelectedEndDate}"
+                            Style="{StaticResource CustomDatePickerStyle}"
                             Foreground="#40AF73" 
                             FontSize="18" 
                             Width="300"
                             FontWeight="Medium" 
-                            SelectedDate="{x:Static sys:DateTime.Now}"
                             BorderThickness="0"/>
+                            <!--SelectedDate="{x:Static sys:DateTime.Now}"-->
             </StackPanel>
         </Grid>
         <!--#endregion-->
