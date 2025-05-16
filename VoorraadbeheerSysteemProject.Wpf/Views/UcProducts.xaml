@@ -160,19 +160,19 @@
                         &lt;
                     </Button>
                     <Label Content="{Binding PageNumber}"
-                               Foreground="#5A6ACF" 
-                               VerticalContentAlignment="Center"/>
-                        <Button Command="{Binding NextPageButtonCommand}"
-                                Width="40" 
-                                Foreground="#5A6ACF" 
-                                Background="Transparent" 
-                                FontWeight="Bold"
-                                BorderThickness="0">
-                        <Button.Resources>
-                            <Style TargetType="{x:Type Border}">
-                                <Setter Property="CornerRadius" Value="0 5 5 0"/>
-                            </Style>
-                        </Button.Resources>
+                           Foreground="#5A6ACF" 
+                           VerticalContentAlignment="Center"/>
+                    <Button Command="{Binding NextPageButtonCommand}"
+                            Width="40" 
+                            Foreground="#5A6ACF" 
+                            Background="Transparent" 
+                            FontWeight="Bold"
+                            BorderThickness="0">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="0 5 5 0"/>
+                        </Style>
+                    </Button.Resources>
                         &gt;
                     </Button>
                 </StackPanel>

@@ -236,8 +236,6 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         #region constructors
         public VmProducts(NavigationStore navigationStore)
         {
-            //NavigateDataCommand = new NavigationCommand<vmLogin>(navigationStore,
-            //    () => new vmLogin(navigationStore));
             NavigateDashboardCommand = new NavigationCommand<VmDashboard>(navigationStore,
                 () => new VmDashboard(navigationStore));
 
