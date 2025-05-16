@@ -20,7 +20,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         private readonly ApiService _apiService;
 
         //PurchaseItemDTO
-        private ObservableCollection<PurchaseItemDTO> _purchases;
+        private ObservableCollection<PurchaseFlatDTO> _purchases;
 
 
         #region Properties
@@ -32,7 +32,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         public ICommand NavigateDashboardCommand { get; }
         #endregion
 
-        public ObservableCollection<PurchaseItemDTO> Purchases { 
+        public ObservableCollection<PurchaseFlatDTO> Purchases { 
             get => _purchases; 
             set {
                 _purchases = value;
@@ -89,31 +89,21 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         #region LoadData
         private async Task LoadDataAsync()
         {
-            Purchases = new ObservableCollection<PurchaseItemDTO>(await _apiService.GetPurchaseItemsAsync());
+            Purchases = new ObservableCollection<PurchaseFlatDTO>(await _apiService.GetPurchasesFlatAsync());
 
             if(Purchases.Count == 0) MakePurchaseItemDummyData();
         }
         private void MakePurchaseItemDummyData()
         {
             //fill purchase list with dummy data
-            Purchases = new ObservableCollection<PurchaseItemDTO>
+            Purchases = new ObservableCollection<PurchaseFlatDTO>
                 {
 
-                    new PurchaseItemDTO
-                    {
-                        PurchaseItemId = 1,
-                        ProductName = "Product 1", //from ProductDTO
-                        Price = 10,
-                        TaxAmount = 21,
-
-                        //SupplierName = "Supplier 1", //from PurchaseDTO
-                        //PurchaseDate = DateTime.Now, //from PurchaseDTO
-                        //Stock = 100  //from ProductDTO
-                    },
-                    new PurchaseItemDTO{ PurchaseId = 2, ProductName = "Product 2", Price = 25, TaxAmount = 6  },
-                    new PurchaseItemDTO{ PurchaseId = 3, ProductName = "Product 3", Price = 5, TaxAmount = 12  },
-                    new PurchaseItemDTO{ PurchaseId = 4, ProductName = "Product 4", Price = 15, TaxAmount = 21  },
-                    new PurchaseItemDTO{ PurchaseId = 5, ProductName = "Product 5", Price = 30, TaxAmount = 6  },
+                    new PurchaseFlatDTO{ PurchaseItemId = 1, ProductName = "Product 1", Price = 10, SalePrice1 = 15, TaxAmount = 21, SupplierName = "Supplier 1", PurchaseDate = DateTime.Now, QuantityStock = 100 },
+                    new PurchaseFlatDTO{ PurchaseItemId = 2, ProductName = "Product 2", Price = 25, SalePrice1 = 30, TaxAmount = 6, SupplierName = "Supplier 2", PurchaseDate = DateTime.Now, QuantityStock = 64  },
+                    new PurchaseFlatDTO{ PurchaseItemId = 3, ProductName = "Product 3", Price = 5, SalePrice1 = 10, TaxAmount = 12, SupplierName = "supplier 2", PurchaseDate = DateTime.Now, QuantityStock = 256  },
+                    new PurchaseFlatDTO{ PurchaseItemId = 4, ProductName = "Product 4", Price = 15, SalePrice1 = 20, TaxAmount = 21, SupplierName = "supplier 3", PurchaseDate = DateTime.MinValue, QuantityStock = 48946  },
+                    new PurchaseFlatDTO{ PurchaseItemId = 5, ProductName = "Product 5", Price = 30, SalePrice1 = 40, TaxAmount = 6, SupplierName = "supplier 1", PurchaseDate = DateTime.MaxValue, QuantityStock = 165  },
                 };
         }
         #endregion
