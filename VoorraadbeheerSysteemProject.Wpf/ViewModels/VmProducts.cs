@@ -12,6 +12,7 @@ using VoorraadbeheerSysteemProject.Wpf.Services;
 using System.ComponentModel;
 using System.Windows;
 using System.Diagnostics.CodeAnalysis;
+using System.Configuration;
 
 namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 {
@@ -235,13 +236,11 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         #region constructors
         public VmProducts(NavigationStore navigationStore)
         {
-            //NavigateDataCommand = new NavigationCommand<vmLogin>(navigationStore,
-            //    () => new vmLogin(navigationStore));
             NavigateDashboardCommand = new NavigationCommand<VmDashboard>(navigationStore,
                 () => new VmDashboard(navigationStore));
 
             //initialize the api service
-            _apiService = new ApiService("https://7ec3-2a02-2c40-270-2029-ddf8-5e41-2ecd-60cd.ngrok-free.app/");
+            _apiService = new ApiService(ConfigurationManager.AppSettings.Get("NGrokApiUri"));
 
             //get products from api
             Task.Run(LoadDataAsync);
