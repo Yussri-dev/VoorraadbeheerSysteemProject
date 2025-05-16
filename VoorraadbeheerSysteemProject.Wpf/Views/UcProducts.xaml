@@ -9,7 +9,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="80" MinHeight="40"/> <!--Title with label-->
             <RowDefinition Height="0.5*" MinHeight="200"/> <!--Product info-->
-            <RowDefinition Height="0.2*" MinHeight="50"/> <!--Search bars-->
+            <RowDefinition Height="0.2*" MinHeight="50"/> <!--Search bars-->    
             <RowDefinition Height="*"/> <!--ListView-->
             <RowDefinition Height="0.2*" MinHeight="100"/> <!--Buttons-->
         </Grid.RowDefinitions>

@@ -21,6 +21,10 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
         //PurchaseItemDTO
         private ObservableCollection<PurchaseFlatDTO> _purchases;
+        private ObservableCollection<PurchaseFlatDTO> _filteredPurchases;
+
+        //search / filter
+        private string _searchTextName;
 
 
         #region Properties
@@ -32,6 +36,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         public ICommand NavigateDashboardCommand { get; }
         #endregion
 
+
+        #region Purchase properties
         public ObservableCollection<PurchaseFlatDTO> Purchases { 
             get => _purchases; 
             set {
@@ -39,7 +45,30 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 OnPropertyChanged(nameof(Purchases));
             } 
         }
-        
+        public ObservableCollection<PurchaseFlatDTO> FilteredPurchases
+        {
+            get => _filteredPurchases;
+            set
+            {
+                _filteredPurchases = value;
+                OnPropertyChanged(nameof(FilteredPurchases));
+            }
+        }
+        #endregion
+
+        #region Search/filter text properties
+
+        public string SearchTextName
+        {
+            get { return _searchTextName; }
+            set {
+                _searchTextName = value;
+                OnPropertyChanged(nameof(SearchTextName));
+                FilterListView();
+            }
+        }
+
+        #endregion
 
         #endregion
 
@@ -61,7 +90,20 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         #endregion
 
         #region Methods
+        #region Filter methods
+        private void FilterListView()
+        {
+            var filteredPurchases = Purchases.AsEnumerable();
 
+            //TODO: check what is selected purchase or sale
+
+            if (!String.IsNullOrWhiteSpace(SearchTextName))
+                filteredPurchases = filteredPurchases.Where(p => p.ProductName.ToLower().Contains(SearchTextName.ToLower()));
+
+            FilteredPurchases = new ObservableCollection<PurchaseFlatDTO>(filteredPurchases);
+
+        }
+        #endregion
 
         #region Command methods
         private async void PreviousPage(object obj)
@@ -92,6 +134,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             Purchases = new ObservableCollection<PurchaseFlatDTO>(await _apiService.GetPurchasesFlatAsync());
 
             if(Purchases.Count == 0) MakePurchaseItemDummyData();
+
+            FilteredPurchases = Purchases;
         }
         private void MakePurchaseItemDummyData()
         {
