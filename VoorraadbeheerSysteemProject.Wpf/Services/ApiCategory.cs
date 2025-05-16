@@ -17,7 +17,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services
             public ApiCategory()
             {
                 _httpClient = new HttpClient();
-                _httpClient.BaseAddress = new Uri("https://7ec3-2a02-2c40-270-2029-ddf8-5e41-2ecd-60cd.ngrok-free.app");
+                _httpClient.BaseAddress = new Uri("https://49f9-2a02-2c40-270-2029-15bc-2224-879c-3b8.ngrok-free.app/");
             }
 
             public async Task<List<CategoryDTO>> GetCategoriesAsync()
