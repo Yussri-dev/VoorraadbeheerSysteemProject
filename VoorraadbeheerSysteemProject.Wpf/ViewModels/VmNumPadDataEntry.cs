@@ -157,6 +157,9 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             RemoveSelectedSaleAmountCommand = new RemoveSelectedSaleAmountCommand(this);
 
             ClearSaleAmountCommand = new ClearSaleAmountCommand(this);
+
+            CloseWindowCommand = new ClosingCommand();
+
             //AddSelectedProductCommand = new AddSelectedProductCommand(_vmSale,this);
         }
         #endregion
@@ -234,6 +237,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         public ICommand NumberPuntCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
         public ICommand ReturnCommand { get; set; }
+        public ICommand CloseWindowCommand { get; set; }
+
         #endregion
 
     }
