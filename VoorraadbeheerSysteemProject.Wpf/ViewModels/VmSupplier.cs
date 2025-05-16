@@ -4,86 +4,116 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using VoorraadbeheerSysteemProject.Wpf.Commands.SuppliersCommands;
+using VoorraadbeheerSysteemProject.Wpf.Models;
+using VoorraadbeheerSysteemProject.Wpf.Services;
 using VoorraadbeheerSysteemProject.Wpf.Stores;
 
 namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 {
     public class VmSupplier : VmBase
     {
+        private readonly ApiSupplier _apiSupplier = new();
         private string _searchText;
-        private ObservableCollection<Supplier> _filteredSuppliers;
-        private ObservableCollection<Supplier> _allSuppliers;
-        private readonly NavigationStore _navigationStore;
+        private int _totalSuppliers;
+        public ObservableCollection<SupplierDTO> Suppliers { get; set; }
+        public ObservableCollection<SupplierDTO> FilteredSuppliers { get; set; }
 
         public VmSupplier(NavigationStore navigationStore)
         {
-            _navigationStore = navigationStore;
+            Suppliers = new ObservableCollection<SupplierDTO>();
+            FilteredSuppliers = new ObservableCollection<SupplierDTO>();
 
-            // voorbeeldleveranciers
-            _allSuppliers = new ObservableCollection<Supplier>
-            {
-                    new Supplier { Number = 1, Name = " Supplier Name 1", Number1 = "0321", Number2 = "9876", Email = "email1@gmail.com", Created = "2023-01-12" },
-                new Supplier { Number = 2, Name = " Supplier Name 2", Number1 = "0456", Number2 = "1234", Email =  "email2@gmail.com", Created = "2023-03-22" },
-                new Supplier { Number = 3, Name = " Supplier Name 3", Number1 = "0789", Number2 = "4321", Email =  "email3@gmail.com", Created = "2024-07-10" },
-                new Supplier { Number = 4, Name = " Supplier Name 4", Number1 = "0123", Number2 = "6543", Email =  "email4@gmail.com", Created = "2025-01-05" }
-            };
+            LoadSuppliers();
 
-            FilteredSuppliers = new ObservableCollection<Supplier>(_allSuppliers);
+            UpdateCommand = new UpdateCommand(this);
+            ResetCommand = new ResetCommand(this);
+            //CloseCommand = new CloseCommand(navigationStore);
+            SearchCommand = new SearchCommand(this);
+            ;
+
         }
 
-        public ObservableCollection<Supplier> FilteredSuppliers
-        {
-            get => _filteredSuppliers;
-            set
-            {
-                _filteredSuppliers = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(TotalSuppliers));
-            }
-        }
+
+        public ICommand UpdateCommand { get; }
+        public ICommand ResetCommand { get; }
+        //public ICommand CloseCommand { get; }
+        public ICommand SearchCommand { get; }
 
         public string SearchText
         {
             get => _searchText;
             set
             {
-                if (_searchText != value)
+                _searchText = value;
+                OnPropertyChanged();
+                FilterSuppliers();
+            }
+        }
+
+        public int TotalSuppliers
+        {
+            get => _totalSuppliers;
+            set
+            {
+                _totalSuppliers = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public async void LoadSuppliers()
+        {
+            var list = await _apiSupplier.GetSuppliersAsync();
+
+            Suppliers.Clear();
+            FilteredSuppliers.Clear();
+
+            int counter = 1;
+            foreach (var cat in list)
+            {
+                cat.SupplierId = counter++;
+                Suppliers.Add(cat);
+                FilteredSuppliers.Add(cat);
+            }
+
+            TotalSuppliers = FilteredSuppliers.Count;
+        }
+
+        public void FilterSuppliers()
+        {
+            FilteredSuppliers.Clear();
+            foreach (var cat in Suppliers)
+            {
+                if (string.IsNullOrWhiteSpace(SearchText) || cat.Name.ToLower().Contains(SearchText.ToLower()))
                 {
-                    _searchText = value;
-                    OnPropertyChanged();
-                    FilterSuppliers();
+                    FilteredSuppliers.Add(cat);
                 }
             }
+
+            TotalSuppliers = FilteredSuppliers.Count;
+
         }
 
-        public int TotalSuppliers => FilteredSuppliers?.Count ?? 0;
-
-        private void FilterSuppliers()
+        public async void RefreshSuppliers()
         {
-            if (string.IsNullOrWhiteSpace(_searchText))
-            {
-                FilteredSuppliers = new ObservableCollection<Supplier>(_allSuppliers);
-            }
-            else
-            {
-                var lowerSearch = _searchText.ToLower();
-                var result = _allSuppliers
-                    .Where(s => s.Name.ToLower().Contains(lowerSearch))
-                    .ToList();
+            var list = await _apiSupplier.GetSuppliersAsync();
 
-                FilteredSuppliers = new ObservableCollection<Supplier>(result);
-            }
-        }
+            Suppliers.Clear();
+            FilteredSuppliers.Clear();
 
-        public class Supplier
-        {
-            public int Number { get; set; }
-            public string Name { get; set; }
-            public string Number1 { get; set; }
-            public string Number2 { get; set; }
-            public string Email { get; set; }
-            public string Created { get; set; }
+            int counter = 1;
+            foreach (var cat in list)
+            {
+                cat.SupplierId = counter++;
+                Suppliers.Add(cat);
+                FilteredSuppliers.Add(cat);
+            }
+
+            TotalSuppliers = FilteredSuppliers.Count;
         }
 
     }
+
+
 }

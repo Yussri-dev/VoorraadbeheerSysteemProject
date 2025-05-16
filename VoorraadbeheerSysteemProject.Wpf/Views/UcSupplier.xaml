@@ -29,8 +29,8 @@
 
             <!--buttons-->
             <Button Grid.Column="1"
-             Content="Print"
-             Command="{Binding PrintCommand}"
+             Content="Update"
+             Command="{Binding UpdateCommand}"
              HorizontalAlignment="Left" 
              Margin="185,0,0,0"
              VerticalAlignment="Center"
@@ -65,6 +65,8 @@
                 </Button.Resources>
             </Button>
 
+           <!-- Total Suppliers -->
+
             <Label Content="Total Suppliers" Grid.Column="0" FontWeight="Bold" HorizontalAlignment="Left" Margin="45,39,0,0" VerticalAlignment="Top"/>
             <TextBox 
        Grid.Column="0"   
@@ -89,12 +91,12 @@
           Style="{StaticResource CustomListViewStyle}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="#" Width="40" DisplayMemberBinding="{Binding Number}" />
+                    <GridViewColumn Header="#" Width="40" DisplayMemberBinding="{Binding SupplierId}" />
                     <GridViewColumn Header="Supplier Name" Width="Auto" DisplayMemberBinding="{Binding Name}" />
-                    <GridViewColumn Header="Number 1" Width="Auto" DisplayMemberBinding="{Binding Number1}" />
-                    <GridViewColumn Header="Number 2" Width="Auto" DisplayMemberBinding="{Binding Number2}" />
+                    <GridViewColumn Header="Number 1" Width="Auto" DisplayMemberBinding="{Binding PhoneNumber1}" />
+                    <GridViewColumn Header="Number 2" Width="Auto" DisplayMemberBinding="{Binding PhoneNumber2}" />
                     <GridViewColumn Header="Email" Width="Auto" DisplayMemberBinding="{Binding Email}" />
-                    <GridViewColumn Header="Created" Width="Auto" DisplayMemberBinding="{Binding Created}" />
+                    <GridViewColumn Header="Created" Width="Auto" DisplayMemberBinding="{Binding DateCreated}" />
                 </GridView>
             </ListView.View>
         </ListView>
