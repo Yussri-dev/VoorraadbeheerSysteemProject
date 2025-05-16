@@ -25,7 +25,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.Views
         public UcCategory()
         {
             InitializeComponent();
-  this.DataContext = new VmCategory(new NavigationStore());
+            DataContext = new VmCategory(new NavigationStore());
         }
     }
 }
