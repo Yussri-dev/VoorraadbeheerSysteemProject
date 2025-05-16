@@ -34,15 +34,17 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands.SalesCommands
                 return;
             }
 
-            decimal totalAmount = _vmNumPad.SelectedAmounts.Sum(s => s.AmountPrice);
+            decimal paidAmomunt = _vmNumPad.SelectedAmounts.Sum(s => s.AmountPrice);
+            decimal taxAmount = _vmSale.SelectedProducts.Sum(s => s.TaxAmount);
+            decimal totalAmount = _vmSale.TotalAmount;
 
             var saleDto = new SaleDTO
             {
                 SaleDate = DateTime.Now,
-                CustomerId = 1, 
+                CustomerId = 1,
                 EmployeeId = 2,
-                TotalAmount = _vmNumPad.TotalAmount,
-                AmountPaid = _vmNumPad.TotalAmount,
+                TotalAmount = totalAmount,
+                AmountPaid = paidAmomunt,
                 TvaAmount = 0,
                 DiscountPercentage = 0,
                 CustomerName = "Testing Customer",
@@ -51,15 +53,52 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands.SalesCommands
 
             var result = await _vmNumPad.SaveSaleAsync(saleDto);
 
-            if (result != null)
+            if (result == null)
             {
-                MessageBox.Show($"✅ Sale saved! ID: {result.SaleId}");
+                MessageBox.Show("❌ Failed to save sale.");
+                return;
+            }
+
+            int saleId = result.SaleId;
+            //int saleId = 1;
+
+            bool allItemsSaved = true;
+
+            foreach (var item in _vmSale.SelectedProducts)
+            {
+                var saleItemDto = new SaleItemDTO
+                {
+                    SaleId = saleId,
+                    ProductId = item.ProductId,
+                    Quantity = item.Quantity,
+                    Price = item.AmountPrice,
+                    ProfitMarge = 0,
+                    PurchasePrice = 10,
+                    Discount = 0,
+                    TaxAmount = 10,
+                    Total = item.AmountPrice,
+                    DateCreated = DateTime.Now,
+                    SaasClientId = 1
+                };
+
+                var itemResult = await _vmNumPad.SaveSaleItemAsync(saleItemDto);
+
+                if (itemResult == null)
+                {
+                    allItemsSaved = false;
+                }
+            }
+
+            if (allItemsSaved)
+            {
+                MessageBox.Show($"✅ Sale and all items saved! Sale ID: {saleId}");
             }
             else
             {
-                MessageBox.Show("❌ Failed to save sale.");
+                MessageBox.Show($"⚠️ Sale saved (ID: {saleId}) but some items failed.");
             }
         }
+
 
     }
 }

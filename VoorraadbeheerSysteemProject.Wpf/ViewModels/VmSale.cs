@@ -10,6 +10,7 @@ using VoorraadbeheerSysteemProject.Wpf.Commands.ProductsCommands;
 using VoorraadbeheerSysteemProject.Wpf.Models;
 using VoorraadbeheerSysteemProject.Wpf.Requests;
 using VoorraadbeheerSysteemProject.Wpf.Services;
+using VoorraadbeheerSysteemProject.Wpf.Services.Sales;
 using VoorraadbeheerSysteemProject.Wpf.Stores;
 using VoorraadbeheerSysteemProject.Wpf.Views;
 
@@ -17,28 +18,12 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 {
     class VmSale : VmBase
     {
+        #region Fields & Constructors
         private readonly ApiService _apiService;
+        private readonly SalesRequests _salesRequest;
         private readonly NavigationStore _navigationStore;
+        private int countSales = 0;
         public VmNumPadDataEntry NumPadViewModel { get; }
-
-        #region ObservableCollections
-
-        private ObservableCollection<ProductDTO> _allProducts;
-
-        public ObservableCollection<ProductSelectedRequest> SelectedProducts { get; set; } = new();
-
-        private ObservableCollection<ProductDTO> _products;
-
-        public ObservableCollection<ProductDTO> Products
-        {
-            get => _products;
-            set
-            {
-                _products = value;
-                OnPropertyChanged(nameof(Products));
-            }
-        }
-        #endregion
 
         private ProductDTO? _selectedProduct;
         public ProductDTO? SelectedProduct
@@ -64,25 +49,43 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 OnPropertyChanged(nameof(SelectedProductInCart));
             }
         }
-
-
-
         //Constructor
         public VmSale(NavigationStore navigationStore)
         {
             _navigationStore = navigationStore;
-            //_apiService = new ApiService("https://inventoryapi-dtavbdhhgdama7cr.switzerlandnorth-01.azurewebsites.net/");
-            //_apiService = new ApiService("https://f557-2a02-2c40-270-2029-58ea-66d1-3111-66b1.ngrok-free.app/");
             _apiService = new ApiService("https://localhost:5001/");
+            _salesRequest = new SalesRequests("https://localhost:5001/");
 
             _allProducts = new ObservableCollection<ProductDTO>();
             Products = new ObservableCollection<ProductDTO>();
-            Task.Run(async () => await LoadDataAsync());
 
             InitialCommands();
 
             NumPadViewModel = new VmNumPadDataEntry(this);
+            Task.Run(async () => await LoadDataAsync());
         }
+        public string FormattedSalesCount => countSales.ToString("N0");
+
+        #endregion
+
+        #region ObservableCollections
+
+        private ObservableCollection<ProductDTO> _allProducts;
+
+        public ObservableCollection<ProductSelectedRequest> SelectedProducts { get; set; } = new();
+
+        private ObservableCollection<ProductDTO> _products;
+
+        public ObservableCollection<ProductDTO> Products
+        {
+            get => _products;
+            set
+            {
+                _products = value;
+                OnPropertyChanged(nameof(Products));
+            }
+        }
+        #endregion
 
         #region Methods
 
@@ -145,6 +148,9 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         private async Task LoadDataAsync()
         {
             var products = await _apiService.GetProductsAsync();
+
+            countSales = await _salesRequest.GetSalesCountAsync();
+            OnPropertyChanged(nameof(FormattedSalesCount));
 
             App.Current.Dispatcher.Invoke(() =>
             {
@@ -240,7 +246,6 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         public string FormattedCountLine => LineCount.ToString("N0");
 
         #endregion
-
 
         #region commands
         public ICommand AddSelectedProductCommand { get; set; }

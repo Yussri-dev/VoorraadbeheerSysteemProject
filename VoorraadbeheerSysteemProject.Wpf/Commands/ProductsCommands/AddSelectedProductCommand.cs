@@ -40,14 +40,20 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands.ProductsCommands
 
             if (existing == null)
             {
+                decimal totalPrice = quantity * selected.SalePrice1;
+                decimal taxAmount = Math.Round(selected.TaxRate * totalPrice, 2);
+
                 _vmSale.SelectedProducts.Add(new ProductSelectedRequest
                 {
                     ProductId = selected.ProductId,
                     Name = selected.Name,
                     Quantity = quantity,
                     SalePrice = selected.SalePrice1,
-                    AmountPrice = quantity * selected.SalePrice1
+                    AmountPrice = totalPrice,
+                    PurchasePrice = selected.PurchasePrice,
+                    TaxAmount = taxAmount
                 });
+
             }
             else
             {
@@ -58,9 +64,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands.ProductsCommands
             _vmSale.InputSearchNameText = string.Empty;
             _vmSale.InputSearchBarcodeText = string.Empty;
             _vmSale.CalculateTotalAmount();
-
         }
-
 
         public void RaiseCanExecuteChanged()
         {
