@@ -19,12 +19,9 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 {
     class VmNumPadDataEntry : VmBase
     {
-        //private readonly NavigationStore _navigationStore;
+        #region Fields & Constructors
         private readonly VmSale _vmSale;
         private readonly SalesRequests _salesRequests;
-
-        public ObservableCollection<SaleSelectedAmountRequest> SelectedAmounts { get; set; }
-
         private SaleSelectedAmountRequest? _selectedAmount;
         public SaleSelectedAmountRequest? SelectedAmount
         {
@@ -35,8 +32,50 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 OnPropertyChanged(nameof(SelectedAmount));
             }
         }
-        //public decimal CurrentAmountPrice { get; set; }
+        //Total Amount
+        private decimal _totalAmount;
+        public decimal TotalAmount
+        {
+            get => _totalAmount;
+            set
+            {
+                _totalAmount = value;
+            }
+        }
+        // Total Quantity
+        private decimal _totalQuantity;
+        public decimal TotalQuantity
+        {
+            get => _totalQuantity;
+            set
+            {
+                _totalQuantity = value;
+            }
+        }
+        //Total Lines
+        private int _lineCount;
+        public int LineCount
+        {
+            get => _lineCount;
+            set
+            {
+                _lineCount = value;
 
+            }
+        }
+        //Input Text
+        private string _inputText = string.Empty;
+        public string InputText
+        {
+            get => _inputText;
+            set
+            {
+                _inputText = value;
+                OnPropertyChanged(nameof(InputText));
+            }
+        }
+
+        //Constructors
         public VmNumPadDataEntry(VmSale vmSale)
         {
             _vmSale = vmSale;
@@ -49,76 +88,52 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
             SelectedAmounts.CollectionChanged += (s, e) =>
             {
-                OnPropertyChanged(nameof(FormattedSelectedAmountTotal));
+                OnPropertyChanged(nameof(MessageMontant));
+
             };
+
             InitialCommands();
         }
+
+        #endregion
+
+        #region ObservableCollection
+        public ObservableCollection<SaleSelectedAmountRequest> SelectedAmounts { get; set; }
+        #endregion
+
+        #region Methods
         public decimal GetTotalAmount()
         {
             return _vmSale.TotalAmount;
         }
-
         public decimal GetTotalQuantity()
         {
             return _vmSale.TotalQuantity;
         }
-
         public int GetLineCount()
         {
             return _vmSale.LineCount;
         }
-        public string FormattedTotalAmount => _vmSale.TotalAmount.ToString("C");
-        public string FormattedCountLine => _vmSale.LineCount.ToString("C");
-        public string FormattedTotalQuantity => _vmSale.TotalQuantity.ToString("C");
 
-        private string _inputText = string.Empty;
-        public string InputText
+        //Calculate the Amount of Money inserted
+        public string MessageMontant
         {
-            get => _inputText;
-            set
+            get
             {
-                _inputText = value;
-                OnPropertyChanged(nameof(InputText));
+                decimal sommePayee = SelectedAmounts.Sum(s => s.AmountPrice);
+                decimal total = _vmSale.TotalAmount;
+                decimal difference = sommePayee - total;
+
+                if (difference >= 0)
+                {
+                    return $"Monnaie retournée : {difference.ToString("C")}";
+                }
+                else
+                {
+                    return $"Il vous reste : {Math.Abs(difference).ToString("C")}";
+                }
             }
         }
-
-        //Total Amount
-        private decimal _totalAmount;
-        public decimal TotalAmount
-        {
-            get => _totalAmount;
-            set
-            {
-                _totalAmount = value;
-            }
-        }
-
-
-        // Total Quantity
-        private decimal _totalQuantity;
-        public decimal TotalQuantity
-        {
-            get => _totalQuantity;
-            set
-            {
-                _totalQuantity = value;
-            }
-        }
-
-        //Total Lines
-        private int _lineCount;
-        public int LineCount
-        {
-            get => _lineCount;
-            set
-            {
-                _lineCount = value;
-
-            }
-        }
-
-
-        public string FormattedSelectedAmountTotal => SelectedAmounts.Sum(s => s.AmountPrice).ToString("C");
 
         private void InitialCommands()
         {
@@ -138,13 +153,21 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             DeleteCommand = new DeleteInputCommand(this);
             ReturnCommand = new ReturnInputCommand(this);
 
-            ValidateSaleDataCommand = new ValidateSaleDataCommand(_vmSale,this);
+            ValidateSaleDataCommand = new ValidateSaleDataCommand(_vmSale, this);
             RemoveSelectedSaleAmountCommand = new RemoveSelectedSaleAmountCommand(this);
 
             ClearSaleAmountCommand = new ClearSaleAmountCommand(this);
             //AddSelectedProductCommand = new AddSelectedProductCommand(_vmSale,this);
         }
+        #endregion
 
+        #region Commands Linked To Buttons
+        public string FormattedTotalAmount => _vmSale.TotalAmount.ToString("C");
+        public string FormattedCountLine => _vmSale.LineCount.ToString("C");
+        public string FormattedTotalQuantity => _vmSale.TotalQuantity.ToString("C");
+        #endregion
+
+        #region Api Requests
         public async Task<SaleDTO?> SaveSaleAsync(SaleDTO saleDto)
         {
             try
@@ -165,6 +188,27 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 return null;
             }
         }
+        public async Task<SaleItemDTO?> SaveSaleItemAsync(SaleItemDTO saleItemDto)
+        {
+            try
+            {
+                var createdSale = await _salesRequests.PostSaleItemAsync(saleItemDto);
+
+                if (createdSale != null)
+                {
+                    return createdSale;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        #endregion
 
         #region commands
         public ICommand ClearSaleAmountCommand { get; set; }

@@ -35,15 +35,15 @@
                 <!-- Sales ID Section -->
                 <StackPanel Grid.Column="0" Margin="20,20,0,0">
                     <TextBlock Text="Sales" FontSize="16" FontWeight="SemiBold"/>
-                    <TextBlock Text="Nr : FTH0000012450" Foreground="#888888" Margin="0,5,0,0"/>
+                    <TextBlock Text="{Binding FormattedSalesCount}" Foreground="#888888" Margin="0,5,0,0"/>
                 </StackPanel>
 
                 <!-- Customer Section -->
                 <Border Grid.Column="1" BorderThickness="0" Margin="20,20,20,20">
                     <Grid>
-                        <TextBlock Text="Customer : Customer Name" FontSize="14" VerticalAlignment="Center"/>
-                        <Path Data="M 0,0 L 5,5 L 10,0" Stroke="Black" StrokeThickness="1" 
-                              HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                        <TextBlock Text="Customer : Customer Name" FontSize="14" VerticalAlignment="Top" Height="40" Margin="211,20,0,0"/>
+                        <!--<Path Data="M 0,0 L 5,5 L 10,0" Stroke="Black" StrokeThickness="1" 
+                              HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0"/>-->
                     </Grid>
                 </Border>
             </Grid>
@@ -109,6 +109,8 @@
                             <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="200" />
                             <GridViewColumn Header="SalePrice" DisplayMemberBinding="{Binding SalePrice}" Width="100" />
                             <GridViewColumn Header="Amount" DisplayMemberBinding="{Binding AmountPrice}" Width="100" />
+                            <GridViewColumn Header="Price" DisplayMemberBinding="{Binding PurchasePrice}" Width="0"/>
+                            <GridViewColumn Header="Tax" DisplayMemberBinding="{Binding TaxAmount}" Width="0"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
@@ -145,7 +147,7 @@
                 <!-- Total Amount on right -->
                 <Grid HorizontalAlignment="Right" Width="180">
                     <StackPanel Margin="20,10,20,0">
-                        <TextBlock Text="Total Gain" FontSize="12"/>
+                        <TextBlock Text="Total" FontSize="12"/>
                         <TextBlock FontSize="18" FontWeight="Bold" Foreground="#4CAF50" Margin="0,5,0,0">
                             <Run Text="{Binding FormattedTotalAmount, Mode=OneWay}"/>
                         </TextBlock>

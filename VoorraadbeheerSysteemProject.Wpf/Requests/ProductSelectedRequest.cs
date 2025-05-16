@@ -12,6 +12,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.Requests
         public int ProductId { get; set; }
         public string Name { get; set; } = string.Empty;
         public decimal SalePrice { get; set; }
+        public decimal TaxAmount { get; set; }
+        public decimal PurchasePrice { get; set; }
 
         private decimal _amountPrice { get; set; }
         public decimal AmountPrice
