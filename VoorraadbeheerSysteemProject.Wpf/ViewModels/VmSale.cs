@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         private readonly SalesRequests _salesRequest;
         private readonly NavigationStore _navigationStore;
         private int countSales = 0;
+
         public VmNumPadDataEntry NumPadViewModel { get; }
 
         private ProductDTO? _selectedProduct;
@@ -52,13 +54,14 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         //Constructor
         public VmSale(NavigationStore navigationStore)
         {
-
+            //for close button
             NavigateDashboardCommand = new NavigationCommand<VmDashboard>(navigationStore,
                 () => new VmDashboard(navigationStore));
 
             _navigationStore = navigationStore;
-            _apiService = new ApiService("https://localhost:5001/");
-            _salesRequest = new SalesRequests("https://localhost:5001/");
+
+            _apiService = new ApiService(AppConfig.ApiUrl);
+            _salesRequest = new SalesRequests(AppConfig.ApiUrl);
 
             _allProducts = new ObservableCollection<ProductDTO>();
             Products = new ObservableCollection<ProductDTO>();
@@ -233,7 +236,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 OnPropertyChanged(nameof(FormattedTotalQuantity));
             }
         }
-        public string FormattedTotalQuantity => TotalQuantity.ToString("C");
+        public string FormattedTotalQuantity => TotalQuantity.ToString("N0");
 
         //Total Lines
         private int _lineCount;
