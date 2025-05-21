@@ -38,7 +38,7 @@
             </StackPanel>
         </StackPanel>
         <ListView Style="{StaticResource CustomListViewStyle}"
-              ItemsSource="{Binding FilteredPurchases}"
+              ItemsSource="{Binding FilteredSales}"
               Grid.Row="2"
               Margin="0">
             <ListView.View>
@@ -48,7 +48,7 @@
                     <GridViewColumn Header="Sale" Width="70" DisplayMemberBinding="{Binding SalePrice1}"/>
                     <GridViewColumn Header="Tax Rate" Width="70" DisplayMemberBinding="{Binding TaxAmount}"/>
                     <GridViewColumn Header="Customer" Width="300" DisplayMemberBinding="{Binding CustomerName}" />
-                    <GridViewColumn Header="Purchase Date" Width="100" DisplayMemberBinding="{Binding SaleDate, StringFormat='{}{0:dd/MM/yyyy}'}"/>
+                    <GridViewColumn Header="Sale Date" Width="100" DisplayMemberBinding="{Binding SaleDate, StringFormat='{}{0:dd/MM/yyyy}'}"/>
                     <GridViewColumn Header="Quantity" Width="70" DisplayMemberBinding="{Binding Quantity}"/>
                     <GridViewColumn Header="Total" Width="70" DisplayMemberBinding="{Binding TotalAmount}"/>
                 </GridView>
