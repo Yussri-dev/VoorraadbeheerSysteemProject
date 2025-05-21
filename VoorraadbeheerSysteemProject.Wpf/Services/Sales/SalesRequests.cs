@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -56,7 +57,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services.Sales
 
                 string responseJson = await responseRequest.Content.ReadAsStringAsync();
 
-                if (decimal.TryParse(responseJson, out decimal count))
+                if (decimal.TryParse(responseJson,CultureInfo.InvariantCulture, out decimal count))
                 {
                     return count;
                 }
