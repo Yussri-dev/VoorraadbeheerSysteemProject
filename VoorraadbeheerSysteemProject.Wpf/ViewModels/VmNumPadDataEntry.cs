@@ -89,7 +89,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             AddSaleAmountCommand = new AddSaleAmountCommand(this);
             SelectedAmounts = new ObservableCollection<SaleSelectedAmountRequest>();
 
-            _salesRequests = new SalesRequests("https://localhost:5001/");
+            _salesRequests = new SalesRequests(AppConfig.ApiUrl);
 
             SelectedAmounts.CollectionChanged += (s, e) =>
             {
