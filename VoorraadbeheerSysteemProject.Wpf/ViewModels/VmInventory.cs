@@ -3,6 +3,7 @@ using System.CodeDom;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Printing;
 using System.Reflection.Emit;
@@ -178,17 +179,37 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         #region Filter methods
         private void FilterListView()
         {
-            var filteredPurchases = Purchases.AsEnumerable();
+            if (IsPurchaseActive)
+            {
+                var filteredPurchases = Purchases.AsEnumerable();
 
-            //TODO: check what is selected purchase or sale
+                if (!String.IsNullOrWhiteSpace(SearchTextName))
+                    filteredPurchases = filteredPurchases.Where(p => 
+                    p.ProductName.ToLower().Contains(SearchTextName.ToLower()));
 
-            if (!String.IsNullOrWhiteSpace(SearchTextName))
-                filteredPurchases = filteredPurchases.Where(p => p.ProductName.ToLower().Contains(SearchTextName.ToLower()));
+                if (!String.IsNullOrWhiteSpace(SearchTextBarcode))
+                    filteredPurchases = filteredPurchases.Where(p => 
+                    p.Barcode.ToLower().Contains(SearchTextBarcode.ToLower()));
 
-            if (!String.IsNullOrWhiteSpace(SearchTextBarcode))
-                filteredPurchases = filteredPurchases.Where(p => p.Barcode.ToLower().Contains(SearchTextBarcode.ToLower()));
+                FilteredPurchases = new ObservableCollection<PurchaseFlatDTO>(filteredPurchases);
+            }
 
-            FilteredPurchases = new ObservableCollection<PurchaseFlatDTO>(filteredPurchases);
+            if (IsSaleActive)
+            {
+                var filteredSales = Sales.AsEnumerable();
+
+                if (!String.IsNullOrWhiteSpace(SearchTextName))
+                    filteredSales = filteredSales.Where(s => 
+                    s.ProductName.ToLower().Contains(SearchTextName.ToLower()));
+
+                if (!String.IsNullOrWhiteSpace(SearchTextBarcode))
+                    filteredSales = filteredSales.Where(s => 
+                    s.Barcode.ToLower().Contains(SearchTextBarcode.ToLower()));
+
+                FilteredSales = new ObservableCollection<SaleFlatDTO>(filteredSales);
+            }
+
+
 
         }
         #endregion
@@ -250,13 +271,13 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         #region LoadData
         private async Task LoadDataAsync()
         {
-            if(SelectedTypeIndex == 0)//purchase
+            if(IsPurchaseActive)//purchase
             {
                 Purchases = new ObservableCollection<PurchaseFlatDTO>(await _apiService.GetPurchasesFlatAsync());
                 if(Purchases.Count == 0) MakePurchaseItemDummyData();
                 FilteredPurchases = Purchases;
             }
-            else if(SelectedTypeIndex == 1)//sale
+            else if(IsSaleActive)//sale
             {
                 Sales = new ObservableCollection<SaleFlatDTO>(await _salesRequests.GetSalesFlatAsync());
                 if (Sales.Count == 0) MakeSaleItemDummyData();
