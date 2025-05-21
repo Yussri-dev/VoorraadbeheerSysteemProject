@@ -1,13 +1,87 @@
 ﻿<UserControl x:Class="VoorraadbeheerSysteemProject.Wpf.Views.UcDashboard"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:VoorraadbeheerSysteemProject.Wpf.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <TextBlock Background="Blue" HorizontalAlignment="Left" Margin="225,165,0,0" TextWrapping="Wrap" Text="hoi" VerticalAlignment="Top" Height="35" Width="85"/>
+                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        Height="756" Width="1244">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="200"/>
+            <RowDefinition Height="129*"/>
+            <RowDefinition Height="257*"/>
+            <RowDefinition Height="0*"/>
+        </Grid.RowDefinitions>
+
+
+        <StackPanel Grid.Row="0" Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Center" Width="1224" Height="155" Grid.RowSpan="2">
+            <TextBlock Text="Overview" FontSize="16"/>
+            <WrapPanel Height="134">
+                <Border Background="#FF007ACC" Width="150" Height="100" Margin="10" CornerRadius="10" Padding="10">
+                    <StackPanel>
+                        <TextBlock Text="Sales" Foreground="White" FontSize="16"/>
+                        <TextBlock Text="{Binding TotalSales}" Foreground="White" FontWeight="Bold" FontSize="18"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Background="#FF008000" Width="150" Height="100" Margin="10" CornerRadius="10" Padding="10">
+                    <StackPanel>
+                        <TextBlock Text="Purchases" Foreground="White" FontSize="16"/>
+                        <TextBlock Text="{Binding TotalPurchases}" Foreground="White" FontWeight="Bold" FontSize="18"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Background="#FFDC143C" Width="150" Height="100" Margin="10" CornerRadius="10" Padding="10">
+                    <StackPanel>
+                        <TextBlock Text="Products" Foreground="White" FontSize="16"/>
+                        <TextBlock Text="{Binding TotalProducts}" Foreground="White" FontWeight="Bold" FontSize="18"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Background="DarkSalmon" Width="150" Height="100" Margin="10" CornerRadius="10" Padding="10">
+                    <StackPanel>
+                        <TextBlock Text="Customers" Foreground="White" FontSize="16"/>
+                        <TextBlock Text="{Binding TotalCustomers}" Foreground="White" FontWeight="Bold" FontSize="18"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Background="DarkSlateBlue" Width="150" Height="100" Margin="10" CornerRadius="10" Padding="10">
+                    <StackPanel>
+                        <TextBlock Text="Suppliers" Foreground="White" FontSize="16"/>
+                        <TextBlock Text="{Binding TotalProducts}" Foreground="White" FontWeight="Bold" FontSize="18"/>
+                    </StackPanel>
+                </Border>
+
+            </WrapPanel>
+        </StackPanel>
+        <lvc:PieChart Grid.Row="1" Series="{Binding CercleSeries}">
+            <lvc:PieChart.AxisX>
+                <lvc:Axis Title="Months" Labels="{Binding Labels}"/>
+            </lvc:PieChart.AxisX>
+            <lvc:PieChart.AxisY>
+                <lvc:Axis Title="Months" Labels="{Binding YFormatter}"/>
+            </lvc:PieChart.AxisY>
+        </lvc:PieChart>
+        <!-- Bar chart -->
+        <lvc:CartesianChart Grid.Row="2" Series="{Binding BarSeries}" LegendLocation="Top" Margin="519,19,10,2" Grid.RowSpan="2">
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Months" Labels="{Binding Labels}"/>
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Value" LabelFormatter="{Binding YFormatter}"/>
+            </lvc:CartesianChart.AxisY>
+        </lvc:CartesianChart>
+
+        <!-- Line chart -->
+        <lvc:CartesianChart Grid.Row="2" Series="{Binding LineSeries}" LegendLocation="Top" Margin="0,9,741,12" Grid.RowSpan="2">
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Months" Labels="{Binding Labels}"/>
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Count" LabelFormatter="{Binding YFormatter}"/>
+            </lvc:CartesianChart.AxisY>
+        </lvc:CartesianChart>
+
 
     </Grid>
 </UserControl>

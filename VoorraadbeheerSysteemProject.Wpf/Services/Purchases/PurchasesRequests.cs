@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -35,6 +36,36 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services.Purchases
                 return count;
             }
             return 0;
+        }
+
+        public async Task<decimal> GetSumPurchaseByPeriodAsync(DateTime startDate, DateTime endDate)
+        {
+            try
+            {
+                string formattedStartDate = startDate.ToString("yyyy-MM-dd");
+                string formattedEndDate = endDate.ToString("yyyy-MM-dd");
+
+                HttpResponseMessage responseRequest = await _httpClient.GetAsync(
+                    $"api/purchase/PurchasesAmount?startDate={formattedStartDate}&endDate={formattedEndDate}");
+
+                if (!responseRequest.IsSuccessStatusCode)
+                {
+                    return 0;
+                }
+
+                string responseJson = await responseRequest.Content.ReadAsStringAsync();
+
+                if (decimal.TryParse(responseJson, out decimal amountPurchase))
+                {
+                    return amountPurchase;
+                }
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"API request error: {ex.Message}");
+                return 0;
+            }
         }
 
         public async Task<PurchaseDTO?> PostPurchaseAsync(PurchaseDTO purchase)
