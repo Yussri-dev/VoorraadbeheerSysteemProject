@@ -41,6 +41,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             }
         }
 
+        //adding data to Products Cart
         private ProductSelectedRequest? _selectedProductInCart;
         public ProductSelectedRequest? SelectedProductInCart
         {
@@ -63,16 +64,29 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             _apiService = new ApiService(AppConfig.ApiUrl);
             _salesRequest = new SalesRequests(AppConfig.ApiUrl);
 
+            //Using Observable collection to get products
             _allProducts = new ObservableCollection<ProductDTO>();
             Products = new ObservableCollection<ProductDTO>();
 
+            //All Commands initialisation
             InitialCommands();
 
+            //using NumpadDataEntry
             NumPadViewModel = new VmNumPadDataEntry(this);
+
+            //Loading data from Get Product Request
             Task.Run(async () => await LoadDataAsync());
         }
-        public string FormattedSalesCount => countSales.ToString("N0");
 
+
+        #endregion
+
+        #region Formatted Numbers
+        //formatting Data to show it in UcSale Views
+        public string FormattedSalesCount => countSales.ToString("N0");
+        public string FormattedTotalAmount => TotalAmount.ToString("C");
+        public string FormattedTotalQuantity => TotalQuantity.ToString("C");
+        public string FormattedCountLine => LineCount.ToString("N0");
         #endregion
 
         #region ObservableCollections
@@ -120,16 +134,16 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             LineCount = countLine;
         }
 
+        //Englobe commands in one Methods
         private void InitialCommands()
         {
             OpenDialogCommand = new OpenDialogCommand(this, NumPadViewModel);
-            //SearchProductsCommand = new SearchProductsCommand(this);
-            //SearchProductsCommand = new SearchCommand(param => FilterProducts());
             AddSelectedProductCommand = new AddSelectedProductCommand(this, NumPadViewModel);
             RemoveSelectedProductCommand = new RemoveSelectedProductCommand(this);
             ClearSelectedProductCommand = new ClearSelectedProductCommand(this);
         }
 
+        //Method for Searching and Filtering products using Name or barcode
         public void FilterProducts()
         {
             var query = _allProducts.AsEnumerable();
@@ -153,11 +167,12 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             }
         }
 
+        //getting Products from ApiService
         private async Task LoadDataAsync()
         {
             var products = await _apiService.GetProductsAsync();
 
-            countSales = await _salesRequest.GetSalesCountAsync();
+            countSales = await _salesRequest.GetSalesCountAsync() + 1;
             OnPropertyChanged(nameof(FormattedSalesCount));
 
             App.Current.Dispatcher.Invoke(() =>
@@ -222,7 +237,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             }
         }
 
-        public string FormattedTotalAmount => TotalAmount.ToString("C");
+
 
         // Total Quantity
         private decimal _totalQuantity;
@@ -236,7 +251,6 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 OnPropertyChanged(nameof(FormattedTotalQuantity));
             }
         }
-        public string FormattedTotalQuantity => TotalQuantity.ToString("N0");
 
         //Total Lines
         private int _lineCount;
@@ -251,7 +265,6 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
             }
         }
-        public string FormattedCountLine => LineCount.ToString("N0");
 
         #endregion
 
