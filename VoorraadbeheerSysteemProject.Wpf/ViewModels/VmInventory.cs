@@ -235,10 +235,24 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
         private void Print(object obj)
         {
-            var printView = new PrintPurchases
+            UserControl? printView = null;
+
+            if(IsPurchaseActive)
             {
-                DataContext = this
-            };
+                printView = new PrintPurchases
+                {
+                    DataContext = this
+                };
+            }
+            else if (IsSaleActive)
+            {
+                printView = new PrintSales
+                {
+                    DataContext = this
+                };
+            }
+
+            if (printView is null) return;
 
             PrintDialog printDialog = new PrintDialog();
 

@@ -5,6 +5,9 @@
     <Compile Update="Views\Printing\PrintPurchases.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\Printing\PrintSales.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\UcCashRegister.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
