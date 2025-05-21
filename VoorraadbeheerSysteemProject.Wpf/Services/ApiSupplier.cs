@@ -11,17 +11,44 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services
 {
     public class ApiSupplier
     {
+       
         private readonly HttpClient _httpClient;
 
-        public ApiSupplier()
+        private readonly string _baseUrl;
+        public ApiSupplier(string baseUrl)
         {
             _httpClient = new HttpClient();
-            _httpClient.BaseAddress = new Uri("https://49f9-2a02-2c40-270-2029-15bc-2224-879c-3b8.ngrok-free.app/");
+            _baseUrl = baseUrl;
+            _httpClient.BaseAddress = new Uri(_baseUrl);
         }
 
-        public async Task<List<SupplierDTO>> GetSuppliersAsync()
+
+        public async Task<List<SupplierDTO>> GetSuppliersAsync(int pageNumber, int pageSize)
         {
-            return await _httpClient.GetFromJsonAsync<List<SupplierDTO>>("api/supplier");
+
+            var result = await _httpClient.GetFromJsonAsync<List<SupplierDTO>>($"api/Supplier?pageNumber={pageNumber}&pageSize={pageSize}");
+            return result ?? new List<SupplierDTO>();
+        }
+
+        public async Task<int> GetSupplierCountAsync()
+        {
+            var result = await _httpClient.GetFromJsonAsync<int>("api/Supplier/count");
+            return result;
+        }
+
+        public async Task<bool> PostSuppliersAsync(SupplierDTO newSupplier)
+        {
+            var response = await _httpClient.PostAsJsonAsync("api/Supplier", newSupplier);
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> DeleteSuppliersAsync(int supplierId)
+        {
+            var response = await _httpClient.DeleteAsync($"api/Supplier/{supplierId}");
+            return response.IsSuccessStatusCode;
         }
     }
+
 }
+
+

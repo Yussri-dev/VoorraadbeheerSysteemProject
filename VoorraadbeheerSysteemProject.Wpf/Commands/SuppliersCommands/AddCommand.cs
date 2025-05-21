@@ -8,22 +8,27 @@ using VoorraadbeheerSysteemProject.Wpf.ViewModels;
 
 namespace VoorraadbeheerSysteemProject.Wpf.Commands.SuppliersCommands
 {
-    public class SearchCommand : ICommand
+    public class AddCommand : ICommand
     {
         private readonly VmSupplier _viewModel;
 
-        public SearchCommand(VmSupplier viewModel)
+        public AddCommand(VmSupplier viewModel)
         {
             _viewModel = viewModel;
         }
 
-        public event EventHandler? CanExecuteChanged;
-
-        public bool CanExecute(object? parameter) => true;
-
-        public void Execute(object? parameter)
+        public bool CanExecute(object parameter)
         {
-            _viewModel.FilterSuppliers();
+            // Eventueel validatie, bv. niet toevoegen als naam leeg is
+            return true;
         }
+
+        public void Execute(object parameter)
+        {
+            _viewModel.AddSupplier();
+        }
+
+        public event EventHandler CanExecuteChanged;
     }
+
 }
