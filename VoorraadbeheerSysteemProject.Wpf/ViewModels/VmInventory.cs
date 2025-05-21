@@ -74,6 +74,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 OnPropertyChanged(nameof(FilteredPurchases));
             }
         }
+        public decimal PurchaseTotal => FilteredPurchases.Sum(p => p.TotalAmount);
+
         #endregion
 
         #region Sale properties
