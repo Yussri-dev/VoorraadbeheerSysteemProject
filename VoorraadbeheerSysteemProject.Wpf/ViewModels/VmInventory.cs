@@ -18,6 +18,7 @@ using System.Windows.Xps;
 using VoorraadbeheerSysteemProject.Wpf.Commands;
 using VoorraadbeheerSysteemProject.Wpf.Models;
 using VoorraadbeheerSysteemProject.Wpf.Services;
+using VoorraadbeheerSysteemProject.Wpf.Services.Sales;
 using VoorraadbeheerSysteemProject.Wpf.Stores;
 using VoorraadbeheerSysteemProject.Wpf.Views.Printing;
 
@@ -27,11 +28,17 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
     {
         private readonly ApiService _apiService;
 
-        //PurchaseItemDTO
+        //Purchase
         private ObservableCollection<PurchaseFlatDTO> _purchases;
         private ObservableCollection<PurchaseFlatDTO> _filteredPurchases;
 
+        //Sale
+        private SalesRequests _salesRequests;
+        private ObservableCollection<SaleFlatDTO> _sales;
+        private ObservableCollection<SaleFlatDTO> _filteredSales;
+
         //search / filter
+        private int _selectedTypeIndex = 0; //0: purchase, 1: sale
         private DateTime _selectedStartDate = DateTime.Now.Date;
         private DateTime _selectedEndDate = DateTime.Now.Date;
         private string _searchTextName;
@@ -49,7 +56,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
 
         #region Purchase properties
-        public ObservableCollection<PurchaseFlatDTO> Purchases { 
+        public ObservableCollection<PurchaseFlatDTO> Purchases
+        { 
             get => _purchases; 
             set {
                 _purchases = value;
@@ -67,7 +75,42 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         }
         #endregion
 
+        #region Sale properties
+        public ObservableCollection<SaleFlatDTO> Sales
+        {
+            get => _sales;
+            set
+            {
+                _sales = value;
+                OnPropertyChanged(nameof(Sales));
+            }
+        }
+
+        public ObservableCollection<SaleFlatDTO> FilteredSales
+        {
+            get => _filteredSales;
+            set
+            {
+                _filteredSales = value;
+                OnPropertyChanged(nameof(FilteredSales));
+            }
+        }
+        #endregion
+
         #region Search/filter text properties
+        public int SelectedTypeIndex
+        {
+            get => _selectedTypeIndex;
+            set {
+                _selectedTypeIndex = value;
+                OnPropertyChanged(nameof(SelectedTypeIndex));
+                OnPropertyChanged(nameof(IsSaleActive));
+                OnPropertyChanged(nameof(IsPurchaseActive));
+                LoadDataAsync();
+            }
+        }
+        public bool IsSaleActive => SelectedTypeIndex == 1;
+        public bool IsPurchaseActive => SelectedTypeIndex == 0;
         public DateTime SelectedStartDate
         {
             get => _selectedStartDate;
@@ -117,7 +160,9 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         {
             NavigateDashboardCommand = new NavigationCommand<VmDashboard>(navigationStore,
                 () => new VmDashboard(navigationStore));
-            _apiService = new ApiService(ConfigurationManager.AppSettings.Get("NGrokApiUri"));
+
+            _apiService = new ApiService(AppConfig.ApiUrl);
+            _salesRequests = new SalesRequests(AppConfig.ApiUrl);
 
             Task.Run(LoadDataAsync);
 
@@ -205,11 +250,19 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         #region LoadData
         private async Task LoadDataAsync()
         {
-            Purchases = new ObservableCollection<PurchaseFlatDTO>(await _apiService.GetPurchasesFlatAsync());
+            if(SelectedTypeIndex == 0)//purchase
+            {
+                Purchases = new ObservableCollection<PurchaseFlatDTO>(await _apiService.GetPurchasesFlatAsync());
+                if(Purchases.Count == 0) MakePurchaseItemDummyData();
+                FilteredPurchases = Purchases;
+            }
+            else if(SelectedTypeIndex == 1)//sale
+            {
+                Sales = new ObservableCollection<SaleFlatDTO>(await _salesRequests.GetSalesFlatAsync());
+                if (Sales.Count == 0) MakeSaleItemDummyData();
+                FilteredSales = Sales;
+            }
 
-            if(Purchases.Count == 0) MakePurchaseItemDummyData();
-
-            FilteredPurchases = Purchases;
         }
         private void MakePurchaseItemDummyData()
         {
@@ -222,6 +275,18 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                     new PurchaseFlatDTO{ PurchaseItemId = 4, ProductName = "Product 4", Price = 15, SalePrice1 = 20, TaxAmount = 21, SupplierName = "supplier 3", PurchaseDate = DateTime.MinValue, QuantityStock = 48946, Barcode = "1234567891234"  },
                     new PurchaseFlatDTO{ PurchaseItemId = 5, ProductName = "Product 5", Price = 30, SalePrice1 = 40, TaxAmount = 6, SupplierName = "supplier 1", PurchaseDate = DateTime.MaxValue, QuantityStock = 165, Barcode = "1234567891234"  },
                 };
+        }
+
+        private void MakeSaleItemDummyData()
+        {
+            Sales = new ObservableCollection<SaleFlatDTO>
+            {
+                new SaleFlatDTO { SaleItemId = 1, ProductName = "Product 1", SalePrice1 = 10, TaxAmount = 21, SaleDate = DateTime.Now, QuantityStock = 100, Barcode = "1234567891234" },
+                new SaleFlatDTO { SaleItemId = 2, ProductName = "Product 2", SalePrice1 = 25, TaxAmount = 6, SaleDate = DateTime.Now, QuantityStock = 64, Barcode = "1234567891234" },
+                new SaleFlatDTO { SaleItemId = 3, ProductName = "Product 3", SalePrice1 = 5, TaxAmount = 12, SaleDate = DateTime.Now, QuantityStock = 256, Barcode = "1234567891234" },
+                new SaleFlatDTO { SaleItemId = 4, ProductName = "Product 4", SalePrice1 = 15, TaxAmount = 21, SaleDate = DateTime.Now, QuantityStock = 48946, Barcode = "1234567891234" },
+                new SaleFlatDTO { SaleItemId = 5, ProductName = "Product 5", SalePrice1 = 30, TaxAmount = 6, SaleDate = DateTime.Now, QuantityStock = 165, Barcode = "1234567891234" },
+            };
         }
         #endregion
         #endregion

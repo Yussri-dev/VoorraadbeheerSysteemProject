@@ -97,6 +97,20 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services.Sales
             }
         }
 
+        public async Task<List<SaleFlatDTO>> GetSalesFlatAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync("/api/sale/allsale");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<List<SaleFlatDTO>>();
+            }
+            catch (Exception ex)
+            {
+                return new List<SaleFlatDTO>();
+            }
+        }
+
         public async Task<SaleDTO?> PostSaleAsync(SaleDTO sale)
         {
             try
