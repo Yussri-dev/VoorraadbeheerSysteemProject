@@ -28,77 +28,81 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands.SalesCommands
 
         public async void Execute(object? parameter)
         {
+            var window = parameter as Window;
+
             if (_vmNumPad.SelectedAmounts.Count == 0)
             {
                 MessageBox.Show("No sale data to save.");
                 return;
             }
 
-            decimal paidAmomunt = _vmNumPad.SelectedAmounts.Sum(s => s.AmountPrice);
-            decimal taxAmount = _vmSale.SelectedProducts.Sum(s => s.TaxAmount);
+            decimal paidAmount = _vmNumPad.SelectedAmounts.Sum(s => s.AmountPrice);
             decimal totalAmount = _vmSale.TotalAmount;
 
-            var saleDto = new SaleDTO
+            if (paidAmount >= totalAmount)
             {
-                SaleDate = DateTime.Now,
-                CustomerId = 1,
-                EmployeeId = 2,
-                TotalAmount = totalAmount,
-                AmountPaid = paidAmomunt,
-                TvaAmount = 0,
-                DiscountPercentage = 0,
-                CustomerName = "Testing Customer",
-                SaasClientId = 1
-            };
 
-            var result = await _vmNumPad.SaveSaleAsync(saleDto);
-
-            if (result == null)
-            {
-                MessageBox.Show("❌ Failed to save sale.");
-                return;
-            }
-
-            int saleId = result.SaleId;
-            //int saleId = 1;
-
-            bool allItemsSaved = true;
-
-            foreach (var item in _vmSale.SelectedProducts)
-            {
-                var saleItemDto = new SaleItemDTO
+                var saleDto = new SaleDTO
                 {
-                    SaleId = saleId,
-                    ProductId = item.ProductId,
-                    Quantity = item.Quantity,
-                    Price = item.AmountPrice,
-                    ProfitMarge = 0,
-                    PurchasePrice = 10,
-                    Discount = 0,
-                    TaxAmount = 10,
-                    Total = item.AmountPrice,
-                    DateCreated = DateTime.Now,
+                    SaleDate = DateTime.Now,
+                    CustomerId = 1,
+                    EmployeeId = 2,
+                    TotalAmount = totalAmount,
+                    AmountPaid = paidAmount,
+                    TvaAmount = 0,
+                    DiscountPercentage = 0,
+                    CustomerName = "Testing Customer",
                     SaasClientId = 1
                 };
 
-                var itemResult = await _vmNumPad.SaveSaleItemAsync(saleItemDto);
+                var result = await _vmNumPad.SaveSaleAsync(saleDto);
 
-                if (itemResult == null)
+                if (result == null)
                 {
-                    allItemsSaved = false;
+                    MessageBox.Show("❌ Failed to save sale.");
+                    return;
+                }
+
+                int saleId = result.SaleId;
+                bool allItemsSaved = true;
+
+                foreach (var item in _vmSale.SelectedProducts)
+                {
+                    var saleItemDto = new SaleItemDTO
+                    {
+                        SaleId = saleId,
+                        ProductId = item.ProductId,
+                        Quantity = item.Quantity,
+                        Price = item.AmountPrice,
+                        ProfitMarge = 0,
+                        PurchasePrice = 10,
+                        Discount = 0,
+                        TaxAmount = 10,
+                        Total = item.AmountPrice,
+                        DateCreated = DateTime.Now,
+                        SaasClientId = 1
+                    };
+
+                    var itemResult = await _vmNumPad.SaveSaleItemAsync(saleItemDto);
+                    if (itemResult == null)
+                    {
+                        allItemsSaved = false;
+                    }
+                }
+
+                if (allItemsSaved)
+                {
+                    MessageBox.Show($"✅ Sale and all items saved! Sale ID: {saleId}");
+
+                    _vmNumPad.ClearSaleAmountCommand?.Execute(null);
+                    _vmSale.ClearSelectedProductCommand?.Execute(null);
+                    _vmNumPad.CloseWindowCommand.Execute(window);
+                }
+                else
+                {
+                    MessageBox.Show($"⚠️ Sale saved (ID: {saleId}) but some items failed.");
                 }
             }
-
-            if (allItemsSaved)
-            {
-                MessageBox.Show($"✅ Sale and all items saved! Sale ID: {saleId}");
-            }
-            else
-            {
-                MessageBox.Show($"⚠️ Sale saved (ID: {saleId}) but some items failed.");
-            }
         }
-
-
     }
 }

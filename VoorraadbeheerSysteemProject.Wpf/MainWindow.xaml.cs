@@ -20,9 +20,5 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        var screenWidth = SystemParameters.PrimaryScreenWidth;
-        var screenHeight = SystemParameters.PrimaryScreenHeight;
-        this.Width = screenWidth;
-        this.Height = screenHeight;
     }
 }

@@ -33,8 +33,8 @@
                     Content="Update"
                     Command="{Binding UpdateCommand}"
                     HorizontalAlignment="Left" 
-                    Margin="185,0,0,0"
-                    VerticalAlignment="Center"
+                    Margin="100,110,0,0"
+                    VerticalAlignment="Top"
                     Height="30" Width="80" Background="#F6F6FB " RenderTransformOrigin="-0.062,0.667" >
                 <Button.Resources>
                     <Style TargetType="{x:Type Border}">
@@ -47,7 +47,7 @@
                     Content="Reset"
                     Command="{Binding ResetCommand}"
                     HorizontalAlignment="Left"
-                    Margin="75,0,0,0" VerticalAlignment="Center" Height="30" Width="80" Background="#F6F6FB">
+                    Margin="10,110,0,0" VerticalAlignment="Top" Height="30" Width="80" Background="#F6F6FB">
                 <Button.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="5"/>
@@ -58,7 +58,20 @@
                     Content="Close" 
                     Command="{Binding CloseCommand}"
                     HorizontalAlignment="Left"
-                    Margin="295,0,0,0" VerticalAlignment="Center" Width="80" Height="30" Background="#F6F6FB " RenderTransformOrigin="0.5,0.833">
+                    Margin="280,110,0,0" VerticalAlignment="Top" Width="80" Height="30" Background="#F6F6FB " RenderTransformOrigin="0.5,0.833">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+
+            <Button Grid.Column="1"
+                    Content="Add"
+                    Command="{Binding AddCommand}"
+                    HorizontalAlignment="Left"
+                    Margin="190,110,0,0" VerticalAlignment="Top" Width="80" Height="30" Background="#F6F6FB " RenderTransformOrigin="0.5,0.833">
+
                 <Button.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="5"/>
@@ -78,7 +91,10 @@
                      VerticalAlignment="Top"
                      Width="120"/>
 
-        </Grid> 
+        </Grid>
+
+        <!-- titel-->
+
         <Label Content="Category" Margin="0,65,645,0" Grid.Row="0" Grid.Column="0" FontSize="20" FontWeight="Bold" VerticalAlignment="Top" Height="80"/>
 
         <!-- category list-->
@@ -98,7 +114,7 @@
 
         <!-- Search box-->
 
-        <StackPanel  Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Height="32"   HorizontalAlignment="Left" Margin="355,113,0,5" Width="445">
+        <StackPanel  Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Height="32"   HorizontalAlignment="Center" Margin="355,113,0,5" Width="445">
             <Label Content="Search by Name" Width="100"/>
             <TextBox Width="130"  Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="#F6F6FB" VerticalContentAlignment="Center" FontSize="12" Padding="12 0 0 0">
                 <TextBox.Resources>
@@ -132,5 +148,23 @@
             </Button>
         </StackPanel>
 
+        <!-- add niewe categories-->
+
+        <StackPanel  Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="2"  Margin="235,5,20,50">
+
+            <Label Content="New Category " 
+                   FontWeight="Bold"
+                   Height="35"
+                   Width="120"  />
+
+            <Border CornerRadius="5" BorderBrush="Gray" BorderThickness="1" Background="White" Width="306" Height="37">
+                <TextBox 
+                     Text="{Binding NewCategoryName, UpdateSourceTrigger=PropertyChanged}" 
+                     BorderThickness="0"
+                     Background="Transparent"
+                     Padding="5"
+                     VerticalContentAlignment="Center"/>
+            </Border>
+        </StackPanel>
     </Grid>
 </UserControl>

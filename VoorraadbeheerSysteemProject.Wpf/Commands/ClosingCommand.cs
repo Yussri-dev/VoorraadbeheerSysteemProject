@@ -13,31 +13,20 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands
 {
     class ClosingCommand : ICommand
     {
-        private readonly VmSale _vmSale;
+
         public event EventHandler? CanExecuteChanged;
-        public ClosingCommand(VmSale vmSale)
+
+        public ClosingCommand()
         {
-            _vmSale = vmSale;
         }
 
         public bool CanExecute(object? parameter) => true;
 
         public void Execute(object? parameter)
         {
-            if (parameter is Panel parent) 
+            if (parameter is Window window)
             {
-                var userControlToRemove = parent.Children.OfType<UcSale>().FirstOrDefault();
-                if (userControlToRemove != null)
-                {
-                    parent.Children.Remove(userControlToRemove);
-                }
-            }
-            else if (parameter is Window parentWindow)
-            {
-                if (parentWindow.Content is UcSale userControlToRemove)
-                {
-                    parentWindow.Content = null;
-                }
+                window.Close(); // ✅ This cleanly closes the window
             }
         }
     }

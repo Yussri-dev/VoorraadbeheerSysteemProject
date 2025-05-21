@@ -11,23 +11,42 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands.ProductsCommands
     class RemoveSelectedProductCommand : ICommand
     {
         private readonly VmSale _vmSale;
+        private readonly VmPurchase _vmPurchase;
         public event EventHandler? CanExecuteChanged;
 
         public RemoveSelectedProductCommand(VmSale vmSale)
         {
             _vmSale = vmSale;
         }
+
+        public RemoveSelectedProductCommand(VmPurchase vmPurchase)
+        {
+            _vmPurchase = vmPurchase;
+        }
         public bool CanExecute(object? parameter) => true;
         
         public void Execute(object? parameter)
         {
-            if (_vmSale.SelectedProductInCart == null)
-                return;
+            if (_vmSale !=null)
+            {
+                if (_vmSale.SelectedProductInCart == null)
+                    return;
 
-            _vmSale.SelectedProducts.Remove(_vmSale.SelectedProductInCart);
-            _vmSale.SelectedProductInCart = null;
+                _vmSale.SelectedProducts.Remove(_vmSale.SelectedProductInCart);
+                _vmSale.SelectedProductInCart = null;
 
-            _vmSale.CalculateTotalAmount();
+                _vmSale.CalculateTotalAmount();
+            }
+            if (_vmPurchase != null)
+            {
+                if (_vmPurchase.SelectedProductInCart == null)
+                    return;
+
+                _vmPurchase.SelectedProducts.Remove(_vmPurchase.SelectedProductInCart);
+                _vmPurchase.SelectedProductInCart = null;
+
+                _vmPurchase.CalculateTotalAmount();
+            }
         }
 
         public void RaiseCanExecuteChanged()

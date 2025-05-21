@@ -4,7 +4,7 @@
         xmlns:viewModels="clr-namespace:VoorraadbeheerSysteemProject.Wpf.ViewModels"
         xmlns:userControls="clr-namespace:VoorraadbeheerSysteemProject.Wpf.Views"
         Title="Inventory" Height="1000" Width="1500"
-        Background="White">
+        Background="White" WindowState="Maximized" ResizeMode="NoResize">
 
     <Grid>
         <Grid.ColumnDefinitions>
