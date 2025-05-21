@@ -18,7 +18,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         public class VmSupplier : VmBase
         {
             //  Private fields
-            private readonly ApiSupplier _apiSupplier = new();
+            private readonly ApiSupplier _apiSupplier ;
             private string _searchText;
             private int _totalSuppliers;
             private int _pageNumber = 1;
@@ -104,7 +104,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             //  Data-ophalen en filtering
             public async void LoadSuppliers()
             {
-                var list = await _apiSupplier.GetSuppliersAsync(_pageNumber);
+                var list = await _apiSupplier.GetSuppliersAsync(_pageNumber, _pageSize);
                 Suppliers.Clear();
                 FilteredSuppliers.Clear();
 
@@ -116,7 +116,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                     FilteredSuppliers.Add(cat);
                 }
 
-                TotalSuppliers = await _apiSupplier.GetSuppliersCountAsync();
+                TotalSuppliers = await _apiSupplier.GetSupplierCountAsync();
             }
 
             public void FilterSuppliers()
@@ -135,7 +135,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
             public async void RefreshSuppliers()
             {
-                var list = await _apiSupplier.GetSuppliersAsync(_pageNumber);
+                var list = await _apiSupplier.GetSuppliersAsync(_pageNumber, _pageSize);
                 Suppliers.Clear();
                 FilteredSuppliers.Clear();
 
@@ -172,7 +172,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 if (_pageNumber <= 1) return;
 
                 _pageNumber--;
-                var list = await _apiSupplier.GetSuppliersAsync(_pageNumber);
+                var list = await _apiSupplier.GetSuppliersAsync(_pageNumber, _pageSize);
                 Suppliers = new ObservableCollection<SupplierDTO>(list);
                 FilterSuppliers();
             }
@@ -183,7 +183,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 if (_pageNumber >= totalPages) return;
 
                 _pageNumber++;
-                var list = await _apiSupplier.GetSuppliersAsync(_pageNumber);
+                var list = await _apiSupplier.GetSuppliersAsync(_pageNumber , _pageSize);
                 Suppliers = new ObservableCollection<SupplierDTO>(list);
                 FilterSuppliers();
             }
