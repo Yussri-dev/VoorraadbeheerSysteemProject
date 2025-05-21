@@ -223,6 +223,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         {
             SelectedStartDate = DateTime.Now.Date.AddDays(-1);
             SelectedEndDate = DateTime.Now.Date;
+            Task.Run(LoadDataAsync);
         }
 
         private void Print(object obj)
