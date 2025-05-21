@@ -158,14 +158,14 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="#" Width="50" DisplayMemberBinding="{Binding PurchaseItemId}"/>
-                    <GridViewColumn Header="Product Name" Width="Auto" DisplayMemberBinding="{Binding ProductName}"/>
-                    <GridViewColumn Header="Purchase" Width="100" DisplayMemberBinding="{Binding Price}"/>
-                    <GridViewColumn Header="Sale Price" Width="100" DisplayMemberBinding="{Binding SalePrice1}"/>
-                    <GridViewColumn Header="Tax Rate" Width="100" DisplayMemberBinding="{Binding TaxAmount}"/>
-                    <GridViewColumn Header="Supplier" Width="100" DisplayMemberBinding="{Binding SupplierName}" />
-                    <GridViewColumn Header="Purchase Date" Width="100" DisplayMemberBinding="{Binding PurchaseDate}"/>
-                    <GridViewColumn Header="Quantity" Width="100" DisplayMemberBinding="{Binding Quantity}"/>
-                    <GridViewColumn Header="Barcode" Width="100" DisplayMemberBinding="{Binding Barcode}"/>
+                    <GridViewColumn Header="Product Name" Width="300" DisplayMemberBinding="{Binding ProductName}"/>
+                    <GridViewColumn Header="Purchase" Width="70" DisplayMemberBinding="{Binding Price}"/>
+                    <GridViewColumn Header="Sale Price" Width="70" DisplayMemberBinding="{Binding SalePrice1}"/>
+                    <GridViewColumn Header="Tax Rate" Width="70" DisplayMemberBinding="{Binding TaxAmount}"/>
+                    <GridViewColumn Header="Supplier" Width="300" DisplayMemberBinding="{Binding SupplierName}" />
+                    <GridViewColumn Header="Purchase Date" Width="100" DisplayMemberBinding="{Binding PurchaseDate, StringFormat='{}{0:dd/MM/yyyy}'}"/>
+                    <GridViewColumn Header="Quantity" Width="70" DisplayMemberBinding="{Binding Quantity}"/>
+                    <GridViewColumn Header="Barcode" Width="120" DisplayMemberBinding="{Binding Barcode}"/>
                 </GridView>
             </ListView.View>
         </ListView>
@@ -178,14 +178,14 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="#" Width="50" DisplayMemberBinding="{Binding SaleItemId}"/>
-                    <GridViewColumn Header="Product Name" Width="Auto" DisplayMemberBinding="{Binding ProductName}"/>
-                    <GridViewColumn Header="Purchase" Width="100" DisplayMemberBinding="{Binding PurchasePrice}"/>
-                    <GridViewColumn Header="Sale Price" Width="100" DisplayMemberBinding="{Binding SalePrice1}"/>
-                    <GridViewColumn Header="Tax Rate" Width="100" DisplayMemberBinding="{Binding TaxAmount}"/>
-                    <GridViewColumn Header="Customer" Width="100" DisplayMemberBinding="{Binding CustomerName}" />
-                    <GridViewColumn Header="Sale Date" Width="100" DisplayMemberBinding="{Binding SaleDate}"/>
-                    <GridViewColumn Header="Quantity" Width="100" DisplayMemberBinding="{Binding Quantity}"/>
-                    <GridViewColumn Header="Barcode" Width="100" DisplayMemberBinding="{Binding Barcode}"/>
+                    <GridViewColumn Header="Product Name" Width="300" DisplayMemberBinding="{Binding ProductName}"/>
+                    <GridViewColumn Header="Purchase" Width="70" DisplayMemberBinding="{Binding PurchasePrice}"/>
+                    <GridViewColumn Header="Sale Price" Width="70" DisplayMemberBinding="{Binding SalePrice1}"/>
+                    <GridViewColumn Header="Tax Rate" Width="70" DisplayMemberBinding="{Binding TaxAmount}"/>
+                    <GridViewColumn Header="Customer" Width="300" DisplayMemberBinding="{Binding CustomerName}" />
+                    <GridViewColumn Header="Sale Date" Width="100" DisplayMemberBinding="{Binding SaleDate, StringFormat='{}{0:dd/MM/yyyy}'}"/>
+                    <GridViewColumn Header="Quantity" Width="70" DisplayMemberBinding="{Binding Quantity}"/>
+                    <GridViewColumn Header="Barcode" Width="120" DisplayMemberBinding="{Binding Barcode}"/>
                 </GridView>
             </ListView.View>
         </ListView>

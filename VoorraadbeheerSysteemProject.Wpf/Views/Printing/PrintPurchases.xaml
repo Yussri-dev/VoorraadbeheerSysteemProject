@@ -7,13 +7,35 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <Label Content="From:" Margin="5" VerticalAlignment="Center"/>
-            <Label Content="{Binding SelectedStartDate, StringFormat='{}{0:dd/MM/yyyy}'}" VerticalAlignment="Center"/>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <Label Content="To:" Margin="5" VerticalAlignment="Center"/>
-            <Label Content="{Binding SelectedEndDate, StringFormat='{}{0:dd/MM/yyyy}'}" VerticalAlignment="Center"/>
+        <Label Content="Purchases" 
+               FontSize="30" 
+               HorizontalAlignment="Center" 
+               Margin="0,10,0,0"
+               Foreground="#1F384C"/>
+        <StackPanel Orientation="Horizontal"
+                    Margin="10 0 0 0">
+            <StackPanel Margin="0 0 20 0">
+                <Label Content="From:"
+                       Margin="5" 
+                       VerticalAlignment="Center"
+                       FontSize="15"
+                       Foreground="#737B8B78"/>
+                <Label Content="{Binding SelectedStartDate, StringFormat='{}{0:dd/MM/yyyy}'}"
+                       VerticalAlignment="Center"
+                       FontSize="18"
+                       Foreground="#40AF73"/>
+            </StackPanel>
+            <StackPanel>
+                <Label Content="To:"
+                       Margin="5"
+                       VerticalAlignment="Center"
+                       FontSize="15"
+                       Foreground="#737B8B78"/>
+                <Label Content="{Binding SelectedEndDate, StringFormat='{}{0:dd/MM/yyyy}'}"
+                       VerticalAlignment="Center"
+                       FontSize="18"
+                       Foreground="#40AF73"/>
+            </StackPanel>
         </StackPanel>
         <ListView Style="{StaticResource CustomListViewStyle}"
                   ItemsSource="{Binding FilteredPurchases}"
@@ -22,19 +44,26 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="#" Width="50" DisplayMemberBinding="{Binding PurchaseItemId}"/>
-                    <GridViewColumn Header="Product Name" Width="auto" DisplayMemberBinding="{Binding ProductName}"/>
-                    <GridViewColumn Header="Purchase" Width="100" DisplayMemberBinding="{Binding Price}"/>
-                    <GridViewColumn Header="Tax Rate" Width="100" DisplayMemberBinding="{Binding TaxAmount}"/>
-                    <GridViewColumn Header="Supplier" Width="100" DisplayMemberBinding="{Binding SupplierName}" />
+                    <GridViewColumn Header="Product Name" Width="300" DisplayMemberBinding="{Binding ProductName}"/>
+                    <GridViewColumn Header="Purchase" Width="70" DisplayMemberBinding="{Binding Price}"/>
+                    <GridViewColumn Header="Tax Rate" Width="70" DisplayMemberBinding="{Binding TaxAmount}"/>
+                    <GridViewColumn Header="Supplier" Width="300" DisplayMemberBinding="{Binding SupplierName}" />
                     <GridViewColumn Header="Purchase Date" Width="100" DisplayMemberBinding="{Binding PurchaseDate, StringFormat='{}{0:dd/MM/yyyy}'}"/>
-                    <GridViewColumn Header="Quantity" Width="100" DisplayMemberBinding="{Binding Quantity}"/>
-                    <GridViewColumn Header="Total" Width="100" DisplayMemberBinding="{Binding TotalAmount}"/>
+                    <GridViewColumn Header="Quantity" Width="70" DisplayMemberBinding="{Binding Quantity}"/>
+                    <GridViewColumn Header="Total" Width="70" DisplayMemberBinding="{Binding TotalAmount}"/>
                 </GridView>
             </ListView.View>
         </ListView>
-        <StackPanel Orientation="Horizontal">
-            <Label Content="Total:" Margin="5" VerticalAlignment="Center"/>
-            <Label Content="{Binding PurchaseTotal}" VerticalAlignment="Center"/>
+        <StackPanel>
+            <Label Content="Total:"
+                   Margin="5"
+                   VerticalAlignment="Center"
+                   FontSize="15"
+                   Foreground="#737B8B78"/>
+            <Label Content="{Binding PurchaseTotal}"
+                   VerticalAlignment="Center"
+                   FontSize="18"
+                   Foreground="#40AF73"/>
         </StackPanel>
     </StackPanel>
 </UserControl>
