@@ -1,44 +1,61 @@
 ﻿
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using VoorraadbeheerSysteemProject.Wpf.Commands;
 using VoorraadbeheerSysteemProject.Wpf.Commands.CategoriesCommands;
 using VoorraadbeheerSysteemProject.Wpf.Models;
 using VoorraadbeheerSysteemProject.Wpf.Services;
 using VoorraadbeheerSysteemProject.Wpf.Stores;
+//using SearchCommand = VoorraadbeheerSysteemProject.Wpf.Commands.CategoriesCommands.SearchCommand;
 
 namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 {
 
     public class VmCategory : VmBase
     {
-        private readonly ApiCategory _apiCategory = new();
+        private readonly ApiCategory _apiCategory;
         private string _searchText;
         private int _totalCategories;
+        private int _pageNumber = 1;
+        private readonly int _pageSize = 10; 
         private string _newCategoryName;
+        private CategoryDTO _selectedCategory;
+
         public ObservableCollection<CategoryDTO> Categories { get; set; }
         public ObservableCollection<CategoryDTO> FilteredCategories { get; set; }
+
+        public ApiCategory ApiCategory => _apiCategory;
+
+        public ICommand PreviousPageCommand { get; }
+        public ICommand NextPageCommand { get; }
+
+        // commands
+        public ICommand UpdateCommand { get; }
+        public ICommand ResetCommand { get; }
+        public ICommand NavigateDashboardCommand { get; }
+        //public ICommand SearchCommand { get; }
+        public ICommand AddCommand { get; }
+        public ICommand DeleteCategoryCommand { get; }
 
         public VmCategory(NavigationStore navigationStore)
         {
             Categories = new ObservableCollection<CategoryDTO>();
             FilteredCategories = new ObservableCollection<CategoryDTO>();
-
-            LoadCategories();
+            
+            NavigateDashboardCommand = new NavigationCommand<VmDashboard>(navigationStore,
+                () => new VmDashboard(navigationStore));
 
             UpdateCommand = new UpdateCommand(this);
             ResetCommand = new ResetCommand(this);
-            CloseCommand = new CloseCommand(navigationStore);
-            SearchCommand = new SearchCommand(this);
+            DeleteCategoryCommand = new DeleteCategoryCommand(this);
+            //SearchCommand = new SearchCommand(this);
             AddCommand = new AddCommand(this);
+            _apiCategory = new ApiCategory(AppConfig.ApiUrl);
+            PreviousPageCommand = new ButtonCommand(PreviousPage);
+            NextPageCommand = new ButtonCommand(NextPage);
 
+            LoadCategories();
         }
-
-
-        public ICommand UpdateCommand { get; }
-        public ICommand ResetCommand { get; }
-        public ICommand CloseCommand { get; }
-        public ICommand SearchCommand { get; }
-        public ICommand AddCommand { get; }
 
         public string SearchText
         {
@@ -63,12 +80,12 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
         private async void LoadCategories()
         {
-            var list = await _apiCategory.GetCategoriesAsync();
+            var list = await _apiCategory.GetCategoriesAsync(_pageNumber, _pageSize);
 
             Categories.Clear();
             FilteredCategories.Clear();
 
-            int counter = 1;
+            int counter = (_pageNumber - 1) * _pageSize + 1;
             foreach (var cat in list)
             {
                 cat.CategoryId = counter++;
@@ -76,7 +93,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 FilteredCategories.Add(cat);
             }
 
-            TotalCategories = FilteredCategories.Count;
+            TotalCategories = await _apiCategory.GetCategoryCountAsync();
         }
 
         public void FilterCategories()
@@ -89,19 +106,17 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                     FilteredCategories.Add(cat);
                 }
             }
-
             TotalCategories = FilteredCategories.Count;
-
         }
 
         public async void RefreshCategories()
         {
-            var list = await _apiCategory.GetCategoriesAsync();
+            var list = await _apiCategory.GetCategoriesAsync(_pageNumber, _pageSize);
 
             Categories.Clear();
             FilteredCategories.Clear();
 
-            int counter = 1;
+            int counter = (_pageNumber - 1) * _pageSize + 1;
             foreach (var cat in list)
             {
                 cat.CategoryId = counter++;
@@ -109,9 +124,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 FilteredCategories.Add(cat);
             }
 
-            TotalCategories = FilteredCategories.Count;
+            TotalCategories = await _apiCategory.GetCategoryCountAsync();
         }
-
 
         public string NewCategoryName
         {
@@ -122,10 +136,6 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 OnPropertyChanged();
             }
         }
-
-
-
-        // add New Category Name 
 
         public async Task AddCategoryAsync()
         {
@@ -138,7 +148,36 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             RefreshCategories();
         }
 
+        public CategoryDTO SelectedCategory
+        {
+            get => _selectedCategory;
+            set
+            {
+                _selectedCategory = value;
+                OnPropertyChanged();
+            }
+        }
+
+        // Pagina navigatie methodes
+        private async void PreviousPage(object parameter)
+        {
+            if (_pageNumber <= 1) return;
+
+            _pageNumber--;
+            var list = await _apiCategory.GetCategoriesAsync(_pageNumber, _pageSize);
+            Categories = new ObservableCollection<CategoryDTO>(list);
+            FilterCategories();
+        }
+
+        private async void NextPage(object parameter)
+        {
+            int totalPages = (int)Math.Ceiling(TotalCategories / (double)_pageSize);
+            if (_pageNumber >= totalPages) return;
+
+            _pageNumber++;
+            var list = await _apiCategory.GetCategoriesAsync(_pageNumber, _pageSize);
+            Categories = new ObservableCollection<CategoryDTO>(list);
+            FilterCategories();
+        }
     }
-
-
 }
