@@ -6,13 +6,14 @@ using VoorraadbeheerSysteemProject.Wpf.Commands.CategoriesCommands;
 using VoorraadbeheerSysteemProject.Wpf.Models;
 using VoorraadbeheerSysteemProject.Wpf.Services;
 using VoorraadbeheerSysteemProject.Wpf.Stores;
+//using SearchCommand = VoorraadbeheerSysteemProject.Wpf.Commands.CategoriesCommands.SearchCommand;
 
 namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 {
 
     public class VmCategory : VmBase
     {
-        private readonly ApiCategory _apiCategory = new();
+        private readonly ApiCategory _apiCategory;
         private string _searchText;
         private int _totalCategories;
         private int _pageNumber = 1;
@@ -32,7 +33,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         public ICommand UpdateCommand { get; }
         public ICommand ResetCommand { get; }
         public ICommand NavigateDashboardCommand { get; }
-        public ICommand SearchCommand { get; }
+        //public ICommand SearchCommand { get; }
         public ICommand AddCommand { get; }
         public ICommand DeleteCategoryCommand { get; }
 
@@ -40,16 +41,16 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         {
             Categories = new ObservableCollection<CategoryDTO>();
             FilteredCategories = new ObservableCollection<CategoryDTO>();
-
+            
             NavigateDashboardCommand = new NavigationCommand<VmDashboard>(navigationStore,
                 () => new VmDashboard(navigationStore));
 
             UpdateCommand = new UpdateCommand(this);
             ResetCommand = new ResetCommand(this);
             DeleteCategoryCommand = new DeleteCategoryCommand(this);
-            SearchCommand = new SearchCommand(this);
+            //SearchCommand = new SearchCommand(this);
             AddCommand = new AddCommand(this);
-
+            _apiCategory = new ApiCategory(AppConfig.ApiUrl);
             PreviousPageCommand = new ButtonCommand(PreviousPage);
             NextPageCommand = new ButtonCommand(NextPage);
 

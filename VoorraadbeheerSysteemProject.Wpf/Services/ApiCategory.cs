@@ -14,12 +14,13 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services
     {
         private readonly HttpClient _httpClient;
 
-        public ApiCategory()
+        private readonly string _baseUrl;
+        public ApiCategory(string baseUrl)
         {
             _httpClient = new HttpClient();
-            _httpClient.BaseAddress = new Uri("https://0d08-2a02-2c40-270-2029-d0df-40-de76-7aec.ngrok-free.app/");
+            _baseUrl = baseUrl;
+            _httpClient.BaseAddress = new Uri(_baseUrl);
         }
-
         public async Task<List<CategoryDTO>> GetCategoriesAsync(int pageNumber, int pageSize)
         {
             var result = await _httpClient.GetFromJsonAsync<List<CategoryDTO>>($"api/category?pageNumber={pageNumber}&pageSize={pageSize}");
@@ -29,7 +30,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services
         public async Task<int> GetCategoryCountAsync()
         {
             var result = await _httpClient.GetFromJsonAsync<int>("api/category/count");
-            return result;
+            return result; 
         }
 
         public async Task<bool> PostCategoryAsync(CategoryDTO newCategory)
