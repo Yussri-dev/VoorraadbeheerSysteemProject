@@ -19,6 +19,7 @@ using System.Windows.Xps;
 using VoorraadbeheerSysteemProject.Wpf.Commands;
 using VoorraadbeheerSysteemProject.Wpf.Models;
 using VoorraadbeheerSysteemProject.Wpf.Services;
+using VoorraadbeheerSysteemProject.Wpf.Services.Purchases;
 using VoorraadbeheerSysteemProject.Wpf.Services.Sales;
 using VoorraadbeheerSysteemProject.Wpf.Stores;
 using VoorraadbeheerSysteemProject.Wpf.Views.Printing;
@@ -30,6 +31,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         private readonly ApiService _apiService;
 
         //Purchase
+        private PurchasesRequests _purchasesRequests;
         private ObservableCollection<PurchaseFlatDTO> _purchases;
         private ObservableCollection<PurchaseFlatDTO> _filteredPurchases;
 
@@ -40,7 +42,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
         //search / filter
         private int _selectedTypeIndex = 0; //0: purchase, 1: sale
-        private DateTime _selectedStartDate = DateTime.Now.Date;
+        private DateTime _selectedStartDate = DateTime.Now.Date.AddDays(-1);
         private DateTime _selectedEndDate = DateTime.Now.Date;
         private string _searchTextName;
         private string _searchTextBarcode;
@@ -48,8 +50,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
         #region Properties
         #region Command properties
-        public ICommand PreviousPageButtonCommand { get; }
-        public ICommand NextPageButtonCommand { get; }
+        public ICommand SearchButtonCommand { get; }
         public ICommand ResetButtonCommand { get; }
         public ICommand PrintButtonCommand { get; }
         public ICommand NavigateDashboardCommand { get; }
@@ -166,12 +167,12 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
             _apiService = new ApiService(AppConfig.ApiUrl);
             _salesRequests = new SalesRequests(AppConfig.ApiUrl);
+            _purchasesRequests = new PurchasesRequests(AppConfig.ApiUrl);
 
             Task.Run(LoadDataAsync);
 
             //initialize the commands
-            PreviousPageButtonCommand = new ButtonCommand(PreviousPage);
-            NextPageButtonCommand = new ButtonCommand(NextPage);
+            SearchButtonCommand = new ButtonCommand(async _ => await LoadDataAsync());
             ResetButtonCommand = new ButtonCommand(Reset);
             PrintButtonCommand = new ButtonCommand(Print);
         }
@@ -217,19 +218,10 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         #endregion
 
         #region Command methods
-        private async void PreviousPage(object obj)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void NextPage(object obj)
-        {
-            throw new NotImplementedException();
-        }
 
         private void Reset(object obj)
         {
-            SelectedStartDate = DateTime.Now.Date;
+            SelectedStartDate = DateTime.Now.Date.AddDays(-1);
             SelectedEndDate = DateTime.Now.Date;
         }
 
@@ -289,7 +281,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         {
             if(IsPurchaseActive)//purchase
             {
-                Purchases = new ObservableCollection<PurchaseFlatDTO>(await _apiService.GetPurchasesFlatAsync());
+                Purchases = new ObservableCollection<PurchaseFlatDTO>(await _purchasesRequests.GetPurchaseFlatByPeriodAsync(_selectedStartDate, _selectedEndDate));
                 if(Purchases.Count == 0) MakePurchaseItemDummyData();
                 FilteredPurchases = Purchases;
             }
