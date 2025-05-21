@@ -134,9 +134,10 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 var currentMonthStart = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
                 var currentMonthEnd = currentMonthStart.AddMonths(1).AddDays(-1);
 
+                var dateDay = DateTime.Now;
                 // Get monthly data for the last 6 months for charts
-                var endDate = DateTime.Now;
-                var startDate = new DateTime(endDate.AddMonths(-5).Year, endDate.AddMonths(-5).Month, 1);
+                var endDate = new DateTime(dateDay.AddMonths(3).Year, dateDay.AddMonths(3).Month, 1);
+                var startDate = new DateTime(dateDay.AddMonths(-5).Year, dateDay.AddMonths(-5).Month, 1);
 
                 // Get monthly summaries
                 var monthlySummaries = await _salesRequests.GetMonthlySummaryAsync(startDate, endDate);
