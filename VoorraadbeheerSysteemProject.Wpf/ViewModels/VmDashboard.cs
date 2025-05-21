@@ -17,6 +17,7 @@ using VoorraadbeheerSysteemProject.Wpf.Models;
 using System.Windows.Threading;
 using VoorraadbeheerSysteemProject.Wpf.Services.Customers;
 using VoorraadbeheerSysteemProject.Wpf.Services.Suppliers;
+using System.Windows.Media;
 
 namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 {
@@ -58,12 +59,14 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 new ColumnSeries
                 {
                     Title = "Sales",
-                    Values = new ChartValues<double> { 0, 0, 0, 0, 0, 0 }
+                    Values = new ChartValues<double> { 0 },
+                    Fill = Brushes.Blue
                 },
                 new ColumnSeries
                 {
                     Title = "Purchases",
-                    Values = new ChartValues<double> { 0, 0, 0, 0, 0, 0 }
+                    Values = new ChartValues<double> { 0 },
+                    Fill = Brushes.DarkGreen
                 }
             };
 
@@ -73,28 +76,47 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 new LineSeries
                 {
                     Title = "Sales Count",
-                    Values = new ChartValues<double> { 0, 0, 0, 0, 0, 0 }
+                    Values = new ChartValues<double> { 0 },
+                    Fill = Brushes.Blue
+
                 },
                 new LineSeries
                 {
                     Title = "Purchases Count",
-                    Values = new ChartValues<double> { 0, 0, 0, 0, 0, 0 }
+                    Values = new ChartValues<double> { 0 },
+                    Fill = Brushes.DarkGreen
                 }
             };
 
             CercleSeries = new SeriesCollection
             {
-                new PieSeries
+               new PieSeries
                 {
-                    Title = "Sales Count",
-                    Values = new ChartValues<double> { 0, 0, 0, 0, 0, 0 }
+                    Title = "Sales",
+                    Values = new ChartValues<double> { 0 },
+                    Fill = Brushes.Blue,
+                    Stroke = Brushes.DarkBlue,
+                    StrokeThickness = 2,
+                    DataLabels = true
                 },
                 new PieSeries
                 {
-                    Title = "Purchases Count",
-                    Values = new ChartValues<double> { 0, 0, 0, 0, 0, 0 }
+                    Title = "Purchases",
+                    Values = new ChartValues<double> { 0 },
+                    Fill = Brushes.Green,
+                    Stroke = Brushes.DarkGreen,
+                    StrokeThickness = 2,
+                    DataLabels = true
+                },
+                new PieSeries
+                {
+                    Title = "Profit",
+                    Values = new ChartValues<double> { 0 },
+                    Fill = Brushes.Orange,
+                    Stroke = Brushes.DarkOrange,
+                    StrokeThickness = 2,
+                    DataLabels = true
                 }
-
             };
 
             // Set Y-axis formatter
@@ -179,14 +201,15 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 var salesCountValues = new ChartValues<double>(orderedSummaries.Select(m => (double)m.SalesCount));
                 var purchasesCountValues = new ChartValues<double>(orderedSummaries.Select(m => (double)m.PurchasesCount));
 
+                var margeBenificiaire = new ChartValues<double>(orderedSummaries.Select(s => (double)s.SalesAmount - (double)s.PurchasesAmount));
                 // Update UI collections
                 Labels = labels;
                 if (BarSeries != null && BarSeries.Count >= 2)
                 {
                     App.Current.Dispatcher.Invoke(() =>
                     {
-                        BarSeries[0].Values = salesValues;
-                        BarSeries[1].Values = purchasesValues;
+                        BarSeries[0].Values = salesCountValues;
+                        BarSeries[1].Values = purchasesCountValues;
                     });
                 }
 
@@ -194,8 +217,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 {
                     App.Current.Dispatcher.Invoke(() =>
                     {
-                        LineSeries[0].Values = salesCountValues;
-                        LineSeries[1].Values = purchasesCountValues;
+                        LineSeries[0].Values = salesValues;
+                        LineSeries[1].Values = purchasesValues;
                     });
                 }
 
@@ -203,8 +226,11 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 {
                     App.Current.Dispatcher.Invoke(() =>
                     {
-                        CercleSeries[0].Values = salesCountValues;
-                        CercleSeries[1].Values = purchasesCountValues;
+                        CercleSeries[0].Values = salesValues;
+
+                        CercleSeries[1].Values = purchasesValues;
+                        CercleSeries[2].Values = margeBenificiaire;
+
                     });
                 }
 
