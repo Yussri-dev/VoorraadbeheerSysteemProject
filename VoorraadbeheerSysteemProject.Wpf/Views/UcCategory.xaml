@@ -24,8 +24,8 @@
         </Grid>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="500"/>
             </Grid.ColumnDefinitions>
 
             <!--buttons-->
@@ -33,7 +33,7 @@
                     Content="Update"
                     Command="{Binding UpdateCommand}"
                     HorizontalAlignment="Left" 
-                    Margin="100,110,0,0"
+                    Margin="100,120,0,0"
                     VerticalAlignment="Top"
                     Height="30" Width="80" Background="#F6F6FB " RenderTransformOrigin="-0.062,0.667" >
                 <Button.Resources>
@@ -47,7 +47,7 @@
                     Content="Reset"
                     Command="{Binding ResetCommand}"
                     HorizontalAlignment="Left"
-                    Margin="10,110,0,0" VerticalAlignment="Top" Height="30" Width="80" Background="#F6F6FB">
+                    Margin="5,120,0,0" VerticalAlignment="Top" Height="30" Width="80" Background="#F6F6FB">
                 <Button.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="5"/>
@@ -56,9 +56,9 @@
             </Button>
             <Button Grid.Column="1" 
                     Content="Close" 
-                    Command="{Binding CloseCommand}"
+                    Command="{Binding NavigateDashboardCommand}"
                     HorizontalAlignment="Left"
-                    Margin="280,110,0,0" VerticalAlignment="Top" Width="80" Height="30" Background="#F6F6FB " RenderTransformOrigin="0.5,0.833">
+                    Margin="400,120,0,0" VerticalAlignment="Top" Width="80" Height="30" Background="#F6F6FB " RenderTransformOrigin="0.5,0.833">
                 <Button.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="5"/>
@@ -70,8 +70,20 @@
                     Content="Add"
                     Command="{Binding AddCommand}"
                     HorizontalAlignment="Left"
-                    Margin="190,110,0,0" VerticalAlignment="Top" Width="80" Height="30" Background="#F6F6FB " RenderTransformOrigin="0.5,0.833">
+                    Margin="200,120,0,0" VerticalAlignment="Top" Width="80" Height="30" Background="#F6F6FB " RenderTransformOrigin="0.5,0.833">
 
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+
+            <Button Grid.Column="1" 
+            Content="Delete" 
+            Command="{Binding DeleteCategoryCommand}"                
+            HorizontalAlignment="Left"
+            Margin="300,120,0,0" Width="80" Background="#F6F6FB " RenderTransformOrigin="0.5,0.833" Height="30" VerticalAlignment="Top">
                 <Button.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="5"/>
@@ -132,20 +144,7 @@
                 <Image Source="/Images/search-icon.png"/>
             </Button>
 
-            <Button Width="70" Margin="0 0 10 0" Foreground="#5A6ACF" Background="#FBFCFE" FontWeight="Bold" Content="&lt;" Command="{Binding }">
-                <Button.Resources>
-                    <Style TargetType="{x:Type Border}">
-                        <Setter Property="CornerRadius" Value="5"/>
-                    </Style>
-                </Button.Resources>
-            </Button>
-            <Button Width="73" Foreground="#5A6ACF" Background="#FBFCFE" FontWeight="Bold" Content="&gt;" Command="{Binding }" >
-                <Button.Resources>
-                    <Style TargetType="{x:Type Border}">
-                        <Setter Property="CornerRadius" Value="5"/>
-                    </Style>
-                </Button.Resources>
-            </Button>
+            
         </StackPanel>
 
         <!-- add niewe categories-->
