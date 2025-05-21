@@ -165,7 +165,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 }
                 var orderedSummaries = monthlySummaries
                 .OrderBy(m => m.Year)
-                .ThenBy(m => DateTime.ParseExact(m.Month, "MMM", CultureInfo.CurrentCulture).Month)
+                .ThenBy(m => DateTime.ParseExact(m.Month, "MMM", CultureInfo.InvariantCulture).Month)
                 .ToList();
 
                 // Prepare chart data
