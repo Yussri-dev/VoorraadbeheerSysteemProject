@@ -5,7 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:VoorraadbeheerSysteemProject.Wpf.Views"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:converters="clr-namespace:VoorraadbeheerSysteemProject.Wpf.Converters"
              mc:Ignorable="d" >
+    <UserControl.Resources>
+        <converters:BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.5*" MinHeight="150"/>
@@ -23,12 +27,11 @@
             <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Left">
                 <Label Content="Inventory" FontSize="24" FontWeight="Bold"/>
                 <ComboBox Style="{StaticResource CustomComboBoxStyle}"
-                          ItemsSource="{Binding FilteredCategories}"
                           Foreground="#BDC1C8"
                           Width="300" 
                           Margin="25 10 0 0"
                           FontSize="18"
-                          SelectedIndex="0">
+                          SelectedIndex="{Binding SelectedTypeIndex}">
                     <ComboBoxItem Content="Purchase"/>
                     <ComboBoxItem Content="Sales"/>
                 </ComboBox>
@@ -145,7 +148,9 @@
         <!--#endregion-->
         
         <!--#region inventory list-->
+        <!--purchase list-->
         <ListView Style="{StaticResource CustomListViewStyle}"
+                  Visibility="{Binding IsPurchaseActive, Converter={StaticResource BoolToVisConverter}}"
                   ItemsSource="{Binding FilteredPurchases}"
                   Grid.Row="2">
             <ListView.View>
@@ -157,7 +162,27 @@
                     <GridViewColumn Header="Tax Rate" Width="100" DisplayMemberBinding="{Binding TaxAmount}"/>
                     <GridViewColumn Header="Supplier" Width="100" DisplayMemberBinding="{Binding SupplierName}" />
                     <GridViewColumn Header="Purchase Date" Width="100" DisplayMemberBinding="{Binding PurchaseDate}"/>
-                    <GridViewColumn Header="Qty in Stock" Width="100" DisplayMemberBinding="{Binding QuantityStock}"/>
+                    <GridViewColumn Header="Quantity" Width="100" DisplayMemberBinding="{Binding Quantity}"/>
+                    <GridViewColumn Header="Barcode" Width="100" DisplayMemberBinding="{Binding Barcode}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        
+        <!--sale list-->
+        <ListView Style="{StaticResource CustomListViewStyle}"
+                  Visibility="{Binding IsSaleActive, Converter={StaticResource BoolToVisConverter}}"
+                  ItemsSource="{Binding FilteredSales}"
+                  Grid.Row="2">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="#" Width="50" DisplayMemberBinding="{Binding SaleItemId}"/>
+                    <GridViewColumn Header="Product Name" Width="Auto" DisplayMemberBinding="{Binding ProductName}"/>
+                    <GridViewColumn Header="Purchase" Width="100" DisplayMemberBinding="{Binding PurchasePrice}"/>
+                    <GridViewColumn Header="Sale Price" Width="100" DisplayMemberBinding="{Binding SalePrice1}"/>
+                    <GridViewColumn Header="Tax Rate" Width="100" DisplayMemberBinding="{Binding TaxAmount}"/>
+                    <GridViewColumn Header="Customer" Width="100" DisplayMemberBinding="{Binding CustomerName}" />
+                    <GridViewColumn Header="Sale Date" Width="100" DisplayMemberBinding="{Binding SaleDate}"/>
+                    <GridViewColumn Header="Quantity" Width="100" DisplayMemberBinding="{Binding Quantity}"/>
                     <GridViewColumn Header="Barcode" Width="100" DisplayMemberBinding="{Binding Barcode}"/>
                 </GridView>
             </ListView.View>
