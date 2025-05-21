@@ -161,7 +161,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
         private void Reset(object obj)
         {
-            throw new NotImplementedException();
+            SelectedStartDate = DateTime.Now.Date;
+            SelectedEndDate = DateTime.Now.Date;
         }
 
         private void Print(object obj)
