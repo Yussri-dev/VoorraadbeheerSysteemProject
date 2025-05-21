@@ -251,7 +251,6 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 OnPropertyChanged(nameof(FormattedTotalQuantity));
             }
         }
-        public string FormattedTotalQuantity => TotalQuantity.ToString("N0");
 
         //Total Lines
         private int _lineCount;
