@@ -9,7 +9,8 @@ namespace VoorraadbeheerSysteemProject.Wpf
 {
     public static class AppConfig
     {
-        public static string ApiUrl => ConfigurationManager.AppSettings["NGrokApiUri"];
+        //public static string ApiUrl => ConfigurationManager.AppSettings["NGrokApiUri"];
+        public static string ApiUrl => ConfigurationManager.AppSettings["LocalHostUri"];
 
     }
 }
