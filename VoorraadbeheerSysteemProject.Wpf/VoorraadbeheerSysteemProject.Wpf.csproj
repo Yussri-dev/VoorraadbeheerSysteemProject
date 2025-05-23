@@ -10,7 +10,9 @@
 
   <ItemGroup>
     <PackageReference Include="LiveCharts.Wpf.NetCore3" Version="0.9.8" />
+    <PackageReference Include="MahApps.Metro.IconPacks.Material" Version="5.1.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.5" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.10.0" />
   </ItemGroup>
 
 </Project>

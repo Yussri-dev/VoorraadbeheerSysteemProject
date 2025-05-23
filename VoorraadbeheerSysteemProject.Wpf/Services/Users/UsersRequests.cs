@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -26,50 +27,101 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services.Users
         }
 
 
-        public async Task<string?> LoginAsync(string userName, string password)
+        public bool IsTokenExpired(string token)
         {
-            var loginRequest = new LoginDto
-            {
-                Email = userName,
-                Password = password
-            };
+            //i have used Jwt Security Package 
+            var handler = new JwtSecurityTokenHandler();
 
-            try
-            {
-                var requestUrl = "https://localhost:5001/api/auth/login"; // Adjust if using HttpClient.BaseAddress
-                var response = await _httpClient.PostAsJsonAsync(requestUrl, loginRequest);
+            if (!handler.CanReadToken(token))
+                return true;
 
-                if (response.IsSuccessStatusCode)
+            var jwtToken = handler.ReadJwtToken(token);
+
+            var expiry = jwtToken.ValidTo; // UTC
+
+            return expiry < DateTime.UtcNow;
+        }
+
+        public Task<bool> ValidateTokenAsync(string token)
+        {
+            return Task.FromResult(!IsTokenExpired(token));
+        }
+
+        public async Task<AuthResult?> LoginAsync(string userName, string password)
+        {
+            var loginRequest = new LoginDto { Email = userName, Password = password };
+            var response = await _httpClient.PostAsJsonAsync("api/auth/login", loginRequest);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var authResponse = await response.Content.ReadFromJsonAsync<AuthResponseDto>();
+
+                if (authResponse != null && authResponse.IsSuccess)
                 {
-                    var authResponse = await response.Content.ReadFromJsonAsync<AuthResponseDto>();
-
-                    if (authResponse != null && authResponse.IsSuccess)
+                    return new AuthResult
                     {
-                        string token = authResponse.Token;
-
-                        // Optional: Store the token (e.g., in memory, local settings, or an authentication service)
-                        // _tokenStorage.SaveToken(token);
-
-                        return token;
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Authentication failed: {authResponse?.ErrorMessage}");
-                    }
+                        Token = authResponse.Token!,
+                        Email = authResponse.UserName!
+                    };
                 }
+
                 else
                 {
-                    var errorContent = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine($"Login HTTP error: {response.StatusCode} - {errorContent}");
+                    Console.WriteLine($"Authentication failed: {authResponse?.ErrorMessage}");
                 }
             }
-            catch (Exception ex)
+            else
             {
-                Console.WriteLine($"Exception during login: {ex.Message}");
+                var errorContent = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"Login HTTP error: {response.StatusCode} - {errorContent}");
             }
+            return null;
 
-            return null; // null means login failed
         }
+        //public async Task<string?> LoginAsync(string userName, string password)
+        //{
+        //    var loginRequest = new LoginDto
+        //    {
+        //        Email = userName,
+        //        Password = password
+        //    };
+
+        //    try
+        //    {
+        //        //var requestUrl = "https://localhost:5001/api/auth/login";
+        //        var response = await _httpClient.PostAsJsonAsync($"{_baseUrl}api/auth/login", loginRequest);
+
+        //        if (response.IsSuccessStatusCode)
+        //        {
+        //            var authResponse = await response.Content.ReadFromJsonAsync<AuthResponseDto>();
+
+        //            if (authResponse != null && authResponse.IsSuccess)
+        //            {
+        //                string token = authResponse.Token;
+
+        //                // Optional: Store the token (e.g., in memory, local settings, or an authentication service)
+        //                // _tokenStorage.SaveToken(token);
+
+        //                return token;
+        //            }
+        //            else
+        //            {
+        //                Console.WriteLine($"Authentication failed: {authResponse?.ErrorMessage}");
+        //            }
+        //        }
+        //        else
+        //        {
+        //            var errorContent = await response.Content.ReadAsStringAsync();
+        //            Console.WriteLine($"Login HTTP error: {response.StatusCode} - {errorContent}");
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine($"Exception during login: {ex.Message}");
+        //    }
+
+        //    return null; // null means login failed
+        //}
 
     }
 }

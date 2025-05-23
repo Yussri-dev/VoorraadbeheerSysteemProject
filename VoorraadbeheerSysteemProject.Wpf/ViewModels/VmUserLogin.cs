@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using VoorraadbeheerSysteemProject.Wpf.Commands;
 using VoorraadbeheerSysteemProject.Wpf.Helpers;
+using VoorraadbeheerSysteemProject.Wpf.Models;
 using VoorraadbeheerSysteemProject.Wpf.Services.Users;
 using VoorraadbeheerSysteemProject.Wpf.Stores;
 
@@ -47,6 +48,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         }
 
         public ICommand LoginCommand { get; }
+        public ICommand LogoutCommand { get; }
 
         private async void Login(object parameter)
         {
@@ -58,20 +60,19 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 return;
             }
 
-            string? token = await _userService.LoginAsync(UserName, Password);
+            var result = await _userService.LoginAsync(UserName, Password);
 
-            if (!string.IsNullOrEmpty(token))
+            if (result != null)
             {
-                JwtTokenStore.Token = token;
+                UserSession.Token = result.Token;
+                UserSession.Email = result.Email;
 
                 _navigationStore.CurrentViewModel = new VmDashboard(_navigationStore);
             }
-            else
-            {
-                StatusMessage = "Invalid login credentials.";
-            }
+
         }
 
+        
     }
 
 }

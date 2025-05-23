@@ -30,6 +30,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         private readonly CustomersRequests _customerRequests;
         private readonly SupplierRequests _supplierRequests;
         private readonly ApiService _productsRequests;
+        public string Email => UserSession.Email ?? "Unknown";
 
         private decimal _totalSales;
         private decimal _totalPurchases;
@@ -50,6 +51,9 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             _productsRequests = new ApiService(AppConfig.ApiUrl);
             _customerRequests = new CustomersRequests(AppConfig.ApiUrl);
             _supplierRequests = new SupplierRequests(AppConfig.ApiUrl);
+
+            LogoutCommand = new ButtonCommand(Logout);
+
             // Initialize Labels with default values
             Labels = new[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun" };
 
@@ -258,5 +262,12 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
         //Show Generic String Data
         public Func<double, string> YFormatter { get; set; }
+
+        public ICommand LogoutCommand { get; }
+        private void Logout(object obj)
+        {
+            UserSession.Clear();
+            _navigationStore.CurrentViewModel = new VmUserLogin(_navigationStore);
+        }
     }
 }
