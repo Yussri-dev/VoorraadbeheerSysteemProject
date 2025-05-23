@@ -108,7 +108,7 @@
                             <GridViewColumn Header="Id" DisplayMemberBinding="{Binding ProductId}" Width="0" />
                             <GridViewColumn Header="Quantity" DisplayMemberBinding="{Binding Quantity}" Width="150" />
                             <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="200" />
-                            <GridViewColumn Header="SalePrice" DisplayMemberBinding="{Binding SalePrice}" Width="100" />
+                            <GridViewColumn Header="PurchasePrice" DisplayMemberBinding="{Binding PurchasePrice}" Width="100" />
                             <GridViewColumn Header="Amount" DisplayMemberBinding="{Binding AmountPrice}" Width="100" />
                             <GridViewColumn Header="Price" DisplayMemberBinding="{Binding PurchasePrice}" Width="0"/>
                             <GridViewColumn Header="Tax" DisplayMemberBinding="{Binding TaxAmount}" Width="0"/>
