@@ -1,9 +1,13 @@
-﻿using System;
+﻿using PdfSharp.Drawing;
+using PdfSharp.Pdf;
+using PdfSharp.Xps;
+using System;
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Configuration;
 using System.IO;
+using System.IO.Packaging;
 using System.Linq;
 using System.Printing;
 using System.Reflection.Emit;
@@ -15,7 +19,9 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Xps;
+using System.Windows.Xps.Packaging;
 using VoorraadbeheerSysteemProject.Wpf.Commands;
 using VoorraadbeheerSysteemProject.Wpf.Models;
 using VoorraadbeheerSysteemProject.Wpf.Services;
@@ -245,34 +251,45 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 };
             }
 
-            if (printView is null) return;
+            MemoryStream stream = new MemoryStream();
 
-            PrintDialog printDialog = new PrintDialog();
+            Package package = Package.Open(stream, FileMode.Create);
+            XpsDocument doc = new XpsDocument(package);
+            XpsDocumentWriter writer = XpsDocument.CreateXpsDocumentWriter(doc);
 
+            printView.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+            printView.Arrange(new Rect(0, 0, printView.DesiredSize.Width, printView.DesiredSize.Height));
+            printView.UpdateLayout();
 
-            if(printDialog.ShowDialog() == true)
+            writer.Write(printView);
+
+            doc.Close();
+            package.Close();
+
+            //convert
+            MemoryStream outstream = new MemoryStream();
+            XpsConverter.Convert(stream, outstream, false);
+
+            //write pdf file
+            var dialog = new Microsoft.Win32.SaveFileDialog
             {
-                PrintTicket printTicket = printDialog.PrintTicket;
-                PageMediaSize pageMediaSize = printTicket.PageMediaSize ?? new PageMediaSize(PageMediaSizeName.ISOA4);
+                Title = "Save PDF",
+                Filter = "PDF files (*.pdf)|*.pdf",
+                FileName = "report.pdf",
+                DefaultExt = ".pdf"
+            };
+
+            if (dialog.ShowDialog() == false) return;
 
 
-                double pageWidth = pageMediaSize.Width ?? printDialog.PrintableAreaWidth;
-                double pageHeight = pageMediaSize.Height ?? printDialog.PrintableAreaHeight;
+            FileStream fileStream = new FileStream(dialog.FileName, FileMode.Create);
+            outstream.WriteTo(fileStream);
 
-                if(printTicket.PageOrientation == PageOrientation.Landscape)
-                {
-                    pageWidth = pageMediaSize.Height ?? printDialog.PrintableAreaHeight;
-                    pageHeight = pageMediaSize.Width ?? printDialog.PrintableAreaWidth;
-                }
-
-                printView.Measure(new Size(pageWidth, pageHeight));
-                printView.Arrange(new Rect(0, 0, pageWidth, pageHeight));
-                printView.UpdateLayout();
-
-                PrintQueue printQueue = printDialog.PrintQueue;
-                XpsDocumentWriter writer = PrintQueue.CreateXpsDocumentWriter(printQueue);
-                writer.Write(printView, printTicket);
-            }
+            //cleanup
+            outstream.Flush();
+            outstream.Close();
+            fileStream.Flush();
+            fileStream.Close();
         }
         #endregion
 
