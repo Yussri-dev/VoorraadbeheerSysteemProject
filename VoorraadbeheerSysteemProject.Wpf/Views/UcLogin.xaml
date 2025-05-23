@@ -15,7 +15,7 @@
                 <TextBox Margin="0 5" Height="30" Padding="5" Text="ghanmiyoussri@gmail.com"/>
 
                 <TextBlock Text="Password" Margin="0 5 0 0"/>
-                <PasswordBox Margin="0 5" Height="30" Padding="5" TextInput="077671699Yos"/>
+                <PasswordBox Margin="0 5" Height="30" Padding="5"/>
 
                 <Button Content="Sign In" Margin="0 15 0 0" Background="#007BFF" Foreground="White" Height="35" FontWeight="SemiBold"/>
 
