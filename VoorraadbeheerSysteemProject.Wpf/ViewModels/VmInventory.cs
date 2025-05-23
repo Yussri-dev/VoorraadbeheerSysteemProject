@@ -18,6 +18,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Xps;
@@ -235,13 +236,15 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         private void Print(object obj)
         {
             UserControl? printView = null;
+            string fileName = string.Empty;
 
-            if(IsPurchaseActive)
+            if (IsPurchaseActive)
             {
                 printView = new PrintPurchases
                 {
                     DataContext = this
                 };
+                fileName = "Purchases";
             }
             else if (IsSaleActive)
             {
@@ -249,7 +252,56 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 {
                     DataContext = this
                 };
+                fileName = "Sales";
             }
+
+            fileName = $"{fileName}_{SelectedStartDate.ToString("dd-MM-yyyy")}_{SelectedEndDate.ToString("dd-MM-yyyy")}";
+
+
+            printView.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+            printView.Arrange(new Rect(0, 0, printView.DesiredSize.Width, printView.DesiredSize.Height));
+            printView.UpdateLayout();
+
+            double A4Width = 1123; //(in pixels at 96 DPI) landscape
+            double A4Height = 794; //(in pixels at 96 DPI) landscape
+            int totalPages = (int)Math.Ceiling(printView.DesiredSize.Height / A4Height);
+
+            FixedDocument fixedDoc = new FixedDocument();
+            fixedDoc.DocumentPaginator.PageSize = new Size(A4Width, A4Height);
+
+            for (int i = 0; i < totalPages; i++)
+            {
+                FixedPage page = new FixedPage
+                {
+                    Width = A4Width,
+                    Height = A4Height
+                };
+                
+                var visualBrush = new VisualBrush(printView)
+                {
+                    Stretch = Stretch.None,
+                    AlignmentX = AlignmentX.Left,
+                    AlignmentY = AlignmentY.Top,
+                    ViewboxUnits = BrushMappingMode.Absolute,
+                    Viewbox = new Rect(0, i * A4Height, A4Width, A4Height),
+                };
+
+                var pageContent = new Canvas
+                {
+                    Width = A4Width,
+                    Height = A4Height,
+                    Background = visualBrush
+                };
+
+                FixedPage.SetLeft(pageContent, 0);
+                FixedPage.SetTop(pageContent, 0);
+                page.Children.Add(pageContent);
+
+                PageContent pageWrapper = new PageContent();
+                ((IAddChild)pageWrapper).AddChild(page);
+                fixedDoc.Pages.Add(pageWrapper);
+            }
+
 
             MemoryStream stream = new MemoryStream();
 
@@ -257,11 +309,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             XpsDocument doc = new XpsDocument(package);
             XpsDocumentWriter writer = XpsDocument.CreateXpsDocumentWriter(doc);
 
-            printView.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-            printView.Arrange(new Rect(0, 0, printView.DesiredSize.Width, printView.DesiredSize.Height));
-            printView.UpdateLayout();
 
-            writer.Write(printView);
+            writer.Write(fixedDoc.DocumentPaginator);
 
             doc.Close();
             package.Close();
@@ -275,7 +324,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             {
                 Title = "Save PDF",
                 Filter = "PDF files (*.pdf)|*.pdf",
-                FileName = "report.pdf",
+                FileName = $"{fileName}.pdf",
                 DefaultExt = ".pdf"
             };
 
