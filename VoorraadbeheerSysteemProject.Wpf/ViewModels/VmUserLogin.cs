@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using VoorraadbeheerSysteemProject.Wpf.Commands;
+using VoorraadbeheerSysteemProject.Wpf.Helpers;
 using VoorraadbeheerSysteemProject.Wpf.Services.Users;
 using VoorraadbeheerSysteemProject.Wpf.Stores;
 
@@ -49,18 +50,28 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
         private async void Login(object parameter)
         {
+            StatusMessage = string.Empty;
+
             if (string.IsNullOrWhiteSpace(UserName) || string.IsNullOrWhiteSpace(Password))
             {
                 StatusMessage = "Enter both username and password.";
                 return;
             }
 
-            bool result = await _userService.LoginAsync(UserName, Password);
-            if (result)
+            string? token = await _userService.LoginAsync(UserName, Password);
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                JwtTokenStore.Token = token;
+
                 _navigationStore.CurrentViewModel = new VmDashboard(_navigationStore);
+            }
             else
+            {
                 StatusMessage = "Invalid login credentials.";
+            }
         }
+
     }
 
 }
