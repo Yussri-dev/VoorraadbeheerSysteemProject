@@ -130,6 +130,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 OnPropertyChanged(nameof(SelectedStartDate));
             }
         }
+        public DateTime FilteredStartDate { get; set; }
 
         public DateTime SelectedEndDate
         {
@@ -140,6 +141,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 OnPropertyChanged(nameof(SelectedEndDate));
             }
         }
+        public DateTime FilteredEndDate { get; set; }
 
         public string SearchTextName
         {
@@ -228,13 +230,20 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
         private void Reset(object obj)
         {
-            SelectedStartDate = DateTime.Now.Date.AddDays(-1);
-            SelectedEndDate = DateTime.Now.Date;
-            Task.Run(LoadDataAsync);
+            SelectedStartDate = FilteredStartDate;
+            SelectedEndDate = FilteredEndDate;
+            //Task.Run(LoadDataAsync);
         }
 
         private void Print(object obj)
         {
+            if(SelectedStartDate != FilteredStartDate || SelectedEndDate != FilteredEndDate)
+            {
+                MessageBox.Show("Warning: The data shown is not equal to the dates!\nDid you forget to click the search button?");
+                return;
+            }
+
+
             UserControl? printView = null;
             string fileName = string.Empty;
 
@@ -374,7 +383,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 }
                 FilteredSales = Sales;
             }
-
+            FilteredStartDate = _selectedStartDate;
+            FilteredEndDate = _selectedEndDate;
         }
         #endregion
         #endregion
