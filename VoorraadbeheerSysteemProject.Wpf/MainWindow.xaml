@@ -35,7 +35,7 @@
                 <Button Content="Line" Command="{Binding LineNavigationCommand}" Margin="5" HorizontalAlignment="Left" FontSize="14" Height="30" FontWeight="Bold" Foreground="#5A6ACF" Background="{x:Null}" BorderBrush="{x:Null}" Width="145" HorizontalContentAlignment="Left"/>
                 <Button Content="Tax" Command="{Binding TaxNavigationCommand}" Margin="5" HorizontalAlignment="Left" FontSize="14" Height="30" FontWeight="Bold" Foreground="#5A6ACF" Background="{x:Null}" BorderBrush="{x:Null}" Width="145" HorizontalContentAlignment="Left"/>
                 <Button Content="Cash Register" Command="{Binding CashRegisterNavigationCommand}" Margin="5" HorizontalAlignment="Left" FontSize="14" Height="30" FontWeight="Bold" Foreground="#5A6ACF" Background="{x:Null}" BorderBrush="{x:Null}" Width="145" HorizontalContentAlignment="Left"/>
-                <Button Content="Accounts" Command="{Binding UserCreateNavigationCommand}" Margin="5" HorizontalAlignment="Left" FontSize="14" Height="30" FontWeight="Bold" Foreground="#5A6ACF" Background="{x:Null}" BorderBrush="{x:Null}" Width="145" HorizontalContentAlignment="Left"/>
+                <Button Content="Accounts" Command="{Binding UserLoginNavigationCommand}" Margin="5" HorizontalAlignment="Left" FontSize="14" Height="30" FontWeight="Bold" Foreground="#5A6ACF" Background="{x:Null}" BorderBrush="{x:Null}" Width="145" HorizontalContentAlignment="Left"/>
                 <Button Content="Help" Margin="5" HorizontalAlignment="Left"/>
             </StackPanel>
         </Border>
