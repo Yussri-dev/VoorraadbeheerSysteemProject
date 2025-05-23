@@ -69,6 +69,10 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
                 _navigationStore.CurrentViewModel = new VmDashboard(_navigationStore);
             }
+            else
+            {
+                StatusMessage = "Invalid Credentials.";
+            }
 
         }
 

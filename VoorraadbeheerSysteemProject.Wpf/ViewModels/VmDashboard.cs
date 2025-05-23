@@ -30,13 +30,27 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         private readonly CustomersRequests _customerRequests;
         private readonly SupplierRequests _supplierRequests;
         private readonly ApiService _productsRequests;
-        public string Email => UserSession.Email ?? "Unknown";
 
+
+
+        private string _email;
         private decimal _totalSales;
         private decimal _totalPurchases;
         private decimal _totalProducts;
         private decimal _totalCustomers;
 
+        public string Email
+        {
+            get => _email ?? (UserSession.Email ?? "Unknown");
+            set
+            {
+                if (_email != value)
+                {
+                    _email = value;
+                    OnPropertyChanged(nameof(Email));
+                }
+            }
+        }
         public string TotalSales => _totalSales.ToString("C");
         public string TotalPurchases => _totalPurchases.ToString("C");
         public string TotalProducts => _totalProducts.ToString("N0");
