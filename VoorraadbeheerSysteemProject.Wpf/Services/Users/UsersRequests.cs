@@ -6,7 +6,10 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using System.Windows;
 using VoorraadbeheerSysteemProject.Wpf.Helpers;
 using VoorraadbeheerSysteemProject.Wpf.Models;
 
@@ -47,6 +50,31 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services.Users
             return Task.FromResult(!IsTokenExpired(token));
         }
 
+        public async Task<AuthResponseDto> RegisterAsync(RegisterDto registerDto)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync("api/auth/register", registerDto);
+                if (response.IsSuccessStatusCode)
+                {
+                    var resultString = await response.Content.ReadAsStringAsync();
+
+                    var registerResponse = JsonSerializer.Deserialize<AuthResponseDto>(resultString, new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    });
+
+                    return registerResponse;
+                }
+
+                return new AuthResponseDto { ErrorMessage = "Registration Failed" };
+            }
+            catch (Exception ex)
+            {
+                return new AuthResponseDto { ErrorMessage = "Registration Failed" };
+
+            }
+        }
         public async Task<AuthResult?> LoginAsync(string userName, string password)
         {
             var loginRequest = new LoginDto { Email = userName, Password = password };

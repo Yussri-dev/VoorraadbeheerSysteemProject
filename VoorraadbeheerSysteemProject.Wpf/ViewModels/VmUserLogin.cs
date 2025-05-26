@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -27,6 +28,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             _navigationStore = navigationStore;
             _userService = new UsersRequests(AppConfig.ApiUrl);
             LoginCommand = new ButtonCommand(Login);
+            NavigateToUserCreateCommand = new ButtonCommand(Navigate);
+
         }
 
         public string UserName
@@ -48,7 +51,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         }
 
         public ICommand LoginCommand { get; }
-        public ICommand LogoutCommand { get; }
+        public ICommand NavigateToUserCreateCommand { get; }
 
         private async void Login(object parameter)
         {
@@ -76,7 +79,12 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
         }
 
-        
+        private void Navigate(object parameter)
+        {
+            _navigationStore.CurrentViewModel = new VmUserCreate(_navigationStore);
+
+        }
+
     }
 
 }
