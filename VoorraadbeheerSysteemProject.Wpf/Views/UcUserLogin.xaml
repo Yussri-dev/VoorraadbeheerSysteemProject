@@ -6,47 +6,63 @@
              xmlns:local="clr-namespace:VoorraadbeheerSysteemProject.Wpf.Views"
              xmlns:vm="clr-namespace:VoorraadbeheerSysteemProject.Wpf.ViewModels">
 
-    <Grid Background="#121212">
-        <Border Background="#FFFFFF" Padding="30" CornerRadius="15"
-                Width="400" VerticalAlignment="Center" HorizontalAlignment="Center"
-                >
+    <Grid Background="#0E0E0E">
+        <Border Background="White" Padding="30" CornerRadius="20"
+                Width="420" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <!--Effect="{DynamicResource {x:Static SystemParameters.DropShadowKey}}"-->
             <StackPanel>
-                <!-- Title -->
-                <TextBlock Text="Welcome Back 👋" FontSize="26" FontWeight="Bold" 
-                           Foreground="#2C3E50" HorizontalAlignment="Center" Margin="0,0,0,20"/>
 
-                <!-- Username -->
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,10">
-                    <iconPacks:PackIconMaterial Kind="AccountCircle" Width="24" Height="24" Foreground="#007BFF" Margin="0,0,10,0"/>
-                    <TextBox Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}" 
-                              Width="300" Height="35" Padding="5"
-                             Background="#F1F1F1" BorderBrush="#DDD" BorderThickness="1" />
+                <!-- Title -->
+                <TextBlock Text="Welcome Back 👋" 
+                           FontSize="28" FontWeight="Bold" 
+                           Foreground="#2C3E50" 
+                           HorizontalAlignment="Center" />
+
+                <!-- Username Field -->
+                <StackPanel>
+                    <TextBlock Text="Username" FontWeight="SemiBold" Margin="0,0,0,4" Foreground="#333"/>
+                    <DockPanel Background="#F5F5F5" Height="40" VerticalAlignment="Center" >
+                        <iconPacks:PackIconMaterial Kind="AccountCircle" Width="22" Height="22" 
+                                                    Foreground="#007BFF" Margin="8,0" />
+                        <TextBox Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}" 
+                                 BorderThickness="0" Background="Transparent" Padding="4" 
+                                 VerticalContentAlignment="Center" />
+                    </DockPanel>
                 </StackPanel>
 
-                <!-- Password -->
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,10">
-                    <iconPacks:PackIconMaterial Kind="Lock" Width="24" Height="24" Foreground="#007BFF" Margin="0,0,10,0"/>
-                    <PasswordBox helpers:PasswordBoxHelper.BoundPassword="{Binding Password, Mode=TwoWay}" 
-                                 Width="300" Height="35" Padding="5"
-                                 Background="#F1F1F1" BorderBrush="#DDD" BorderThickness="1" />
+                <!-- Password Field -->
+                <StackPanel>
+                    <TextBlock Text="Password" FontWeight="SemiBold" Margin="0,10,0,4" Foreground="#333"/>
+                    <DockPanel Background="#F5F5F5" Height="40" VerticalAlignment="Center" >
+                        <iconPacks:PackIconMaterial Kind="Lock" Width="22" Height="22" 
+                                                    Foreground="#007BFF" Margin="8,0" />
+                        <PasswordBox helpers:PasswordBoxHelper.BoundPassword="{Binding Password, Mode=TwoWay}" 
+                                     BorderThickness="0" Background="Transparent" Padding="4" 
+                                     VerticalContentAlignment="Center"/>
+                    </DockPanel>
                 </StackPanel>
 
                 <!-- Login Button -->
-                <Button Content="Sign In" Command="{Binding LoginCommand}" 
-                        Background="#007BFF" Foreground="White" Height="40"
-                        FontWeight="Bold" BorderBrush="{x:Null}" Margin="0,10,0,0" 
-                        Cursor="Hand"/>
+                <Button Content="Sign In" 
+                        Command="{Binding LoginCommand}"
+                        Background="#007BFF" Foreground="White" 
+                        FontWeight="SemiBold" FontSize="14"
+                        Height="42"
+                        BorderThickness="0" Cursor="Hand"
+                        Margin="0,10,0,0" />
 
                 <!-- Error Message -->
-                <TextBlock Text="{Binding StatusMessage}" Foreground="Red" FontSize="12"
-                           TextWrapping="Wrap" Margin="0,10,0,0" HorizontalAlignment="Center"/>
+                <TextBlock Text="{Binding StatusMessage}" 
+                           Foreground="#E53935" FontSize="12"
+                           TextWrapping="Wrap" TextAlignment="Center"
+                           Margin="0,5,0,0"/>
 
                 <!-- Footer -->
-                <TextBlock HorizontalAlignment="Center" Margin="0,20,0,0" FontSize="12" Foreground="#555">
+                <TextBlock HorizontalAlignment="Center" FontSize="12" Foreground="#666" Margin="0,20,0,0">
                     <Run Text="Don't have an account? " />
-                    <!--<Hyperlink Command="{Binding NavigateToRegisterCommand}" Foreground="#007BFF">
+                    <Hyperlink Command="{Binding NavigateToUserCreateCommand}" Foreground="#007BFF" FontWeight="Bold">
                         Sign up
-                    </Hyperlink>-->
+                    </Hyperlink>
                 </TextBlock>
             </StackPanel>
         </Border>

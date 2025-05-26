@@ -33,12 +33,12 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
 
 
-        private string _email;
         private decimal _totalSales;
         private decimal _totalPurchases;
         private decimal _totalProducts;
         private decimal _totalCustomers;
 
+        private string _email;
         public string Email
         {
             get => _email ?? (UserSession.Email ?? "Unknown");
@@ -51,6 +51,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 }
             }
         }
+
         public string TotalSales => _totalSales.ToString("C");
         public string TotalPurchases => _totalPurchases.ToString("C");
         public string TotalProducts => _totalProducts.ToString("N0");
