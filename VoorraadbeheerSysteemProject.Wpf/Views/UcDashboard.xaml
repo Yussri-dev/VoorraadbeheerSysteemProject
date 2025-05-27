@@ -88,7 +88,7 @@
                 </Grid.RowDefinitions>
 
                 <!-- Line Chart -->
-                <lvc:CartesianChart Series="{Binding LineSeries}" LegendLocation="Top" Grid.Row="0" Margin="10">
+                <lvc:CartesianChart Series="{Binding lineSeries}" LegendLocation="Top" Grid.Row="0" Margin="10">
                     <lvc:CartesianChart.AxisX>
                         <lvc:Axis Title="Months" Labels="{Binding Labels}"/>
                     </lvc:CartesianChart.AxisX>
@@ -98,7 +98,7 @@
                 </lvc:CartesianChart>
 
                 <!-- Bar Chart -->
-                <lvc:CartesianChart Series="{Binding BarSeries}" LegendLocation="Top" Grid.Row="1" Margin="10">
+                <lvc:CartesianChart Series="{Binding barSeries}" LegendLocation="Top" Grid.Row="1" Margin="10">
                     <lvc:CartesianChart.AxisX>
                         <lvc:Axis Title="Months" Labels="{Binding Labels}"/>
                     </lvc:CartesianChart.AxisX>
@@ -110,7 +110,7 @@
 
             <!-- Pie Chart -->
             <Border Grid.Column="1" Margin="10" Background="White" CornerRadius="10" Padding="10">
-                <lvc:PieChart Series="{Binding CercleSeries}" LegendLocation="Right"/>
+                <lvc:PieChart Series="{Binding cercleSeries}" LegendLocation="Right"/>
             </Border>
         </Grid>
     </Grid>

@@ -8,8 +8,8 @@
 
     <Grid Background="#F7F7F7">
         <Border Background="White" CornerRadius="12" Padding="30" 
-                VerticalAlignment="Center" HorizontalAlignment="Center" Width="360" 
-                Effect="{DynamicResource {x:Static SystemParameters.DropShadowKey}}">
+                VerticalAlignment="Center" HorizontalAlignment="Center" Width="360" >
+                <!--Effect="{DynamicResource {x:Static SystemParameters.DropShadowKey}}"-->
             <StackPanel>
 
                 <!-- Title -->
