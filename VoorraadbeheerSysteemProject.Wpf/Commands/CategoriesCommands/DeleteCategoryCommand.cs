@@ -9,14 +9,14 @@ using VoorraadbeheerSysteemProject.Wpf.ViewModels;
 
 namespace VoorraadbeheerSysteemProject.Wpf.Commands.CategoriesCommands
 {
-    
+
     public class DeleteCategoryCommand : ICommand
     {
         private readonly VmCategory _vm;
 
         public DeleteCategoryCommand(VmCategory vm)
         {
-            _vm = vm;
+            _vm = vm ?? throw new ArgumentNullException(nameof(vm));
             _vm.PropertyChanged += (s, e) =>
             {
                 if (e.PropertyName == nameof(VmCategory.SelectedCategory))
@@ -26,37 +26,55 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands.CategoriesCommands
 
         public bool CanExecute(object parameter)
         {
+            
             return _vm.SelectedCategory != null;
         }
 
         public async void Execute(object parameter)
         {
             var category = _vm.SelectedCategory;
-            if (category == null) return;
+            if (category == null)
+                return;
 
+            
             var confirm = MessageBox.Show(
                 $"Weet je zeker dat je '{category.Name}' wilt verwijderen?",
-                "Bevestiging", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                "Bevestiging",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning);
 
             if (confirm != MessageBoxResult.Yes)
                 return;
 
-            var success = await _vm.ApiCategory.DeleteCategoryAsync(category.CategoryId);
+            try
+            {
+                bool success = await _vm.ApiCategory.DeleteCategoryAsync(category.CategoryId);
 
-            if (success)
-            {
-                _vm.Categories.Remove(category);
-                _vm.FilteredCategories.Remove(category);
-                _vm.SelectedCategory = null;
-                _vm.TotalCategories = _vm.FilteredCategories.Count;
+                if (success)
+                {
+                   
+                    _vm.Categories.Remove(category);
+                    _vm.FilteredCategories.Remove(category);
+                    _vm.SelectedCategory = null;
+                    _vm.TotalCategories = _vm.FilteredCategories.Count;
+
+                    MessageBox.Show($"Categorie '{category.Name}' is verwijderd.", "Succes",
+                        MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Verwijderen mislukt. Probeer het opnieuw.", "Fout",
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Verwijderen mislukt.", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+                
+                MessageBox.Show($"Er is een fout opgetreden: {ex.Message}", "Fout",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         public event EventHandler CanExecuteChanged;
     }
-
 }

@@ -18,6 +18,7 @@ using System.Windows.Threading;
 using VoorraadbeheerSysteemProject.Wpf.Services.Customers;
 using VoorraadbeheerSysteemProject.Wpf.Services.Suppliers;
 using System.Windows.Media;
+using System.Threading;
 
 namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 {
@@ -28,18 +29,34 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         private readonly SalesRequests _salesRequests;
         private readonly PurchasesRequests _purchasesRequests;
         private readonly CustomersRequests _customerRequests;
-        private readonly SupplierRequests _supplierRequests;
         private readonly ApiService _productsRequests;
+
+
 
         private decimal _totalSales;
         private decimal _totalPurchases;
         private decimal _totalProducts;
         private decimal _totalCustomers;
 
+        private string _email;
+        public string Email
+        {
+            get => _email ?? (UserSession.Email ?? "Unknown");
+            set
+            {
+                if (_email != value)
+                {
+                    _email = value;
+                    OnPropertyChanged(nameof(Email));
+                }
+            }
+        }
+
         public string TotalSales => _totalSales.ToString("C");
         public string TotalPurchases => _totalPurchases.ToString("C");
         public string TotalProducts => _totalProducts.ToString("N0");
-        public string TotalCustomers => _totalProducts.ToString("N0");
+        public string TotalCustomers => _totalCustomers.ToString("N0");
+
 
         //Constructor
         public VmDashboard(NavigationStore navigationStore)
@@ -49,12 +66,14 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             _purchasesRequests = new PurchasesRequests(AppConfig.ApiUrl);
             _productsRequests = new ApiService(AppConfig.ApiUrl);
             _customerRequests = new CustomersRequests(AppConfig.ApiUrl);
-            _supplierRequests = new SupplierRequests(AppConfig.ApiUrl);
+
+            LogoutCommand = new ButtonCommand(Logout);
+
             // Initialize Labels with default values
             Labels = new[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun" };
 
             // Initialize BarSeries with default values
-            BarSeries = new SeriesCollection
+            barSeries = new SeriesCollection
             {
                 new ColumnSeries
                 {
@@ -71,7 +90,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             };
 
             // Initialize LineSeries with default values
-            LineSeries = new SeriesCollection
+            lineSeries = new SeriesCollection
             {
                 new LineSeries
                 {
@@ -88,7 +107,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 }
             };
 
-            CercleSeries = new SeriesCollection
+            cercleSeries = new SeriesCollection
             {
                new PieSeries
                 {
@@ -123,7 +142,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             YFormatter = value => value.ToString("N");
 
             // Load dashboard data asynchronously
-            Task.Run(async () => await LoadDashboardDataAsync());
+            //This avoids unnecessary marshaling back to the UI thread and improves responsiveness in background threads.
+            Task.Run(async () => await LoadDashboardDataAsync().ConfigureAwait(false));
         }
 
         private async Task LoadDashboardDataAsync()
@@ -205,41 +225,46 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 var margeBenificiaire = new ChartValues<double>(orderedSummaries.Select(s => (double)s.SalesAmount - (double)s.PurchasesAmount));
                 // Update UI collections
                 Labels = labels;
-                if (BarSeries != null && BarSeries.Count >= 2)
+                if (barSeries != null && barSeries.Count >= 2)
                 {
                     App.Current.Dispatcher.Invoke(() =>
                     {
-                        BarSeries[0].Values = salesCountValues;
-                        BarSeries[1].Values = purchasesCountValues;
+                        barSeries[0].Values = salesCountValues;
+                        barSeries[1].Values = purchasesCountValues;
+
+                        lineSeries[0].Values = salesValues;
+                        lineSeries[1].Values = purchasesValues;
+
+                        cercleSeries[0].Values = salesValues;
+                        cercleSeries[1].Values = purchasesValues;
+                        cercleSeries[2].Values = margeBenificiaire;
                     });
                 }
 
-                if (LineSeries != null && LineSeries.Count >= 2)
-                {
-                    App.Current.Dispatcher.Invoke(() =>
-                    {
-                        LineSeries[0].Values = salesValues;
-                        LineSeries[1].Values = purchasesValues;
-                    });
-                }
+                //if (LineSeries != null && LineSeries.Count >= 2)
+                //{
+                //    App.Current.Dispatcher.Invoke(() =>
+                //    {
 
-                if (CercleSeries != null && CercleSeries.Count >= 2)
-                {
-                    App.Current.Dispatcher.Invoke(() =>
-                    {
-                        CercleSeries[0].Values = salesValues;
 
-                        CercleSeries[1].Values = purchasesValues;
-                        CercleSeries[2].Values = margeBenificiaire;
 
-                    });
-                }
+                //    });
+                //}
+
+                //if (CercleSeries != null && CercleSeries.Count >= 2)
+                //{
+                //    App.Current.Dispatcher.Invoke(() =>
+                //    {
+
+
+                //    });
+                //}
 
                 // Notify property changed
                 OnPropertyChanged(nameof(Labels));
-                OnPropertyChanged(nameof(BarSeries));
-                OnPropertyChanged(nameof(LineSeries));
-                OnPropertyChanged(nameof(CercleSeries));
+                OnPropertyChanged(nameof(barSeries));
+                OnPropertyChanged(nameof(lineSeries));
+                OnPropertyChanged(nameof(cercleSeries));
             }
             catch (Exception ex)
             {
@@ -248,15 +273,22 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         }
 
         //Using BarSeries for DashBoard
-        public SeriesCollection BarSeries { get; set; }
+        public SeriesCollection barSeries { get; set; }
         //Using PieSeries for Dashboard
-        public SeriesCollection CercleSeries { get; set; }
+        public SeriesCollection cercleSeries { get; set; }
         //Using LinesSeries For DashBoard
-        public SeriesCollection LineSeries { get; set; }
+        public SeriesCollection lineSeries { get; set; }
         //Arrays of Months
         public string[] Labels { get; set; }
 
         //Show Generic String Data
         public Func<double, string> YFormatter { get; set; }
+
+        public ICommand LogoutCommand { get; }
+        private void Logout(object obj)
+        {
+            UserSession.Clear();
+            _navigationStore.CurrentViewModel = new VmUserLogin(_navigationStore);
+        }
     }
 }
