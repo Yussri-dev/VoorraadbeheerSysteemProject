@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:VoorraadbeheerSysteemProject.Wpf.Views"
+             xmlns:behaviors="clr-namespace:VoorraadbeheerSysteemProject.Wpf.Behaviors"
              mc:Ignorable="d">
     <!--#region custom styles-->
     <UserControl.Resources>
@@ -100,48 +101,56 @@
             <!--#region amount pieces col 1-->
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
                      Text="{Binding Coin1Cent}"
+                     behaviors:SelectAllTextOnFocusBehavior.Enable="True"
                      Grid.Row="0"
                      Grid.Column="1"
                      Margin="0 0 10 10"
                      HorizontalContentAlignment="Center"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
                      Text="{Binding Coin2Cent}"
+                     behaviors:SelectAllTextOnFocusBehavior.Enable="True"
                      Grid.Row="1"
                      Grid.Column="1"
                      Margin="0 0 10 10"
                      HorizontalContentAlignment="Center"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
                      Text="{Binding Coin5Cent}"
+                     behaviors:SelectAllTextOnFocusBehavior.Enable="True"
                      Grid.Row="2"
                      Grid.Column="1"
                      Margin="0 0 10 10"
                      HorizontalContentAlignment="Center"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
                      Text="{Binding Coin10Cent}"
+                     behaviors:SelectAllTextOnFocusBehavior.Enable="True"
                      Grid.Row="3"
                      Grid.Column="1"
                      Margin="0 0 10 10"
                      HorizontalContentAlignment="Center"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
                      Text="{Binding Coin20Cent}"
+                     behaviors:SelectAllTextOnFocusBehavior.Enable="True"
                      Grid.Row="4"
                      Grid.Column="1"
                      Margin="0 0 10 10"
                      HorizontalContentAlignment="Center"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
                      Text="{Binding Coin50Cent}"
+                     behaviors:SelectAllTextOnFocusBehavior.Enable="True"
                      Grid.Row="5"
                      Grid.Column="1"
                      Margin="0 0 10 10"
                      HorizontalContentAlignment="Center"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
                      Text="{Binding Coin1Euro}"
+                     behaviors:SelectAllTextOnFocusBehavior.Enable="True"
                      Grid.Row="6"
                      Grid.Column="1"
                      Margin="0 0 10 10"
                      HorizontalContentAlignment="Center"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
                      Text="{Binding Coin2Euro}"
+                     behaviors:SelectAllTextOnFocusBehavior.Enable="True"
                      Grid.Row="7"
                      Grid.Column="1"
                      Margin="0 0 10 10"
@@ -153,6 +162,7 @@
                      Grid.Row="0"
                      Grid.Column="2"
                      IsReadOnly="True"
+                     Focusable="False"
                      Margin="0 0 0 10"
                      HorizontalContentAlignment="Right"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
@@ -160,6 +170,7 @@
                      Grid.Row="1"
                      Grid.Column="2"
                      IsReadOnly="True"
+                     Focusable="False"
                      Margin="0 0 0 10"
                      HorizontalContentAlignment="Right"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
@@ -167,6 +178,7 @@
                      Grid.Row="2"
                      Grid.Column="2"
                      IsReadOnly="True"
+                     Focusable="False"
                      Margin="0 0 0 10"
                      HorizontalContentAlignment="Right"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
@@ -174,6 +186,7 @@
                      Grid.Row="3"
                      Grid.Column="2"
                      IsReadOnly="True"
+                     Focusable="False"
                      Margin="0 0 0 10"
                      HorizontalContentAlignment="Right"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
@@ -181,6 +194,7 @@
                      Grid.Row="4"
                      Grid.Column="2"
                      IsReadOnly="True"
+                     Focusable="False"
                      Margin="0 0 0 10"
                      HorizontalContentAlignment="Right"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
@@ -188,6 +202,7 @@
                      Grid.Row="5"
                      Grid.Column="2"
                      IsReadOnly="True"
+                     Focusable="False"
                      Margin="0 0 0 10"
                      HorizontalContentAlignment="Right"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
@@ -195,6 +210,7 @@
                      Grid.Row="6"
                      Grid.Column="2"
                      IsReadOnly="True"
+                     Focusable="False"
                      Margin="0 0 0 10"
                      HorizontalContentAlignment="Right"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
@@ -202,6 +218,7 @@
                      Grid.Row="7"
                      Grid.Column="2"
                      IsReadOnly="True"
+                     Focusable="False"
                      Margin="0 0 0 10"
                      HorizontalContentAlignment="Right"/>
             <!--#endregion-->
@@ -246,42 +263,49 @@
             <!--#region amount bills col 5-->
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
                      Text="{Binding Bill5Euro}"
+                     behaviors:SelectAllTextOnFocusBehavior.Enable="True"
                      Grid.Row="0"
                      Grid.Column="5"
                      Margin="0 0 10 10"
                      HorizontalContentAlignment="Center"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
                      Text="{Binding Bill10Euro}"
+                     behaviors:SelectAllTextOnFocusBehavior.Enable="True"
                      Grid.Row="1"
                      Grid.Column="5"
                      Margin="0 0 10 10"
                      HorizontalContentAlignment="Center"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
                      Text="{Binding Bill20Euro}"
+                     behaviors:SelectAllTextOnFocusBehavior.Enable="True"
                      Grid.Row="2"
                      Grid.Column="5"
                      Margin="0 0 10 10"
                      HorizontalContentAlignment="Center"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
                      Text="{Binding Bill50Euro}"
+                     behaviors:SelectAllTextOnFocusBehavior.Enable="True"
                      Grid.Row="3"
                      Grid.Column="5"
                      Margin="0 0 10 10"
                      HorizontalContentAlignment="Center"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
                      Text="{Binding Bill100Euro}"
+                     behaviors:SelectAllTextOnFocusBehavior.Enable="True"
                      Grid.Row="4"
                      Grid.Column="5"
                      Margin="0 0 10 10"
                      HorizontalContentAlignment="Center"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
                      Text="{Binding Bill200Euro}"
+                     behaviors:SelectAllTextOnFocusBehavior.Enable="True"
                      Grid.Row="5"
                      Grid.Column="5"
                      Margin="0 0 10 10"
                      HorizontalContentAlignment="Center"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
                      Text="{Binding Bill500Euro}"
+                     behaviors:SelectAllTextOnFocusBehavior.Enable="True"
                      Grid.Row="6"
                      Grid.Column="5"
                      Margin="0 0 10 10"
@@ -293,6 +317,7 @@
                      Grid.Row="0"
                      Grid.Column="6"
                      IsReadOnly="True"
+                     Focusable="False"
                      Margin="0 0 0 10"
                      HorizontalContentAlignment="Right"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
@@ -300,6 +325,7 @@
                      Grid.Row="1"
                      Grid.Column="6"
                      IsReadOnly="True"
+                     Focusable="False"
                      Margin="0 0 0 10"
                      HorizontalContentAlignment="Right"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
@@ -307,6 +333,7 @@
                      Grid.Row="2"
                      Grid.Column="6"
                      IsReadOnly="True"
+                     Focusable="False"
                      Margin="0 0 0 10"
                      HorizontalContentAlignment="Right"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
@@ -314,6 +341,7 @@
                      Grid.Row="3"
                      Grid.Column="6"
                      IsReadOnly="True"
+                     Focusable="False"
                      Margin="0 0 0 10"
                      HorizontalContentAlignment="Right"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
@@ -321,6 +349,7 @@
                      Grid.Row="4"
                      Grid.Column="6"
                      IsReadOnly="True"
+                     Focusable="False"
                      Margin="0 0 0 10"
                      HorizontalContentAlignment="Right"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
@@ -328,6 +357,7 @@
                      Grid.Row="5"
                      Grid.Column="6"
                      IsReadOnly="True"
+                     Focusable="False"
                      Margin="0 0 0 10"
                      HorizontalContentAlignment="Right"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
@@ -335,6 +365,7 @@
                      Grid.Row="6"
                      Grid.Column="6"
                      IsReadOnly="True"
+                     Focusable="False"
                      Margin="0 0 0 10"
                      HorizontalContentAlignment="Right"/>
             <!--#endregion-->
