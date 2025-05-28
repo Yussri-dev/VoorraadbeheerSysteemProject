@@ -2,6 +2,12 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
+    <Compile Update="Views\Printing\PrintPurchases.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Printing\PrintSales.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\UcCashRegister.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -17,6 +23,9 @@
     <Compile Update="Views\UcLine.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\UcLogin.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\UcNumericPad.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -27,6 +36,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\UcReport.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\UcSaasClient.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\UcSale.xaml.cs">
@@ -55,6 +67,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Views\Printing\PrintPurchases.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\UcDashboard.xaml">
       <SubType>Designer</SubType>
     </Page>

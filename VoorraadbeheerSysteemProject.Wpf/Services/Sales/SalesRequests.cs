@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Web;
+using System.Windows.Automation.Peers;
 using VoorraadbeheerSysteemProject.Wpf.Models;
 
 namespace VoorraadbeheerSysteemProject.Wpf.Services.Sales
@@ -56,7 +59,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services.Sales
 
                 string responseJson = await responseRequest.Content.ReadAsStringAsync();
 
-                if (decimal.TryParse(responseJson, out decimal count))
+                if (decimal.TryParse(responseJson,CultureInfo.InvariantCulture, out decimal count))
                 {
                     return count;
                 }
@@ -94,6 +97,31 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services.Sales
             {
                 Debug.WriteLine($"API request error: {ex.Message}");
                 return new List<MonthlySummaryDTO>();
+            }
+        }
+
+
+        public async Task<List<SaleFlatDTO>?> GetSaleFlatByPeriodAsync(DateTime startDate, DateTime endDate)
+        {
+            try
+            {
+                string formattedStartDate = HttpUtility.HtmlEncode(startDate.ToString("dd/MM/yyyy"));
+                string formattedEndDate = HttpUtility.HtmlEncode(endDate.ToString("dd/MM/yyyy"));
+
+                HttpResponseMessage response = await _httpClient.GetAsync(
+                    $"api/sale/allsale?startDate={formattedStartDate}&endDate={formattedEndDate}");
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return null;
+                }
+
+                var saleFlat = await response.Content.ReadFromJsonAsync<List<SaleFlatDTO>>();
+                return saleFlat;
+            }
+            catch (Exception ex)
+            {
+                return null;
             }
         }
 

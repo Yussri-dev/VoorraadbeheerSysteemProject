@@ -12,23 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using VoorraadbeheerSysteemProject.Wpf.Stores;
-using VoorraadbeheerSysteemProject.Wpf.ViewModels;
 
-namespace VoorraadbeheerSysteemProject.Wpf.Views
+namespace VoorraadbeheerSysteemProject.Wpf.Views.Printing
 {
     /// <summary>
-    /// Logique d'interaction pour UcSupplier.xaml
+    /// Interaction logic for PrintSales.xaml
     /// </summary>
-    public partial class UcSupplier : UserControl
+    public partial class PrintSales : UserControl
     {
-        public UcSupplier()
+        public PrintSales()
         {
             InitializeComponent();
-
-
-
-
         }
     }
 }

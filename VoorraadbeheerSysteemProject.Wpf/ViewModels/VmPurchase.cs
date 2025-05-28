@@ -242,7 +242,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 var productDetails = _allProducts.FirstOrDefault(p => p.ProductId == product.ProductId);
                 if (productDetails != null)
                 {
-                    total += productDetails.SalePrice1 * product.Quantity;
+                    total += productDetails.PurchasePrice * product.Quantity;
                     totalQuantity += product.Quantity;
                 }
             }

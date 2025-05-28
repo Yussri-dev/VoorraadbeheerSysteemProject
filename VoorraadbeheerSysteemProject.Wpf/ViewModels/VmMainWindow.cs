@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using VoorraadbeheerSysteemProject.Wpf.Commands;
+using VoorraadbeheerSysteemProject.Wpf.Models;
 using VoorraadbeheerSysteemProject.Wpf.Stores;
 
 namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
@@ -16,6 +17,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
         public VmBase CurrentViewModel => _navigationStore.CurrentViewModel;
 
+        #region Commands
         public ICommand DashboardNavigationCommand { get; }
         public ICommand UserCreateNavigationCommand { get; }
         public ICommand UserLoginNavigationCommand { get; }
@@ -36,12 +38,31 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         public ICommand TaxNavigationCommand { get; }
 
         public ICommand CashRegisterNavigationCommand { get; }
+        public ICommand SaasClientNavigationCommand { get; }
+        #endregion
 
+
+        private string _email;
+        public string Email
+        {
+            get => _email ?? (UserSession.Email ?? "Unknown");
+            set
+            {
+                if (_email != value)
+                {
+                    _email = value;
+                    OnPropertyChanged(nameof(Email));
+                }
+            }
+        }
 
         public VmMainWindow(NavigationStore navigationStore)
         {
             _navigationStore = navigationStore;
             _navigationStore.CurrentViewModelChanged += _navigationStore_CurrentViewModelChanged;
+
+            LogoutCommand = new ButtonCommand(Logout);
+            GetEmailCommand = new ButtonCommand(GetUser);
 
 
             ProductsNavigationCommand = new NavigationCommand<VmProducts>(navigationStore,
@@ -75,7 +96,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             CustomerNavigationCommand = new NavigationCommand<VmCustomer>(navigationStore,
                 () => new VmCustomer(navigationStore));
 
-            
+
             CategoryNavigationCommand = new NavigationCommand<VmCategory>(navigationStore,
                 () => new VmCategory(navigationStore));
 
@@ -90,11 +111,27 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
             CashRegisterNavigationCommand = new NavigationCommand<VmCashRegister>(navigationStore,
                 () => new VmCashRegister(navigationStore));
+
+            SaasClientNavigationCommand = new NavigationCommand<VmSaasClient>(navigationStore,
+                () => new VmSaasClient(navigationStore));
         }
 
         private void _navigationStore_CurrentViewModelChanged()
         {
             OnPropertyChanged(nameof(CurrentViewModel));
+        }
+
+        public ICommand LogoutCommand { get; }
+        public ICommand GetEmailCommand { get; }
+        private void Logout(object obj)
+        {
+            UserSession.Clear();
+            _navigationStore.CurrentViewModel = new VmUserLogin(_navigationStore);
+        }
+
+        private void GetUser(object param)
+        {
+            Email = UserSession.Email;
         }
     }
 }

@@ -5,7 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:VoorraadbeheerSysteemProject.Wpf.Views"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:converters="clr-namespace:VoorraadbeheerSysteemProject.Wpf.Converters"
              mc:Ignorable="d" >
+    <UserControl.Resources>
+        <converters:BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.5*" MinHeight="150"/>
@@ -19,40 +23,57 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.5*"/>
             </Grid.ColumnDefinitions>
             <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Left">
                 <Label Content="Inventory" FontSize="24" FontWeight="Bold"/>
                 <ComboBox Style="{StaticResource CustomComboBoxStyle}"
-                          ItemsSource="{Binding FilteredCategories}"
                           Foreground="#BDC1C8"
                           Width="300" 
                           Margin="25 10 0 0"
                           FontSize="18"
-                          SelectedIndex="0">
+                          SelectedIndex="{Binding SelectedTypeIndex}">
                     <ComboBoxItem Content="Purchase"/>
                     <ComboBoxItem Content="Sales"/>
                 </ComboBox>
             </StackPanel>
             <StackPanel Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Left">
                 <Label Content="Date Start" FontSize="15" FontWeight="Medium" Foreground="#737B8B78"/>
-                <DatePicker Style="{StaticResource CustomDatePickerStyle}"
+                <DatePicker SelectedDate="{Binding SelectedStartDate}"
+                            Style="{StaticResource CustomDatePickerStyle}"
                             Foreground="#40AF73" 
                             FontSize="18" 
                             Width="300"
                             FontWeight="Medium" 
-                            SelectedDate="{x:Static sys:DateTime.Now}"
                             BorderThickness="0"/>
+                            <!--SelectedDate="{x:Static sys:DateTime.Now}"-->
             </StackPanel>
             <StackPanel Grid.Column="2" VerticalAlignment="Bottom" HorizontalAlignment="Left">
                 <Label Content="Date End" FontSize="15" FontWeight="Medium" Foreground="#737B8B78"/>
-                <DatePicker Style="{StaticResource CustomDatePickerStyle}"
+                <DatePicker SelectedDate="{Binding SelectedEndDate}"
+                            Style="{StaticResource CustomDatePickerStyle}"
                             Foreground="#40AF73" 
                             FontSize="18" 
                             Width="300"
                             FontWeight="Medium" 
-                            SelectedDate="{x:Static sys:DateTime.Now}"
                             BorderThickness="0"/>
             </StackPanel>
+            <Button Grid.Column="3"
+                    Content="Search"
+                    Command="{Binding SearchButtonCommand}"
+                    Background="#DDE4F0"
+                    BorderThickness="0"
+                    Foreground="#5A6ACF"
+                    VerticalAlignment="Bottom"
+                    Padding="30,10"
+                    Margin="0 0 50 0"
+                    FontWeight="Medium">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
         </Grid>
         <!--#endregion-->
 
@@ -101,64 +122,50 @@
             <Border Margin="0 0 20 0"
                     Background="#F6F6FB"
                     BorderThickness="0"
+                    CornerRadius=" 0 5 5 0"
                     Padding="5">
                 <Path Fill="#627B87" Data="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"/>
-            </Border>
-            
-            <Border CornerRadius="5"
-                    BorderThickness="1"
-                    BorderBrush="Black"
-                    Background="#FBFCFE">
-                <StackPanel Orientation="Horizontal">
-                    <Button Command="{Binding PreviousPageButtonCommand}"
-                            Width="40"
-                            Foreground="#5A6ACF"
-                            Background="Transparent"
-                            FontWeight="Bold"
-                            BorderThickness="0">
-                        <Button.Resources>
-                            <Style TargetType="{x:Type Border}">
-                                <Setter Property="CornerRadius" Value="5 0 0 5"/>
-                            </Style>
-                        </Button.Resources>
-                        &lt;
-                    </Button>
-                    <Label Content="1"
-                           Foreground="#5A6ACF"
-                           VerticalContentAlignment="Center"/>
-                    <Button Command="{Binding NextPageButtonCommand}"
-                            Width="40"
-                            Foreground="#5A6ACF"
-                            Background="Transparent"
-                            FontWeight="Bold"
-                            BorderThickness="0">
-                        <Button.Resources>
-                            <Style TargetType="{x:Type Border}">
-                                <Setter Property="CornerRadius" Value=" 0 5 5 0"/>
-                            </Style>
-                        </Button.Resources>
-                        &gt;
-                    </Button>
-                </StackPanel>
             </Border>
         </StackPanel>
         <!--#endregion-->
         
         <!--#region inventory list-->
+        <!--purchase list-->
         <ListView Style="{StaticResource CustomListViewStyle}"
+                  Visibility="{Binding IsPurchaseActive, Converter={StaticResource BoolToVisConverter}}"
                   ItemsSource="{Binding FilteredPurchases}"
                   Grid.Row="2">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="#" Width="50" DisplayMemberBinding="{Binding PurchaseItemId}"/>
-                    <GridViewColumn Header="Product Name" Width="Auto" DisplayMemberBinding="{Binding ProductName}"/>
-                    <GridViewColumn Header="Purchase" Width="100" DisplayMemberBinding="{Binding Price}"/>
-                    <GridViewColumn Header="Sale Price" Width="100" DisplayMemberBinding="{Binding SalePrice1}"/>
-                    <GridViewColumn Header="Tax Rate" Width="100" DisplayMemberBinding="{Binding TaxAmount}"/>
-                    <GridViewColumn Header="Supplier" Width="100" DisplayMemberBinding="{Binding SupplierName}" />
-                    <GridViewColumn Header="Purchase Date" Width="100" DisplayMemberBinding="{Binding PurchaseDate}"/>
-                    <GridViewColumn Header="Qty in Stock" Width="100" DisplayMemberBinding="{Binding QuantityStock}"/>
-                    <GridViewColumn Header="Barcode" Width="100" DisplayMemberBinding="{Binding Barcode}"/>
+                    <GridViewColumn Header="Product Name" Width="300" DisplayMemberBinding="{Binding ProductName}"/>
+                    <GridViewColumn Header="Purchase" Width="70" DisplayMemberBinding="{Binding Price}"/>
+                    <GridViewColumn Header="Sale Price" Width="70" DisplayMemberBinding="{Binding SalePrice1}"/>
+                    <GridViewColumn Header="Tax Rate" Width="70" DisplayMemberBinding="{Binding TaxAmount}"/>
+                    <GridViewColumn Header="Supplier" Width="300" DisplayMemberBinding="{Binding SupplierName}" />
+                    <GridViewColumn Header="Purchase Date" Width="100" DisplayMemberBinding="{Binding PurchaseDate, StringFormat='{}{0:dd/MM/yyyy}'}"/>
+                    <GridViewColumn Header="Quantity" Width="70" DisplayMemberBinding="{Binding Quantity}"/>
+                    <GridViewColumn Header="Barcode" Width="120" DisplayMemberBinding="{Binding Barcode}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        
+        <!--sale list-->
+        <ListView Style="{StaticResource CustomListViewStyle}"
+                  Visibility="{Binding IsSaleActive, Converter={StaticResource BoolToVisConverter}}"
+                  ItemsSource="{Binding FilteredSales}"
+                  Grid.Row="2">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="#" Width="50" DisplayMemberBinding="{Binding SaleItemId}"/>
+                    <GridViewColumn Header="Product Name" Width="300" DisplayMemberBinding="{Binding ProductName}"/>
+                    <GridViewColumn Header="Purchase" Width="70" DisplayMemberBinding="{Binding PurchasePrice}"/>
+                    <GridViewColumn Header="Sale Price" Width="70" DisplayMemberBinding="{Binding SalePrice1}"/>
+                    <GridViewColumn Header="Tax Rate" Width="70" DisplayMemberBinding="{Binding TaxAmount}"/>
+                    <GridViewColumn Header="Customer" Width="300" DisplayMemberBinding="{Binding CustomerName}" />
+                    <GridViewColumn Header="Sale Date" Width="100" DisplayMemberBinding="{Binding SaleDate, StringFormat='{}{0:dd/MM/yyyy}'}"/>
+                    <GridViewColumn Header="Quantity" Width="70" DisplayMemberBinding="{Binding Quantity}"/>
+                    <GridViewColumn Header="Barcode" Width="120" DisplayMemberBinding="{Binding Barcode}"/>
                 </GridView>
             </ListView.View>
         </ListView>
