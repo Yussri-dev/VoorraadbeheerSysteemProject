@@ -99,41 +99,49 @@
             <!--#endregion-->
             <!--#region amount pieces col 1-->
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Coin1Cent}"
                      Grid.Row="0"
                      Grid.Column="1"
                      Margin="0 0 10 10"
                      HorizontalContentAlignment="Center"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Coin2Cent}"
                      Grid.Row="1"
                      Grid.Column="1"
                      Margin="0 0 10 10"
                      HorizontalContentAlignment="Center"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Coin5Cent}"
                      Grid.Row="2"
                      Grid.Column="1"
                      Margin="0 0 10 10"
                      HorizontalContentAlignment="Center"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Coin10Cent}"
                      Grid.Row="3"
                      Grid.Column="1"
                      Margin="0 0 10 10"
                      HorizontalContentAlignment="Center"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Coin20Cent}"
                      Grid.Row="4"
                      Grid.Column="1"
                      Margin="0 0 10 10"
                      HorizontalContentAlignment="Center"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Coin50Cent}"
                      Grid.Row="5"
                      Grid.Column="1"
                      Margin="0 0 10 10"
                      HorizontalContentAlignment="Center"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Coin1Euro}"
                      Grid.Row="6"
                      Grid.Column="1"
                      Margin="0 0 10 10"
                      HorizontalContentAlignment="Center"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Coin2Euro}"
                      Grid.Row="7"
                      Grid.Column="1"
                      Margin="0 0 10 10"
@@ -375,6 +383,21 @@
                     Margin="100 30 100 50"
                     Grid.Row="3">
             <Button Content="Compare"
+                    Background="#DDE4F0"
+                    Padding="30,10"
+                    Margin="0 0 15 0"
+                    VerticalAlignment="Bottom"
+                    BorderThickness="0"
+                    Foreground="#5A6ACF"
+                    FontWeight="Medium">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button Content="Close"
+                    Command="{Binding NavigateDashboardCommand}"
                     Background="#DDE4F0"
                     Padding="30,10"
                     Margin="0 0 15 0"
