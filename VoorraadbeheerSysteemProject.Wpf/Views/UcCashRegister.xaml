@@ -149,59 +149,59 @@
             <!--#endregion-->
             <!--#region total pieces col 2-->
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Total1CentAmount, Mode=OneWay, StringFormat='{}{0} €'}"
                      Grid.Row="0"
                      Grid.Column="2"
                      IsReadOnly="True"
-                     Text="€"
                      Margin="0 0 0 10"
                      HorizontalContentAlignment="Right"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Total2CentAmount, Mode=OneWay, StringFormat='{}{0} €'}"
                      Grid.Row="1"
                      Grid.Column="2"
                      IsReadOnly="True"
-                     Text="€"
                      Margin="0 0 0 10"
                      HorizontalContentAlignment="Right"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Total5CentAmount, Mode=OneWay, StringFormat='{}{0} €'}"
                      Grid.Row="2"
                      Grid.Column="2"
                      IsReadOnly="True"
-                     Text="€"
                      Margin="0 0 0 10"
                      HorizontalContentAlignment="Right"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Total10CentAmount, Mode=OneWay, StringFormat='{}{0} €'}"
                      Grid.Row="3"
                      Grid.Column="2"
                      IsReadOnly="True"
-                     Text="€"
                      Margin="0 0 0 10"
                      HorizontalContentAlignment="Right"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Total20CentAmount, Mode=OneWay, StringFormat='{}{0} €'}"
                      Grid.Row="4"
                      Grid.Column="2"
                      IsReadOnly="True"
-                     Text="€"
                      Margin="0 0 0 10"
                      HorizontalContentAlignment="Right"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Total50CentAmount, Mode=OneWay, StringFormat='{}{0} €'}"
                      Grid.Row="5"
                      Grid.Column="2"
                      IsReadOnly="True"
-                     Text="€"
                      Margin="0 0 0 10"
                      HorizontalContentAlignment="Right"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Total1EuroAmount, Mode=OneWay, StringFormat='{}{0} €'}"
                      Grid.Row="6"
                      Grid.Column="2"
                      IsReadOnly="True"
-                     Text="€"
                      Margin="0 0 0 10"
                      HorizontalContentAlignment="Right"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Total2EuroAmount, Mode=OneWay, StringFormat='{}{0} €'}"
                      Grid.Row="7"
                      Grid.Column="2"
                      IsReadOnly="True"
-                     Text="€"
                      Margin="0 0 0 10"
                      HorizontalContentAlignment="Right"/>
             <!--#endregion-->
@@ -245,36 +245,43 @@
             <!--#endregion-->
             <!--#region amount bills col 5-->
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Bill5Euro}"
                      Grid.Row="0"
                      Grid.Column="5"
                      Margin="0 0 10 10"
                      HorizontalContentAlignment="Center"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Bill10Euro}"
                      Grid.Row="1"
                      Grid.Column="5"
                      Margin="0 0 10 10"
                      HorizontalContentAlignment="Center"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Bill20Euro}"
                      Grid.Row="2"
                      Grid.Column="5"
                      Margin="0 0 10 10"
                      HorizontalContentAlignment="Center"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Bill50Euro}"
                      Grid.Row="3"
                      Grid.Column="5"
                      Margin="0 0 10 10"
                      HorizontalContentAlignment="Center"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Bill100Euro}"
                      Grid.Row="4"
                      Grid.Column="5"
                      Margin="0 0 10 10"
                      HorizontalContentAlignment="Center"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Bill200Euro}"
                      Grid.Row="5"
                      Grid.Column="5"
                      Margin="0 0 10 10"
                      HorizontalContentAlignment="Center"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Bill500Euro}"
                      Grid.Row="6"
                      Grid.Column="5"
                      Margin="0 0 10 10"
@@ -282,52 +289,52 @@
             <!--#endregion-->
             <!--#region total bills col 6-->
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Total5EuroAmount, Mode=OneWay, StringFormat='{}{0} €'}"
                      Grid.Row="0"
                      Grid.Column="6"
                      IsReadOnly="True"
-                     Text="€"
                      Margin="0 0 0 10"
                      HorizontalContentAlignment="Right"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Total10EuroAmount, Mode=OneWay, StringFormat='{}{0} €'}"
                      Grid.Row="1"
                      Grid.Column="6"
                      IsReadOnly="True"
-                     Text="€"
                      Margin="0 0 0 10"
                      HorizontalContentAlignment="Right"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Total20EuroAmount, Mode=OneWay, StringFormat='{}{0} €'}"
                      Grid.Row="2"
                      Grid.Column="6"
                      IsReadOnly="True"
-                     Text="€"
                      Margin="0 0 0 10"
                      HorizontalContentAlignment="Right"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Total50EuroAmount, Mode=OneWay, StringFormat='{}{0} €'}"
                      Grid.Row="3"
                      Grid.Column="6"
                      IsReadOnly="True"
-                     Text="€"
                      Margin="0 0 0 10"
                      HorizontalContentAlignment="Right"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Total100EuroAmount, Mode=OneWay, StringFormat='{}{0} €'}"
                      Grid.Row="4"
                      Grid.Column="6"
                      IsReadOnly="True"
-                     Text="€"
                      Margin="0 0 0 10"
                      HorizontalContentAlignment="Right"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Total200EuroAmount, Mode=OneWay, StringFormat='{}{0} €'}"
                      Grid.Row="5"
                      Grid.Column="6"
                      IsReadOnly="True"
-                     Text="€"
                      Margin="0 0 0 10"
                      HorizontalContentAlignment="Right"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Total500EuroAmount, Mode=OneWay, StringFormat='{}{0} €'}"
                      Grid.Row="6"
                      Grid.Column="6"
                      IsReadOnly="True"
-                     Text="€"
                      Margin="0 0 0 10"
                      HorizontalContentAlignment="Right"/>
             <!--#endregion-->
@@ -339,10 +346,10 @@
                    HorizontalContentAlignment="Right"
                    Margin="0 0 10 10"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding TotalCoinAmount, Mode=OneWay, StringFormat='{}{0} €'}"
                      Grid.Row="8"
                      Grid.Column="2"
                      IsReadOnly="True"
-                     Text="€"
                      Margin="0 0 0 10"
                      HorizontalContentAlignment="Right"/>
             <Label Content="total bills:"
@@ -353,10 +360,10 @@
                    HorizontalContentAlignment="Right"
                    Margin="0 0 10 10"/>
             <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding TotalBillAmount, Mode=OneWay, StringFormat='{}{0} €'}"
                      Grid.Row="8"
                      Grid.Column="6"
                      IsReadOnly="True"
-                     Text="€"
                      Margin="0 0 0 10"
                      HorizontalContentAlignment="Right"/>
             <!--#endregion-->
