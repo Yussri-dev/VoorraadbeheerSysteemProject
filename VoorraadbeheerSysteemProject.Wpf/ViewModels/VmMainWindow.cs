@@ -38,6 +38,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         public ICommand TaxNavigationCommand { get; }
 
         public ICommand CashRegisterNavigationCommand { get; }
+        public ICommand SaasClientNavigationCommand { get; }
         #endregion
 
 
@@ -110,6 +111,9 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
             CashRegisterNavigationCommand = new NavigationCommand<VmCashRegister>(navigationStore,
                 () => new VmCashRegister(navigationStore));
+
+            SaasClientNavigationCommand = new NavigationCommand<VmSaasClient>(navigationStore,
+                () => new VmSaasClient(navigationStore));
         }
 
         private void _navigationStore_CurrentViewModelChanged()

@@ -72,6 +72,7 @@
                 <Button Content="Cash Register" Style="{StaticResource SidebarButtonStyle}" Command="{Binding CashRegisterNavigationCommand}"/>
                 <Button Content="Accounts" Style="{StaticResource SidebarButtonStyle}" Command="{Binding UserLoginNavigationCommand}"/>
                 <Button Content="Help" Style="{StaticResource SidebarButtonStyle}" Command="{Binding UserCreateNavigationCommand}"/>
+                <Button Content="SaasClient" Style="{StaticResource SidebarButtonStyle}" Command="{Binding SaasClientNavigationCommand}"/>
             </StackPanel>
         </Border>
 
@@ -152,6 +153,9 @@
                         </DataTemplate>
                         <DataTemplate DataType="{x:Type viewModels:VmCategory}">
                             <userControls:UcCategory/>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type viewModels:VmSaasClient}">
+                            <userControls:UcSaasClient/>
                         </DataTemplate>
                     </ContentControl.Resources>
                 </ContentControl>

@@ -38,6 +38,9 @@
     <Compile Update="Views\UcReport.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\UcSaasClient.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\UcSale.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
