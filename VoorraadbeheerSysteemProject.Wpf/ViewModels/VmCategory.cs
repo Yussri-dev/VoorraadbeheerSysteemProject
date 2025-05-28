@@ -6,7 +6,7 @@ using VoorraadbeheerSysteemProject.Wpf.Commands.CategoriesCommands;
 using VoorraadbeheerSysteemProject.Wpf.Models;
 using VoorraadbeheerSysteemProject.Wpf.Services;
 using VoorraadbeheerSysteemProject.Wpf.Stores;
-//using SearchCommand = VoorraadbeheerSysteemProject.Wpf.Commands.CategoriesCommands.SearchCommand;
+using System.Configuration;
 
 namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 {
@@ -17,7 +17,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         private string _searchText;
         private int _totalCategories;
         private int _pageNumber = 1;
-        private readonly int _pageSize = 10; 
+        private readonly int _pageSize = 200; 
         private string _newCategoryName;
         private CategoryDTO _selectedCategory;
 
@@ -41,7 +41,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         {
             Categories = new ObservableCollection<CategoryDTO>();
             FilteredCategories = new ObservableCollection<CategoryDTO>();
-            
+
             NavigateDashboardCommand = new NavigationCommand<VmDashboard>(navigationStore,
                 () => new VmDashboard(navigationStore));
 
@@ -85,16 +85,15 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             Categories.Clear();
             FilteredCategories.Clear();
 
-            int counter = (_pageNumber - 1) * _pageSize + 1;
             foreach (var cat in list)
             {
-                cat.CategoryId = counter++;
                 Categories.Add(cat);
                 FilteredCategories.Add(cat);
             }
 
             TotalCategories = await _apiCategory.GetCategoryCountAsync();
         }
+
 
         public void FilterCategories()
         {
@@ -116,16 +115,15 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             Categories.Clear();
             FilteredCategories.Clear();
 
-            int counter = (_pageNumber - 1) * _pageSize + 1;
             foreach (var cat in list)
             {
-                cat.CategoryId = counter++;
                 Categories.Add(cat);
                 FilteredCategories.Add(cat);
             }
 
             TotalCategories = await _apiCategory.GetCategoryCountAsync();
         }
+
 
         public string NewCategoryName
         {
