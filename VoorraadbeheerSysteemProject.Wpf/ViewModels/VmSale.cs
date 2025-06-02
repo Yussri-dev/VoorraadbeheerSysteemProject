@@ -11,6 +11,7 @@ using VoorraadbeheerSysteemProject.Wpf.Commands.ProductsCommands;
 using VoorraadbeheerSysteemProject.Wpf.Models;
 using VoorraadbeheerSysteemProject.Wpf.Requests;
 using VoorraadbeheerSysteemProject.Wpf.Services;
+using VoorraadbeheerSysteemProject.Wpf.Services.Customers;
 using VoorraadbeheerSysteemProject.Wpf.Services.Sales;
 using VoorraadbeheerSysteemProject.Wpf.Stores;
 using VoorraadbeheerSysteemProject.Wpf.Views;
@@ -22,6 +23,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         #region Fields & Constructors
         private readonly ApiService _apiService;
         private readonly SalesRequests _salesRequest;
+        private readonly CustomersRequests _customerRequest;
         private readonly NavigationStore _navigationStore;
         private int countSales = 0;
 
@@ -63,7 +65,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
             _apiService = new ApiService(AppConfig.ApiUrl);
             _salesRequest = new SalesRequests(AppConfig.ApiUrl);
-
+            _customerRequest = new CustomersRequests(AppConfig.ApiUrl);
             //Using Observable collection to get products
             _allProducts = new ObservableCollection<ProductDTO>();
             Products = new ObservableCollection<ProductDTO>();
@@ -76,6 +78,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
             //Loading data from Get Product Request
             Task.Run(async () => await LoadDataAsync());
+
         }
 
 
@@ -106,6 +109,68 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 OnPropertyChanged(nameof(Products));
             }
         }
+        //--------------------------------------------------
+        //CustomerDTO
+        private CustomerDTO _selectedCustomer = new CustomerDTO();
+
+        private ObservableCollection<CustomerDTO> _customers;
+        private ObservableCollection<CustomerDTO> _filteredCustomer;
+        private string _searchTextCustomer;
+        public string SearchTextCustomer
+        {
+            get => _searchTextCustomer;
+            set
+            {
+                _searchTextCustomer = value;
+                OnPropertyChanged();
+                FilterCustomer();
+            }
+        }
+        #region shelf properties
+        public ObservableCollection<CustomerDTO> FilteredCustomer
+        {
+            get => _filteredCustomer;
+            set { _filteredCustomer = value; OnPropertyChanged(); }
+        }
+
+        public CustomerDTO? SelectedCustomer
+        {
+            get { return _selectedCustomer; }
+            set
+            {
+                _selectedCustomer = value;
+                OnPropertyChanged(nameof(SelectedCustomer));
+
+                //update text to match selected product
+                SearchTextCustomer = _selectedCustomer?.Name ?? "";
+            }
+        }
+
+        public ObservableCollection<CustomerDTO> AllCustomer
+        {
+            get => _customers;
+            set { _customers = value; OnPropertyChanged(); }
+        }
+        #endregion
+        public void FilterCustomer()
+        {
+            if (string.IsNullOrWhiteSpace(_searchTextCustomer))
+                FilteredCustomer = new ObservableCollection<CustomerDTO>(
+                    _customers ?? new ObservableCollection<CustomerDTO>());
+            else
+            {
+                FilteredCustomer = new ObservableCollection<CustomerDTO>(
+                    _customers
+                    .Where(
+                        items => items.Name.ToLower()
+                        .Contains(_searchTextCustomer.ToLower())
+                    )
+                    .ToList()
+                );
+            }
+        }
+
+        //----------------------------------------------------
         #endregion
 
         #region Methods
@@ -171,7 +236,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         private async Task LoadDataAsync()
         {
             var products = await _apiService.GetProductsAsync();
-
+            var customers = await _customerRequest.GetCustomers();
             countSales = await _salesRequest.GetSalesCountAsync() + 1;
             OnPropertyChanged(nameof(FormattedSalesCount));
 
@@ -183,6 +248,9 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 {
                     Products.Add(product);
                 }
+                AllCustomer = new ObservableCollection<CustomerDTO>(customers);
+                FilteredCustomer = AllCustomer;
+
             });
         }
         #endregion
