@@ -444,6 +444,7 @@
                 </Button.Resources>
             </Button>
             <Button Content="End Shift"
+                    Command="{Binding EndShiftButton}"
                     Background="#DDE4F0"
                     Padding="30,10"
                     Margin="0 0 15 0"

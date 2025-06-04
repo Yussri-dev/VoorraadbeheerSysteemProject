@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using VoorraadbeheerSysteemProject.Wpf.Commands;
 using VoorraadbeheerSysteemProject.Wpf.Models;
@@ -17,7 +18,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
     {
         //api
         private CashRegisterRequest _cashRegisterRequest;
-        private CashShiftDTO? cashShift = null;
+        private CashShiftDTO? _cashShift = null;
+        private CashShiftCloseResultDto? _cashShiftCloseResult = null;
         
         
 
@@ -85,15 +87,22 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         public decimal DifferenceAmount => TotalCashAmount - CashShift?.DrawerBalance ?? 0.00m;
 
         public CashShiftDTO? CashShift { 
-            get => cashShift; 
+            get => _cashShift; 
             set {
-                cashShift = value; 
+                _cashShift = value;
                 OnPropertyChanged(nameof(DifferenceAmount));
             }
         }
-        #region Commands
+
+        public CashShiftCloseResultDto? CashShiftCloseResult
+        {
+            get => _cashShiftCloseResult;
+            set { value = _cashShiftCloseResult; }
+        }
+        #region Command properties
         public ICommand NavigateDashboardCommand { get; }
         public ICommand CompareButtonCommand { get; }
+        public ICommand EndShiftButton { get; }
         #endregion
         #endregion
 
@@ -108,14 +117,21 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             _cashRegisterRequest = new CashRegisterRequest(AppConfig.ApiUrl);
 
             CompareButtonCommand = new ButtonCommand(CompareCash);
+            EndShiftButton = new ButtonCommand(EndShift);
         }
+
 
 
         #endregion
         #region Methods
         private async void CompareCash(object obj)
         {
-            CashShift = await _cashRegisterRequest.GetShiftByIdAsync(7);
+            CashShift = await _cashRegisterRequest.GetShiftByIdAsync(12);
+        }
+        private async void EndShift(object obj)
+        {
+            CashShiftCloseResult = await _cashRegisterRequest.PostEndShiftAsync(TotalCashAmount, 12);
+            MessageBox.Show($"your shift has ended with a difference of {CashShiftCloseResult.Difference} Euro");
         }
         #endregion
     }
