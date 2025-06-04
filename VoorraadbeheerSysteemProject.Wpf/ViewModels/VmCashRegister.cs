@@ -97,7 +97,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         public CashShiftCloseResultDto? CashShiftCloseResult
         {
             get => _cashShiftCloseResult;
-            set { value = _cashShiftCloseResult; }
+            set { _cashShiftCloseResult = value; }
         }
         #region Command properties
         public ICommand NavigateDashboardCommand { get; }
@@ -116,22 +116,34 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
             _cashRegisterRequest = new CashRegisterRequest(AppConfig.ApiUrl);
 
-            CompareButtonCommand = new ButtonCommand(CompareCash);
-            EndShiftButton = new ButtonCommand(EndShift);
+            CompareButtonCommand = new ButtonCommand(async _ => await CompareCash());
+            EndShiftButton = new ButtonCommand(async _ => await EndShift());
         }
 
 
 
         #endregion
         #region Methods
-        private async void CompareCash(object obj)
+        private async Task CompareCash()
         {
-            CashShift = await _cashRegisterRequest.GetShiftByIdAsync(12);
+            CashShift = await _cashRegisterRequest.GetShiftByIdAsync(17);
         }
-        private async void EndShift(object obj)
+        private async Task EndShift()
         {
-            CashShiftCloseResult = await _cashRegisterRequest.PostEndShiftAsync(TotalCashAmount, 12);
-            MessageBox.Show($"your shift has ended with a difference of {CashShiftCloseResult.Difference} Euro");
+            await CompareCash();
+            if (DifferenceAmount != 0.00m)
+            {
+                if (MessageBox.Show($"Are you shure you want to end your shift with a difference of {DifferenceAmount} €",
+                    "End Shift Confirmation",
+                    MessageBoxButton.YesNo)
+                    == MessageBoxResult.No
+                ) return;
+            }
+            CashShiftCloseResult = await _cashRegisterRequest.PostEndShiftAsync(TotalCashAmount, 17);
+            if (CashShiftCloseResult.Difference == 0)
+                MessageBox.Show("Your shift has ended with no difference");
+            else
+                MessageBox.Show($"your shift has ended with a difference of {CashShiftCloseResult.Difference} Euro");
         }
         #endregion
     }

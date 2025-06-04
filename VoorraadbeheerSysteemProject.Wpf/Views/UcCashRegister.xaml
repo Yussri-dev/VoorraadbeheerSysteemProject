@@ -408,6 +408,7 @@
                        FontWeight="Bold"/>
                 <TextBox Style="{StaticResource CustomTextBoxStyle}"
                          Text="{Binding TotalCashAmount, Mode=OneWay, StringFormat='{}{0} €'}"
+                         IsReadOnly="True"
                          HorizontalContentAlignment="Right"
                          Width="200"/>
             </StackPanel>

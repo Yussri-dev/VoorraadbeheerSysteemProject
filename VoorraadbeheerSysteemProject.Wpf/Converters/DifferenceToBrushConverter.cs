@@ -15,12 +15,12 @@ namespace VoorraadbeheerSysteemProject.Wpf.Converters
         {
             if(value is decimal decimalValue)
             {
-                if(decimalValue > 0)
-                    return "green"; // Positive values
-                else if (decimalValue < 0)
-                    return "red"; // Negative values
+                if (decimalValue == 0)
+                    return "green";
+                if (decimalValue != 0)
+                    return "red";
             }
-            return "black"; // Default color for zero or non-decimal values
+            return "black"; // Default color for non-decimal values
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
