@@ -126,11 +126,16 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         #region Methods
         private async Task CompareCash()
         {
-            CashShift = await _cashRegisterRequest.GetShiftByIdAsync(17);
+            CashShift = await _cashRegisterRequest.GetShiftByIdAsync(18);
         }
         private async Task EndShift()
         {
             await CompareCash();
+            if(CashShift is null)
+            {
+                MessageBox.Show("No cash shift found, please start a shift first");
+                return;
+            }
             if (DifferenceAmount != 0.00m)
             {
                 if (MessageBox.Show($"Are you shure you want to end your shift with a difference of {DifferenceAmount} €",
@@ -139,7 +144,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                     == MessageBoxResult.No
                 ) return;
             }
-            CashShiftCloseResult = await _cashRegisterRequest.PostEndShiftAsync(TotalCashAmount, 17);
+            CashShiftCloseResult = await _cashRegisterRequest.PostEndShiftAsync(TotalCashAmount, 18);
             if (CashShiftCloseResult.Difference == 0)
                 MessageBox.Show("Your shift has ended with no difference");
             else
