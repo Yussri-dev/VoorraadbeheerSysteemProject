@@ -131,7 +131,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         private async Task EndShift()
         {
             await CompareCash();
-            if(CashShift is null)
+            if(CashShift is null || CashShift.ShiftEnd != null)
             {
                 MessageBox.Show("No cash shift found, please start a shift first");
                 return;
