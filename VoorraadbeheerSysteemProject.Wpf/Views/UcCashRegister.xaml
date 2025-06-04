@@ -413,6 +413,8 @@
                 <Label Content="Difference:"
                        FontWeight="Bold"/>
                 <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                         Text="{Binding DifferenceAmount, Mode=OneWay, StringFormat='{}{0} €'}"
+                         HorizontalContentAlignment="Right"
                          Width="200"/>
             </StackPanel>
             

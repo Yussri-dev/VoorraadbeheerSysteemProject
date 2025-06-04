@@ -7,12 +7,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using VoorraadbeheerSysteemProject.Wpf.Commands;
+using VoorraadbeheerSysteemProject.Wpf.Models;
+using VoorraadbeheerSysteemProject.Wpf.Services.CashRegister;
 using VoorraadbeheerSysteemProject.Wpf.Stores;
 
 namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 {
     class VmCashRegister : VmBase
     {
+        //api
+        private CashRegisterRequest _cashRegisterRequest;
+        private CashShiftDTO? cashShift = null;
+
+
         //coins
         private int _coin1Cent = 0;
         private int _coin2Cent = 0;
@@ -73,7 +80,15 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             Total50EuroAmount + Total100EuroAmount + Total200EuroAmount + Total500EuroAmount;
         #endregion
         public decimal TotalCashAmount => TotalCoinAmount + TotalBillAmount;
+        public decimal DifferenceAmount => TotalCashAmount - CashShift?.DrawerBalance ?? 0.00m;
 
+        public CashShiftDTO? CashShift { 
+            get => cashShift; 
+            set {
+                cashShift = value; 
+                OnPropertyChanged(nameof(DifferenceAmount));
+            }
+        }
         #region Commands
         public ICommand NavigateDashboardCommand { get; }
         public ICommand CompareButtonCommand { get; }
@@ -88,15 +103,17 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             NavigateDashboardCommand = new NavigationCommand<VmDashboard>(navigationStore,
                 () => new VmDashboard(navigationStore));
 
+            _cashRegisterRequest = new CashRegisterRequest(AppConfig.ApiUrl);
+
             CompareButtonCommand = new ButtonCommand(CompareCash);
         }
 
 
         #endregion
         #region Methods
-        private void CompareCash(object obj)
+        private async void CompareCash(object obj)
         {
-            throw new NotImplementedException();
+            CashShift = await _cashRegisterRequest.GetShiftByIdAsync(7);
         }
         #endregion
     }
