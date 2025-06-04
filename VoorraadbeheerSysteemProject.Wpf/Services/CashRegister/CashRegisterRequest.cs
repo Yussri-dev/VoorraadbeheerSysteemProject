@@ -46,7 +46,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services.CashRegister
         {
             try
             {
-                var obj = new { cash = cashamount };
+                var obj = new CashShiftActualDto { Cash = cashamount };
 
                 //HttpResponseMessage response = await _httpClient.PostAsJsonAsync($"api/cashshift/close/{id}", cashamount);
                 HttpResponseMessage response = await _httpClient.PostAsJsonAsync($"api/cashshift/close/{id}", obj);
