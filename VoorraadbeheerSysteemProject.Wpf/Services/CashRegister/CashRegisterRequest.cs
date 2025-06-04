@@ -42,25 +42,25 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services.CashRegister
 
         }
 
-        public async Task PostEndShift(decimal cashamount, int id)
+        public async Task<CashShiftCloseResultDto?> PostEndShift(decimal cashamount, int id)
         {
             try
             {
                 HttpResponseMessage response = await _httpClient.PostAsJsonAsync($"api/cashshift/{id}", cashamount);
                 if(response.IsSuccessStatusCode)
                 {
-                    var endShift = await response.Content.ReadFromJsonAsync<CashShiftDTO>();
-                    return;
+                    var endShift = await response.Content.ReadFromJsonAsync<CashShiftCloseResultDto>();
+                    return endShift;
                 }
                 else
                 {
                     var errorMessage = await response.Content.ReadAsStringAsync();
-                    return;
+                    return null;
                 }
             }
             catch (Exception ex)
             {
-                return;
+                return null;
             }
         }
 
