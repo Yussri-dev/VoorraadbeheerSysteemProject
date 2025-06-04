@@ -405,6 +405,8 @@
                 <Label Content="Total in cash register:"
                        FontWeight="Bold"/>
                 <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                         Text="{Binding TotalCashAmount, Mode=OneWay, StringFormat='{}{0} €'}"
+                         HorizontalContentAlignment="Right"
                          Width="200"/>
             </StackPanel>
             <StackPanel>
@@ -421,6 +423,21 @@
                     Margin="100 30 100 50"
                     Grid.Row="3">
             <Button Content="Compare"
+                    Command="{Binding CompareButtonCommand}"
+                    Background="#DDE4F0"
+                    Padding="30,10"
+                    Margin="0 0 15 0"
+                    VerticalAlignment="Bottom"
+                    BorderThickness="0"
+                    Foreground="#5A6ACF"
+                    FontWeight="Medium">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button Content="End Shift"
                     Background="#DDE4F0"
                     Padding="30,10"
                     Margin="0 0 15 0"
