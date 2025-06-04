@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
+using VoorraadbeheerSysteemProject.Wpf.Models;
 
 namespace VoorraadbeheerSysteemProject.Wpf.Services.Suppliers
 {
@@ -16,6 +18,12 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services.Suppliers
             _httpClient = new HttpClient();
             _baseUrl = baseUrl;
             _httpClient.BaseAddress = new Uri(_baseUrl);
+        }
+
+        public async Task<List<SupplierDTO>> GetSuppliers()
+        {
+            var result = await _httpClient.GetFromJsonAsync<List<SupplierDTO>>($"api/Supplier");
+            return result ?? new List<SupplierDTO>();
         }
 
         public async Task<int> GetSuppliersCountAsync()
