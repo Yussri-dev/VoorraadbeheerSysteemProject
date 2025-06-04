@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
+using VoorraadbeheerSysteemProject.Wpf.Models;
 
 namespace VoorraadbeheerSysteemProject.Wpf.Services.Customers
 {
@@ -32,6 +34,12 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services.Customers
                 return count;
             }
             return 0;
+        }
+
+        public async Task<List<CustomerDTO>> GetCustomers()
+        {
+            var result = await _httpClient.GetFromJsonAsync<List<CustomerDTO>>($"api/Customer");
+            return result ?? new List<CustomerDTO>();
         }
 
     }

@@ -71,10 +71,11 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         #endregion
 
         #region Product properties
-        public ObservableCollection<ProductDTO> Products 
-        { 
-            get => _products; 
-            set {
+        public ObservableCollection<ProductDTO> Products
+        {
+            get => _products;
+            set
+            {
                 _products = value;
                 OnPropertyChanged(nameof(Products));
                 OnPropertyChanged(nameof(ProductCount));
@@ -128,7 +129,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         }
         #endregion
 
-            #region category properties
+        #region category properties
         public ObservableCollection<CategoryDTO> AllCategories
         {
             get => _categories;
@@ -156,7 +157,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         }
         #endregion
 
-    #region shelf properties
+        #region shelf properties
         public ObservableCollection<ShelfDTO> FilteredShelf
         {
             get => _filteredShelf;
@@ -170,11 +171,12 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         }
         #endregion
 
-            #region search/filter text properties
+        #region search/filter text properties
         public string SearchTextName
         {
             get { return _searchTextName; }
-            set { 
+            set
+            {
                 _searchTextName = value;
                 ////delete text in barcode search box
                 _searchTextBarcode = "";
@@ -256,7 +258,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         #endregion
 
         #region Methods
-            #region filter methods
+        #region filter methods
         private void FilterProducts()
         {
             var filterdProducts = Products.AsEnumerable();
@@ -325,7 +327,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         }
         #endregion
 
-            #region command methods
+        #region command methods
         private async void PreviousPage(object parameter)
         {
             if (_pageNumber <= 1) return;
@@ -351,7 +353,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
         private void DisableOrEnableProduct(object parameter)
         {
-            if ( String.IsNullOrEmpty(_selectedProduct.Barcode))
+            if (String.IsNullOrEmpty(_selectedProduct.Barcode))
                 return;
 
             _selectedProduct.IsActivate = !_selectedProduct.IsActivate;
@@ -362,7 +364,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
         private async void SaveProduct(object parameter)
         {
-            if(_selectedProduct == null)
+            if (_selectedProduct == null)
                 return;
 
             _selectedProduct.DateModified = DateTime.Now;
@@ -376,14 +378,14 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             var newProduct = SelectedProduct;
 
             //get from comboboxes
-            if(SelectedProduct.Category == null)
+            if (SelectedProduct.Category == null)
             {
                 MessageBox.Show("Please select a category");
                 return;
             }
             newProduct.CategoryId = SelectedProduct.Category.CategoryId;
 
-            if(SelectedProduct.Tax == null)
+            if (SelectedProduct.Tax == null)
             {
                 MessageBox.Show("Please select a tax rate");
                 return;
@@ -391,7 +393,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             newProduct.TaxId = SelectedProduct.Tax.TaxId;
 
 
-            if(SelectedProduct.Shelf == null)
+            if (SelectedProduct.Shelf == null)
             {
                 MessageBox.Show("Please select a shelf");
                 return;
@@ -401,27 +403,27 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
 
             //check textboxes
-            if(String.IsNullOrWhiteSpace(newProduct.Name))
-            { 
+            if (String.IsNullOrWhiteSpace(newProduct.Name))
+            {
                 MessageBox.Show("Please fill in a name");
                 return;
             }
-            if(newProduct.MinStock <= 0)
+            if (newProduct.MinStock <= 0)
             {
                 MessageBox.Show("Minimal Stock must be greater than 0");
                 return;
             }
-            if(newProduct.PurchasePrice <= 0)
+            if (newProduct.PurchasePrice <= 0)
             {
                 MessageBox.Show("Purchase price must be greater than 0");
                 return;
             }
-            if(newProduct.SalePrice1 <= 0)
+            if (newProduct.SalePrice1 <= 0)
             {
                 MessageBox.Show("Sale price 1 must be greater than 0");
                 return;
             }
-            if(newProduct.SalePrice2 <= 0)
+            if (newProduct.SalePrice2 <= 0)
             {
                 MessageBox.Show("Sale price 2 must be greater than 0");
                 return;
@@ -437,22 +439,22 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             {
                 var barcode = ProductCount.ToString();
                 var barcodeLenght = barcode.Length;
-                    if (barcodeLenght < 13)
+                if (barcodeLenght < 13)
+                {
+                    for (int i = 0; i < 12 - barcodeLenght; i++)
                     {
-                        for (int i = 0; i < 12 - barcodeLenght; i++)
-                        {
-                            barcode = "0" + barcode;
-                        }
-                        barcode = "1" + barcode;
+                        barcode = "0" + barcode;
                     }
+                    barcode = "1" + barcode;
+                }
                 newProduct.Barcode = barcode;
             }
-            else if(!Int32.TryParse(newProduct.Barcode, out int barcodeInt))
+            else if (!Int32.TryParse(newProduct.Barcode, out int barcodeInt))
             {
                 MessageBox.Show("Barcode must be a number (leave empty to auto-generate a barcode");
                 return;
             }
-            else if(newProduct.Barcode.Length != 13)
+            else if (newProduct.Barcode.Length != 13)
             {
                 MessageBox.Show("Barcode must be 13 characters long (leave empty to auto-generate a barcode)");
                 return;
@@ -481,7 +483,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         {
             SelectedProduct = new ProductDTO();
         }
-            #endregion
+        #endregion
 
         private async Task LoadDataAsync()
         {
@@ -492,7 +494,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             //get products from api
             Products = new ObservableCollection<ProductDTO>(await _apiService.GetProductsAsync());
 
-            if(Products.Count == 0)
+            if (Products.Count == 0)
             {
                 Products = new ObservableCollection<ProductDTO>()
                 {
@@ -509,7 +511,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             //get categories from api
             AllCategories = new ObservableCollection<CategoryDTO>(await _apiService.GetCategoriesAsync());
 
-            if(AllCategories.Count == 0)
+            if (AllCategories.Count == 0)
             {
                 AllCategories = new ObservableCollection<CategoryDTO> {
                     new CategoryDTO(){ CategoryId = 0, Name = "no category selected"},
@@ -523,9 +525,9 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
 
             AllTaxRate = new ObservableCollection<TaxDTO>(await _apiService.GetTaxRatesAsync());
-            
+
             //temp filling of tax rates
-            if(AllTaxRate.Count == 0)
+            if (AllTaxRate.Count == 0)
             {
                 AllTaxRate = new ObservableCollection<TaxDTO> {
                     new TaxDTO(){ TaxId = 0, TaxRate = 0},
@@ -538,7 +540,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             AllShelf = new ObservableCollection<ShelfDTO>(await _apiService.GetShelfsAsync());
 
             //temp filling of shelves
-            if(AllShelf.Count == 0)
+            if (AllShelf.Count == 0)
             {
                 AllShelf = new ObservableCollection<ShelfDTO> {
                     new ShelfDTO(){ ShelfId = 1, Name = "shelf 1"},

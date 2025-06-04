@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows;
 using System.Windows.Input;
 using VoorraadbeheerSysteemProject.Wpf.Requests;
 using VoorraadbeheerSysteemProject.Wpf.ViewModels;
@@ -64,8 +67,11 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands.ProductsCommands
             _vmSale.InputSearchNameText = string.Empty;
             _vmSale.InputSearchBarcodeText = string.Empty;
             _vmSale.CalculateTotalAmount();
+            //Task.Run(async () => await PrintTicket());
+            //PrintTicket();
         }
 
+       
         public void RaiseCanExecuteChanged()
         {
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);
