@@ -20,7 +20,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         private CashRegisterRequest _cashRegisterRequest;
         private CashShiftDTO? _cashShift = null;
         private CashShiftCloseResultDto? _cashShiftCloseResult = null;
-        
+        private int _cashShiftId = 17;
         
 
 
@@ -126,7 +126,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         #region Methods
         private async Task CompareCash()
         {
-            CashShift = await _cashRegisterRequest.GetShiftByIdAsync(18);
+            CashShift = await _cashRegisterRequest.GetShiftByIdAsync(_cashShiftId);
         }
         private async Task EndShift()
         {
@@ -144,7 +144,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                     == MessageBoxResult.No
                 ) return;
             }
-            CashShiftCloseResult = await _cashRegisterRequest.PostEndShiftAsync(TotalCashAmount, 18);
+            CashShiftCloseResult = await _cashRegisterRequest.PostEndShiftAsync(TotalCashAmount, _cashShiftId);
             if (CashShiftCloseResult.Difference == 0)
                 MessageBox.Show("Your shift has ended with no difference");
             else
