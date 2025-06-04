@@ -18,6 +18,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         //api
         private CashRegisterRequest _cashRegisterRequest;
         private CashShiftDTO? cashShift = null;
+        
+        
 
 
         //coins
