@@ -52,7 +52,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 DeleteCommand = new DeleteLineCommand(this);
                 AddCommand = new AddLineCommand(this);
 
-                _apiLine = new ApiLine(AppConfig.ApiUrl);
+                //_apiLine = new ApiLine(AppConfig.ApiUrl);
 
                 PreviousPageCommand = new ButtonCommand(PreviousPage);
                 NextPageCommand = new ButtonCommand(NextPage);
