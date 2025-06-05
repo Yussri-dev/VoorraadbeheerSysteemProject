@@ -46,14 +46,14 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
         #region properties
         #region coin properties
-        public int Coin1Cent { get => _coin1Cent; set { _coin1Cent = value; OnPropertyChanged(nameof(Coin1Cent)); OnPropertyChanged(nameof(Total1CentAmount)); OnPropertyChanged(nameof(TotalCoinAmount)); OnPropertyChanged(nameof(TotalCashAmount)); } }
-        public int Coin2Cent { get => _coin2Cent; set { _coin2Cent = value; OnPropertyChanged(nameof(Coin2Cent)); OnPropertyChanged(nameof(Total2CentAmount)); OnPropertyChanged(nameof(TotalCoinAmount)); OnPropertyChanged(nameof(TotalCashAmount)); } }
-        public int Coin5Cent { get => _coin5Cent; set { _coin5Cent = value; OnPropertyChanged(nameof(Coin5Cent)); OnPropertyChanged(nameof(Total5CentAmount)); OnPropertyChanged(nameof(TotalCoinAmount)); OnPropertyChanged(nameof(TotalCashAmount)); } }
-        public int Coin10Cent { get => _coin10Cent; set { _coin10Cent = value; OnPropertyChanged(nameof(Coin10Cent)); OnPropertyChanged(nameof(Total10CentAmount)); OnPropertyChanged(nameof(TotalCoinAmount)); OnPropertyChanged(nameof(TotalCashAmount)); } }
-        public int Coin20Cent { get => _coin20Cent; set { _coin20Cent = value; OnPropertyChanged(nameof(Coin20Cent)); OnPropertyChanged(nameof(Total20CentAmount)); OnPropertyChanged(nameof(TotalCoinAmount)); OnPropertyChanged(nameof(TotalCashAmount)); } }
-        public int Coin50Cent { get => _coin50Cent; set { _coin50Cent = value; OnPropertyChanged(nameof(Coin50Cent)); OnPropertyChanged(nameof(Total50CentAmount)); OnPropertyChanged(nameof(TotalCoinAmount)); OnPropertyChanged(nameof(TotalCashAmount)); } }
-        public int Coin1Euro { get => _coin1Euro; set { _coin1Euro = value; OnPropertyChanged(nameof(Coin1Euro)); OnPropertyChanged(nameof(Total1EuroAmount)); OnPropertyChanged(nameof(TotalCoinAmount)); OnPropertyChanged(nameof(TotalCashAmount)); } }
-        public int Coin2Euro { get => _coin2Euro; set { _coin2Euro = value; OnPropertyChanged(nameof(Coin2Euro)); OnPropertyChanged(nameof(Total2EuroAmount)); OnPropertyChanged(nameof(TotalCoinAmount)); OnPropertyChanged(nameof(TotalCashAmount)); } }
+        public int Coin1Cent { get => _coin1Cent; set => SetCoin(ref _coin1Cent, value, nameof(Coin1Cent), nameof(Total1CentAmount)); }
+        public int Coin2Cent { get => _coin2Cent; set => SetCoin(ref _coin2Cent, value, nameof(Coin2Cent), nameof(Total2CentAmount)); }
+        public int Coin5Cent { get => _coin5Cent; set => SetCoin(ref _coin5Cent, value, nameof(Coin5Cent), nameof(Total5CentAmount)); }
+        public int Coin10Cent { get => _coin10Cent; set => SetCoin(ref _coin10Cent, value, nameof(Coin10Cent), nameof(Total10CentAmount)); }
+        public int Coin20Cent { get => _coin20Cent; set => SetCoin(ref _coin20Cent, value, nameof(Coin20Cent), nameof(Total20CentAmount)); }
+        public int Coin50Cent { get => _coin50Cent; set => SetCoin(ref _coin50Cent, value, nameof(Coin50Cent), nameof(Total50CentAmount)); }
+        public int Coin1Euro { get => _coin1Euro; set => SetCoin(ref _coin1Euro, value, nameof(Coin1Euro), nameof(Total1EuroAmount)); }
+        public int Coin2Euro { get => _coin2Euro; set => SetCoin(ref _coin2Euro, value, nameof(Coin2Euro), nameof(Total2EuroAmount)); }
 
         public decimal Total1CentAmount => Coin1Cent * 0.01m;
         public decimal Total2CentAmount => Coin2Cent * 0.02m;
@@ -67,13 +67,13 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             Total10CentAmount + Total20CentAmount + Total50CentAmount + Total1EuroAmount + Total2EuroAmount;
         #endregion
         #region bill properties
-        public int Bill5Euro { get => _bill5Euro; set {_bill5Euro = value; OnPropertyChanged(nameof(Bill5Euro)); OnPropertyChanged(nameof(Total5EuroAmount)); OnPropertyChanged(nameof(TotalBillAmount)); OnPropertyChanged(nameof(TotalCashAmount)); } }
-        public int Bill10Euro { get => _bill10Euro; set {_bill10Euro = value; OnPropertyChanged(nameof(Bill10Euro)); OnPropertyChanged(nameof(Total10EuroAmount)); OnPropertyChanged(nameof(TotalBillAmount)); OnPropertyChanged(nameof(TotalCashAmount)); } }
-        public int Bill20Euro { get => _bill20Euro; set {_bill20Euro = value; OnPropertyChanged(nameof(Bill20Euro)); OnPropertyChanged(nameof(Total20EuroAmount)); OnPropertyChanged(nameof(TotalBillAmount)); OnPropertyChanged(nameof(TotalCashAmount)); } }
-        public int Bill50Euro { get => _bill50Euro; set {_bill50Euro = value; OnPropertyChanged(nameof(Bill50Euro)); OnPropertyChanged(nameof(Total50EuroAmount)); OnPropertyChanged(nameof(TotalBillAmount)); OnPropertyChanged(nameof(TotalCashAmount)); } }
-        public int Bill100Euro { get => _bill100Euro; set {_bill100Euro = value; OnPropertyChanged(nameof(Bill100Euro)); OnPropertyChanged(nameof(Total100EuroAmount)); OnPropertyChanged(nameof(TotalBillAmount)); OnPropertyChanged(nameof(TotalCashAmount)); } }
-        public int Bill200Euro { get => _bill200Euro; set {_bill200Euro = value; OnPropertyChanged(nameof(Bill200Euro)); OnPropertyChanged(nameof(Total200EuroAmount)); OnPropertyChanged(nameof(TotalBillAmount)); OnPropertyChanged(nameof(TotalCashAmount)); } }
-        public int Bill500Euro { get => _bill500Euro; set {_bill500Euro = value; OnPropertyChanged(nameof(Bill500Euro)); OnPropertyChanged(nameof(Total500EuroAmount)); OnPropertyChanged(nameof(TotalBillAmount)); OnPropertyChanged(nameof(TotalCashAmount)); } }
+        public int Bill5Euro { get => _bill5Euro; set => SetBill(ref _bill5Euro, value, nameof(Bill5Euro), nameof(Total5EuroAmount)); }
+        public int Bill10Euro { get => _bill10Euro; set => SetBill(ref _bill10Euro, value, nameof(Bill10Euro), nameof(Total10EuroAmount)); }
+        public int Bill20Euro { get => _bill20Euro; set => SetBill(ref _bill20Euro, value, nameof(Bill20Euro), nameof(Total20EuroAmount)); }
+        public int Bill50Euro { get => _bill50Euro; set => SetBill(ref _bill50Euro, value, nameof(Bill50Euro), nameof(Total50EuroAmount)); }
+        public int Bill100Euro { get => _bill100Euro; set => SetBill(ref _bill100Euro, value, nameof(Bill100Euro), nameof(Total100EuroAmount)); }
+        public int Bill200Euro { get => _bill200Euro; set => SetBill(ref _bill200Euro, value, nameof(Bill200Euro), nameof(Total200EuroAmount)); }
+        public int Bill500Euro { get => _bill500Euro; set => SetBill(ref _bill500Euro, value, nameof(Bill500Euro), nameof(Total500EuroAmount)); }
         public decimal Total5EuroAmount => Bill5Euro * 5.00m;
         public decimal Total10EuroAmount => Bill10Euro * 10.00m;
         public decimal Total20EuroAmount => Bill20Euro * 20.00m;
@@ -118,7 +118,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             _cashRegisterRequest = new CashRegisterRequest(AppConfig.ApiUrl);
             _drawerRequests = new DrawerRequests(AppConfig.ApiUrl);
 
-            CompareButtonCommand = new ButtonCommand(async _ => await CompareCash());
+            //CompareButtonCommand = new ButtonCommand(async _ => await CompareCash());
+            GetCashShift();
             EndShiftButton = new ButtonCommand(async _ => await EndShift());
             UpArrowButtonCommand = new ButtonCommand(IncreaseValue);
             DownArrowButtonCommand = new ButtonCommand(DecreaseValue);
@@ -158,7 +159,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             }
         }
 
-        private async Task CompareCash()
+        private async Task GetCashShift()
         {
             if (CashShift is null || CashShift.CashShiftId == 0)
                 CashShift = await _drawerRequests.GetCashShiftTodayByEmployeeId(UserSession.IdUSer);
@@ -167,7 +168,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         }
         private async Task EndShift()
         {
-            await CompareCash();
+            await GetCashShift();
             if(CashShift is null || CashShift.ShiftEnd != null)
             {
                 MessageBox.Show("No cash shift found, please start a shift first");
@@ -186,6 +187,32 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 MessageBox.Show("Your shift has ended with no difference");
             else
                 MessageBox.Show($"your shift has ended with a difference of {CashShiftCloseResult.Difference} Euro");
+        }
+
+        private void SetCoin(ref int field, int value, string propertyName, string totalAmountProperty)
+        {
+            if(field != value)
+            {
+                field = value;
+                OnPropertyChanged(propertyName);
+                OnPropertyChanged(totalAmountProperty);
+                OnPropertyChanged(nameof(TotalCoinAmount));
+                OnPropertyChanged(nameof(TotalCashAmount));
+                OnPropertyChanged(nameof(DifferenceAmount));
+            }
+        }
+
+        private void SetBill(ref int field, int value, string propertyName, string totalAmountProperty)
+        {
+            if (field != value)
+            {
+                field = value;
+                OnPropertyChanged(propertyName);
+                OnPropertyChanged(totalAmountProperty);
+                OnPropertyChanged(nameof(TotalBillAmount));
+                OnPropertyChanged(nameof(TotalCashAmount));
+                OnPropertyChanged(nameof(DifferenceAmount));
+            }
         }
         #endregion
     }

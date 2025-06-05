@@ -491,21 +491,6 @@
                     HorizontalAlignment="Right" 
                     Margin="100 30 100 50"
                     Grid.Row="3">
-            <Button Content="Compare"
-                    Command="{Binding CompareButtonCommand}"
-                    Background="#DDE4F0"
-                    Padding="30,10"
-                    Margin="0 0 15 0"
-                    VerticalAlignment="Bottom"
-                    BorderThickness="0"
-                    Foreground="#5A6ACF"
-                    FontWeight="Medium">
-                <Button.Resources>
-                    <Style TargetType="{x:Type Border}">
-                        <Setter Property="CornerRadius" Value="5"/>
-                    </Style>
-                </Button.Resources>
-            </Button>
             <Button Content="End Shift"
                     Command="{Binding EndShiftButton}"
                     Background="#DDE4F0"
