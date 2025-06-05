@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using VoorraadbeheerSysteemProject.Wpf.ViewModels;
 
-namespace VoorraadbeheerSysteemProject.Wpf.Commands.SuppliersCommands
+namespace VoorraadbeheerSysteemProject.Wpf.Commands.TaxCommands
 {
-    public class UpdateCommand : ICommand
+    internal class UpdateCommand : ICommand
     {
         private readonly VmTax _viewModel;
 
@@ -24,8 +24,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands.SuppliersCommands
         public void Execute(object? parameter)
         {
 
-            _viewModel.RefreshTaxes();
         }
+   
     }
-
 }

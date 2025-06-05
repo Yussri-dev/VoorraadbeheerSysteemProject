@@ -107,5 +107,6 @@
         <!--<Grid Grid.Column="1">
             <TextBlock Text="Main Content Here" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </Grid>-->
+      
     </Grid>
 </Window>

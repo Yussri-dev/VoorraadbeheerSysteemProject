@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using VoorraadbeheerSysteemProject.Wpf.Commands;
-using VoorraadbeheerSysteemProject.Wpf.Commands.SuppliersCommands;
 using VoorraadbeheerSysteemProject.Wpf.Commands.TaxCommands;
 using VoorraadbeheerSysteemProject.Wpf.Models;
 using VoorraadbeheerSysteemProject.Wpf.Services;
