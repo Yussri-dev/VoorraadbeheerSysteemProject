@@ -29,6 +29,52 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="CustomTextBoxUpDownStyle" TargetType="TextBox" BasedOn="{StaticResource CustomTextBoxStyle}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Grid>
+                            <Border Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="5"
+                                    Padding="5 2 5 2">
+                                <Grid>
+                                    <ScrollViewer x:Name="PART_ContentHost"/>
+                                    <StackPanel Orientation="Vertical"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Center"
+                                                Margin="0 0 2 0">
+                                        <Button x:Name="PART_UpButton"
+                                                Command="{Binding UpArrowButtonCommand}"
+                                                CommandParameter="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}"
+                                                Content="▲"
+                                                Foreground="#5A6ACF"
+                                                Width="16"
+                                                Height="12"
+                                                Padding="0"
+                                                Focusable="False"
+                                                Background="Transparent"
+                                                BorderThickness="0"/>
+                                        <Button x:Name="DownButton"
+                                                Command="{Binding DownArrowButtonCommand}"
+                                                CommandParameter="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}"
+                                                Content="▼"
+                                                Foreground="#5A6ACF"
+                                                Width="16"
+                                                Height="12"
+                                                Padding="0"
+                                                Focusable="False"
+                                                Background="Transparent"
+                                                BorderThickness="0"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     <!--#endregion-->
     </UserControl.Resources>
     <Grid>
@@ -48,11 +94,11 @@
               HorizontalAlignment="Center">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="80"/>
                 <ColumnDefinition Width="200" MinWidth="100"/>
                 <ColumnDefinition Width="100"/> <!--gutter column-->
                 <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="80"/>
                 <ColumnDefinition Width="200" MinWidth="100"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -101,57 +147,66 @@
                    Margin="0 0 10 10"/>
             <!--#endregion-->
             <!--#region amount pieces col 1-->
-            <TextBox Style="{StaticResource CustomTextBoxStyle}"
+            <TextBox Style="{StaticResource CustomTextBoxUpDownStyle}"
                      Text="{Binding Coin1Cent}"
+                     Tag="Coin1Cent"
                      behaviors:SelectAllTextOnFocusBehavior.Enable="True"
                      Grid.Row="0"
                      Grid.Column="1"
                      Margin="0 0 10 10"
                      HorizontalContentAlignment="Center"/>
-            <TextBox Style="{StaticResource CustomTextBoxStyle}"
+
+            <TextBox Style="{StaticResource CustomTextBoxUpDownStyle}"
                      Text="{Binding Coin2Cent}"
+                     Tag="Coin2Cent"
                      behaviors:SelectAllTextOnFocusBehavior.Enable="True"
                      Grid.Row="1"
                      Grid.Column="1"
                      Margin="0 0 10 10"
                      HorizontalContentAlignment="Center"/>
-            <TextBox Style="{StaticResource CustomTextBoxStyle}"
+            <TextBox Style="{StaticResource CustomTextBoxUpDownStyle}"
                      Text="{Binding Coin5Cent}"
+                     Tag="Coin5Cent"
                      behaviors:SelectAllTextOnFocusBehavior.Enable="True"
                      Grid.Row="2"
                      Grid.Column="1"
                      Margin="0 0 10 10"
                      HorizontalContentAlignment="Center"/>
-            <TextBox Style="{StaticResource CustomTextBoxStyle}"
+            <TextBox Style="{StaticResource CustomTextBoxUpDownStyle}"
                      Text="{Binding Coin10Cent}"
+                     Tag="Coin10Cent"
                      behaviors:SelectAllTextOnFocusBehavior.Enable="True"
                      Grid.Row="3"
                      Grid.Column="1"
                      Margin="0 0 10 10"
                      HorizontalContentAlignment="Center"/>
-            <TextBox Style="{StaticResource CustomTextBoxStyle}"
+            <TextBox Style="{StaticResource CustomTextBoxUpDownStyle}"
                      Text="{Binding Coin20Cent}"
+                     Tag="Coin20Cent"
                      behaviors:SelectAllTextOnFocusBehavior.Enable="True"
                      Grid.Row="4"
                      Grid.Column="1"
                      Margin="0 0 10 10"
                      HorizontalContentAlignment="Center"/>
-            <TextBox Style="{StaticResource CustomTextBoxStyle}"
+            <TextBox Style="{StaticResource CustomTextBoxUpDownStyle}"
                      Text="{Binding Coin50Cent}"
+                     Tag="Coin50Cent"
                      behaviors:SelectAllTextOnFocusBehavior.Enable="True"
                      Grid.Row="5"
                      Grid.Column="1"
                      Margin="0 0 10 10"
                      HorizontalContentAlignment="Center"/>
-            <TextBox Style="{StaticResource CustomTextBoxStyle}"
+            <TextBox Style="{StaticResource CustomTextBoxUpDownStyle}"
                      Text="{Binding Coin1Euro}"
+                     Tag="Coin1Euro"
                      behaviors:SelectAllTextOnFocusBehavior.Enable="True"
                      Grid.Row="6"
                      Grid.Column="1"
                      Margin="0 0 10 10"
                      HorizontalContentAlignment="Center"/>
-            <TextBox Style="{StaticResource CustomTextBoxStyle}"
+            <TextBox Style="{StaticResource CustomTextBoxUpDownStyle}"
                      Text="{Binding Coin2Euro}"
+                     Tag="Coin2Euro"
                      behaviors:SelectAllTextOnFocusBehavior.Enable="True"
                      Grid.Row="7"
                      Grid.Column="1"
@@ -263,50 +318,57 @@
                    Margin="0 0 10 10"/>
             <!--#endregion-->
             <!--#region amount bills col 5-->
-            <TextBox Style="{StaticResource CustomTextBoxStyle}"
+            <TextBox Style="{StaticResource CustomTextBoxUpDownStyle}"
                      Text="{Binding Bill5Euro}"
+                     Tag="Bill5Euro"
                      behaviors:SelectAllTextOnFocusBehavior.Enable="True"
                      Grid.Row="0"
                      Grid.Column="5"
                      Margin="0 0 10 10"
                      HorizontalContentAlignment="Center"/>
-            <TextBox Style="{StaticResource CustomTextBoxStyle}"
+            <TextBox Style="{StaticResource CustomTextBoxUpDownStyle}"
                      Text="{Binding Bill10Euro}"
+                     Tag="Bill10Euro"
                      behaviors:SelectAllTextOnFocusBehavior.Enable="True"
                      Grid.Row="1"
                      Grid.Column="5"
                      Margin="0 0 10 10"
                      HorizontalContentAlignment="Center"/>
-            <TextBox Style="{StaticResource CustomTextBoxStyle}"
+            <TextBox Style="{StaticResource CustomTextBoxUpDownStyle}"
                      Text="{Binding Bill20Euro}"
+                     Tag="Bill20Euro"
                      behaviors:SelectAllTextOnFocusBehavior.Enable="True"
                      Grid.Row="2"
                      Grid.Column="5"
                      Margin="0 0 10 10"
                      HorizontalContentAlignment="Center"/>
-            <TextBox Style="{StaticResource CustomTextBoxStyle}"
+            <TextBox Style="{StaticResource CustomTextBoxUpDownStyle}"
                      Text="{Binding Bill50Euro}"
+                     Tag="Bill50Euro"
                      behaviors:SelectAllTextOnFocusBehavior.Enable="True"
                      Grid.Row="3"
                      Grid.Column="5"
                      Margin="0 0 10 10"
                      HorizontalContentAlignment="Center"/>
-            <TextBox Style="{StaticResource CustomTextBoxStyle}"
+            <TextBox Style="{StaticResource CustomTextBoxUpDownStyle}"
                      Text="{Binding Bill100Euro}"
+                     Tag="Bill100Euro"
                      behaviors:SelectAllTextOnFocusBehavior.Enable="True"
                      Grid.Row="4"
                      Grid.Column="5"
                      Margin="0 0 10 10"
                      HorizontalContentAlignment="Center"/>
-            <TextBox Style="{StaticResource CustomTextBoxStyle}"
+            <TextBox Style="{StaticResource CustomTextBoxUpDownStyle}"
                      Text="{Binding Bill200Euro}"
+                     Tag="Bill200Euro"
                      behaviors:SelectAllTextOnFocusBehavior.Enable="True"
                      Grid.Row="5"
                      Grid.Column="5"
                      Margin="0 0 10 10"
                      HorizontalContentAlignment="Center"/>
-            <TextBox Style="{StaticResource CustomTextBoxStyle}"
+            <TextBox Style="{StaticResource CustomTextBoxUpDownStyle}"
                      Text="{Binding Bill500Euro}"
+                     Tag="Bill500Euro"
                      behaviors:SelectAllTextOnFocusBehavior.Enable="True"
                      Grid.Row="6"
                      Grid.Column="5"

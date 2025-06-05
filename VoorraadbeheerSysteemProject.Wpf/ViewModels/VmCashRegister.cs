@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -103,6 +104,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         public ICommand NavigateDashboardCommand { get; }
         public ICommand CompareButtonCommand { get; }
         public ICommand EndShiftButton { get; }
+        public ICommand UpArrowButtonCommand { get; }
+        public ICommand DownArrowButtonCommand { get; }
         #endregion
         #endregion
 
@@ -117,13 +120,44 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
             CompareButtonCommand = new ButtonCommand(async _ => await CompareCash());
             EndShiftButton = new ButtonCommand(async _ => await EndShift());
+            UpArrowButtonCommand = new ButtonCommand(IncreaseValue);
+            DownArrowButtonCommand = new ButtonCommand(DecreaseValue);
+
         }
-
-
-
         #endregion
 
         #region Methods
+        private void IncreaseValue(object obj)
+        {
+            if(obj is string propertyName)
+            {
+                //get the property info for the given property name
+                PropertyInfo propertyInfo = GetType().GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public);
+                if(propertyInfo != null && propertyInfo.CanWrite && propertyInfo.PropertyType == typeof(int))
+                {
+                    //get current property value
+                    int currentValue = (int)propertyInfo.GetValue(this);
+
+                    //set new value by increasing current value by 1
+                    propertyInfo.SetValue(this, currentValue + 1);
+                }
+            }
+        }
+        private void DecreaseValue(object obj)
+        {
+            if(obj is string propertyName)
+            {
+                PropertyInfo propertyInfo = GetType().GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public);
+                if(propertyInfo != null && propertyInfo.CanWrite && propertyInfo.PropertyType == typeof(int))
+                {
+                    int currentValue = (int)propertyInfo.GetValue(this);
+
+                    if(currentValue > 0)
+                        propertyInfo.SetValue(this, currentValue - 1);
+                }
+            }
+        }
+
         private async Task CompareCash()
         {
             if (CashShift is null || CashShift.CashShiftId == 0)
