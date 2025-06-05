@@ -89,7 +89,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services.Users
                     return new AuthResult
                     {
                         Token = authResponse.Token!,
-                        Email = authResponse.UserName!
+                        Email = authResponse.UserName,
+                        IdUser = authResponse.IdUser,
                     };
                 }
 

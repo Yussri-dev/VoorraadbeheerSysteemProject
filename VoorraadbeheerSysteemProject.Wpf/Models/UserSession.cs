@@ -10,11 +10,13 @@ namespace VoorraadbeheerSysteemProject.Wpf.Models
     {
         public static string? Email { get; set; }
         public static string? Token { get; set; }
+        public static string? IdUSer { get; set; }
 
         public static void Clear()
         {
             Email = null;
             Token = null;
+            IdUSer = null;
         }
     }
 }
