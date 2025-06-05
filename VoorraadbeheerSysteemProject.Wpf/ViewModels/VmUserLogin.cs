@@ -16,6 +16,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
     public class VmUserLogin : VmBase
     {
+        public event Action? LoginSucceeded;
+
         private readonly NavigationStore _navigationStore;
         private readonly UsersRequests _userService;
 
@@ -50,6 +52,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             set { _statusMessage = value; OnPropertyChanged(); }
         }
 
+
         public ICommand LoginCommand { get; }
         public ICommand NavigateToUserCreateCommand { get; }
 
@@ -57,6 +60,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         {
             StatusMessage = string.Empty;
 
+            UserName = "ghanmiyoussri@gmail.com";
+            Password = "077671699Yos@";
             if (string.IsNullOrWhiteSpace(UserName) || string.IsNullOrWhiteSpace(Password))
             {
                 StatusMessage = "Enter both username and password.";
@@ -67,16 +72,17 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
             if (result != null)
             {
+                // Save session/token
+                JwtTokenStore.Token = result.Token;
                 UserSession.Token = result.Token;
                 UserSession.Email = result.Email;
 
-                _navigationStore.CurrentViewModel = new VmDashboard(_navigationStore);
+                LoginSucceeded?.Invoke();
             }
             else
             {
                 StatusMessage = "Invalid Credentials.";
             }
-
         }
 
         private void Navigate(object parameter)
