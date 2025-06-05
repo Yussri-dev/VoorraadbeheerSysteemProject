@@ -10,6 +10,7 @@ using VoorraadbeheerSysteemProject.Wpf.Commands.SuppliersCommands;
 using VoorraadbeheerSysteemProject.Wpf.Models;
 using VoorraadbeheerSysteemProject.Wpf.Services;
 using VoorraadbeheerSysteemProject.Wpf.Stores;
+using VoorraadbeheerSysteemProject.Wpf.Views;
 
 namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 {
@@ -19,10 +20,12 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         {
             //  Private fields
             private readonly ApiSupplier _apiSupplier ;
+            private readonly NavigationStore _navigationStore;
+
             private string _searchText;
             private int _totalSuppliers;
             private int _pageNumber = 1;
-            private readonly int _pageSize = 10;
+            private readonly int _pageSize = 200;
             private SupplierDTO _selectedSupplier;
 
             // 🔹 Publieke collecties
@@ -40,14 +43,14 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             public SupplierDTO NewSupplier { get; set; } = new SupplierDTO();
 
             //  Commands
-            public ICommand UpdateCommand { get; }
+            //public ICommand UpdateCommand { get; }
             public ICommand ResetCommand { get; }
             public ICommand NavigateDashboardCommand { get; }
             //public ICommand SearchCommand { get; }
             public ICommand AddCommand { get; }
             public ICommand DeleteCommand { get; }
-            public ICommand PreviousPageButtonCommand { get; }
-            public ICommand NextPageButtonCommand { get; }
+            public ICommand PreviousPageCommand { get; }
+            public ICommand NextPageCommand { get; }
 
             //  constructor
             public VmSupplier(NavigationStore navigationStore)
@@ -58,30 +61,31 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 NavigateDashboardCommand = new NavigationCommand<VmDashboard>(navigationStore,
                     () => new VmDashboard(navigationStore));
 
-                UpdateCommand = new UpdateCommand(this);
-                ResetCommand = new ResetCommand(this);
+                //UpdateCommand = new UpdateCommand(this);
+                ResetCommand = new ResetSupplierCommand(this);
                 //SearchCommand = new SearchCommand(this);
-                AddCommand = new AddCommand(this);
-                DeleteCommand = new DeleteCommand(this);
-                PreviousPageButtonCommand = new ButtonCommand(PreviousPage);
-                NextPageButtonCommand = new ButtonCommand(NextPage);
+                AddCommand = new AddSupplierCommand(this);
+               _apiSupplier = new ApiSupplier(AppConfig.ApiUrl);
+               DeleteCommand = new DeleteSupplierCommand(this);
+                PreviousPageCommand = new ButtonCommand(PreviousPage);
+                NextPageCommand = new ButtonCommand(NextPage);
 
                 LoadSuppliers();
             }
 
-            //  Properties
-            public string SearchText
+        //  Properties
+        public string SearchText
+        {
+            get => _searchText;
+            set
             {
-                get => _searchText;
-                set
-                {
-                    _searchText = value;
-                    OnPropertyChanged();
-                    FilterSuppliers();
-                }
+                _searchText = value;
+                OnPropertyChanged();
+                FilterSuppliers();
             }
+        }
 
-            public int TotalSuppliers
+        public int TotalSuppliers
             {
                 get => _totalSuppliers;
                 set
@@ -108,15 +112,13 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 Suppliers.Clear();
                 FilteredSuppliers.Clear();
 
-                int counter = (_pageNumber - 1) * _pageSize + 1;
-                foreach (var cat in list)
-                {
-                    cat.SupplierId = counter++;
-                    Suppliers.Add(cat);
-                    FilteredSuppliers.Add(cat);
-                }
+            foreach (var cat in list)
+            {
+                Suppliers.Add(cat);
+                FilteredSuppliers.Add(cat);
+            }
 
-                TotalSuppliers = await _apiSupplier.GetSupplierCountAsync();
+            TotalSuppliers = await _apiSupplier.GetSupplierCountAsync();
             }
 
             public void FilterSuppliers()
@@ -139,35 +141,62 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 Suppliers.Clear();
                 FilteredSuppliers.Clear();
 
-                int counter = (_pageNumber - 1) * _pageSize + 1;
-                foreach (var cat in list)
-                {
-                    cat.SupplierId = counter++;
-                    Suppliers.Add(cat);
-                    FilteredSuppliers.Add(cat);
-                }
-
-                TotalSuppliers = await _apiSupplier.GetSupplierCountAsync();
-            }
-
-            // CRUD – Toevoegen
-            public async void AddSupplier()
+            foreach (var cat in list)
             {
-                var newSupplier = new SupplierDTO
-                {
-                    Name = NewSupplierName,
-                    PhoneNumber1 = NewPhone1,
-                    PhoneNumber2 = NewPhone2,
-                    Email = NewEmail,
-                    DateCreated = DateTime.Now
-                };
-
-                await _apiSupplier.PostSuppliersAsync(newSupplier);
-                RefreshSuppliers();
+                Suppliers.Add(cat);
+                FilteredSuppliers.Add(cat);
             }
 
-            //  Navigatie – Pagina’s wisselen
-            private async void PreviousPage(object parameter)
+            TotalSuppliers = await _apiSupplier.GetSupplierCountAsync();
+            }
+
+        // CRUD – Toevoegen
+
+        public async void AddSupplier()
+        {
+            var newSupplier = new SupplierDTO
+            {
+                Name = NewSupplierName,
+                PhoneNumber1 = NewPhone1,
+                PhoneNumber2 = NewPhone2,
+                Email = NewEmail,
+                DateCreated = DateTime.Now
+            };
+
+            Console.WriteLine($"Updating Supplier with ID: {newSupplier.SupplierId}");
+            Console.WriteLine($"Naam: {newSupplier.Name}");
+            Console.WriteLine($"Telefoon1: {newSupplier.PhoneNumber1}");
+            Console.WriteLine($"Email: {newSupplier.Email}");
+
+            var result = await _apiSupplier.PostSupplierAsync(newSupplier);
+
+            if (!result)
+            {
+                Console.WriteLine("POST mislukt – controleer of alle verplichte velden gevuld zijn.");
+            }
+
+            RefreshSuppliers();
+        }
+
+
+        //property
+
+        public int PageNumber
+        {
+            get => _pageNumber;
+            set
+            {
+                if (_pageNumber != value)
+                {
+                    _pageNumber = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+
+        //  Navigatie – Pagina’s wisselen
+        private async void PreviousPage(object parameter)
             {
                 if (_pageNumber <= 1) return;
 
