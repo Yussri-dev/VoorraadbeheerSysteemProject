@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using VoorraadbeheerSysteemProject.Wpf.Commands;
-using VoorraadbeheerSysteemProject.Wpf.Commands.SuppliersCommands;
 using VoorraadbeheerSysteemProject.Wpf.Commands.TaxCommands;
 using VoorraadbeheerSysteemProject.Wpf.Models;
 using VoorraadbeheerSysteemProject.Wpf.Services;
@@ -31,7 +30,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         public ObservableCollection<TaxDTO> FilteredTaxes { get; set; }
 
         public ApiTax ApiTax => _apiTax;
-        public ICommand UpdateCommand { get; }
+        //public ICommand UpdateCommand { get; }
         public ICommand PreviousPageCommand { get; }
         public ICommand NextPageCommand { get; }
         public ICommand AddCommand { get; }
@@ -48,7 +47,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
             NavigateDashboardCommand = new NavigationCommand<VmDashboard>(
                 navigationStore, () => new VmDashboard(navigationStore));
-            UpdateCommand = new UpdateCommand(this);
+            //UpdateCommand = new UpdateCommand(this);
             AddCommand = new AddCommand(this);
             ResetCommand = new ResetCommand(this);
             DeleteCommand = new DeleteCommand(this);
