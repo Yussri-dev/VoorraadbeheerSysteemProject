@@ -27,3 +27,4 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands.LineCommands
 
         }
     }
+}
