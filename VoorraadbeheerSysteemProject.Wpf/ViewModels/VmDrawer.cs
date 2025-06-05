@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -45,7 +46,16 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         public VmDrawer(NavigationStore navigationStore)
         {
             _drawerRequest = new DrawerRequests(AppConfig.ApiUrl);
-            RegisterCashShiftAsync();
+            CheckShift();
+        }
+
+        private async Task CheckShift()
+        {
+            CashShiftDTO? existingShift = await _drawerRequest.GetCashShiftTodayByEmployeeId(2);
+            if (existingShift is null)
+                await RegisterCashShiftAsync();
+            else
+                CurrentShift = existingShift;
         }
 
 

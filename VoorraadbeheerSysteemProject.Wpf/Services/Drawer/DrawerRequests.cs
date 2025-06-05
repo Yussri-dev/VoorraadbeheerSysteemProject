@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using VoorraadbeheerSysteemProject.Wpf.Models;
 
@@ -36,6 +37,27 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services.Drawer
                     var errorContent = await response.Content.ReadAsStringAsync();
                     return null;
                 }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public async Task<CashShiftDTO?> GetCashShiftTodayByEmployeeId(int employeeId)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/cashshift/drawer/{employeeId}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var cashShift = await response.Content.ReadFromJsonAsync<CashShiftDTO>();
+                    //var cashShift = (await response.Content.ReadFromJsonAsync<List<CashShiftDTO>>())?.FirstOrDefault(); //temp until response returns 1 row
+
+                    return cashShift;
+                }
+                else return null;
             }
             catch (Exception ex)
             {
