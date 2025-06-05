@@ -20,6 +20,9 @@
     <Compile Update="Views\UcDashboard.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\UcDrawer.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\UcInventory.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
