@@ -11,37 +11,37 @@
 
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Shift Date:" Width="120"/>
-                <TextBlock Text="{Binding ShiftDate}" Width="120"/>
+                <TextBlock Text="{Binding CurrentShift.ShiftStart, StringFormat='{}{0:dd/MM/yyyy}'}" Width="120"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Start Time:" Width="120"/>
-                <TextBlock Text="{Binding ShiftStart}" Width="120"/>
+                <TextBlock Text="{Binding CurrentShift.ShiftStart, StringFormat='{}{0:HH:mm}'}" Width="120"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Opening Balance:" Width="120"/>
-                <TextBlock Text="{Binding OpeningBalance, StringFormat=C}" Width="120"/>
+                <TextBlock Text="{Binding CurrentShift.OpeningBalance, StringFormat=C}" Width="120"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Created On:" Width="120"/>
-                <TextBlock Text="{Binding DateCreated}" Width="120"/>
+                <TextBlock Text="{Binding CurrentShift.DateCreated, StringFormat='{}{0:dd/MM/yyyy HH:mm}'}" Width="120"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Cash Register ID:" Width="120"/>
-                <TextBlock Text="{Binding CashRegisterId}" Width="120"/>
+                <TextBlock Text="{Binding CurrentShift.CashRegisterId}" Width="120"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Employee ID:" Width="120"/>
-                <TextBlock Text="{Binding EmployeeId}" Width="120" />
+                <TextBlock Text="{Binding CurrentShift.EmployeeId}" Width="120" />
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="SaaS Client ID:" Width="120"/>
-                <TextBlock Text="{Binding SaasClientId}" />
+                <TextBlock Text="{Binding CurrentShift.SaasClientId}" />
             </StackPanel>
         </StackPanel>
     </Border>

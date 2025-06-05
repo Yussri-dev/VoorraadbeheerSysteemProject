@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using VoorraadbeheerSysteemProject.Wpf.Commands;
-using VoorraadbeheerSysteemProject.Wpf.Commands.DrawerCommands;
 using VoorraadbeheerSysteemProject.Wpf.Models;
 using VoorraadbeheerSysteemProject.Wpf.Services.Drawer;
 using VoorraadbeheerSysteemProject.Wpf.Services.SaasClients;
@@ -17,24 +16,14 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
     {
         private readonly DrawerRequests _drawerRequest;
         private readonly NavigationStore _navigationStore;
-        public VmDrawer(NavigationStore navigationStore)
-        {
-            validateCashShiftCommand = new ValidateCashShiftCommand(this);
-        }
-
-        #region Fields & commands
 
         private DateTime _shiftStart;
-        public DateTime ShiftStart
-        {
-            get => _shiftStart;
-            set
-            {
-                _shiftStart = value;
-            }
-        }
-
         private string _statusMessage;
+        private CashShiftDTO _currentShift;
+        
+
+        #region properties
+
         public string StatusMessage
         {
             get => _statusMessage;
@@ -45,44 +34,38 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             }
         }
 
-        private ICommand validateCashShiftCommand { get; set; }
+        public CashShiftDTO CurrentShift { 
+            get => _currentShift;
+            set { _currentShift = value; OnPropertyChanged(nameof(CurrentShift)); }
+        }
+
 
         #endregion
-        public async Task<CashShiftDTO> SaveCashShiftAsync(CashShiftDTO cashShiftDto)
-        {
-            try
-            {
-                var createdCashShift = await _drawerRequest.PostCashShiftAsync(cashShiftDto);
-                return createdCashShift;
-            }
-            catch (Exception)
-            {
 
-                return null;
-            }
+        public VmDrawer(NavigationStore navigationStore)
+        {
+            _drawerRequest = new DrawerRequests(AppConfig.ApiUrl);
+            RegisterCashShiftAsync();
         }
+
 
         #region Methods
         private async Task RegisterCashShiftAsync()
         {
             StatusMessage = string.Empty;
 
-            if (
-                string.IsNullOrWhiteSpace(FullName) ||
-                string.IsNullOrWhiteSpace(Email) ||
-                string.IsNullOrWhiteSpace(Adresse) ||
-                string.IsNullOrWhiteSpace(SubscriptionType)
-                )
-            {
-                StatusMessage = "All Fields Are required";
-            }
-            var responseDto = new CashShiftDTO
+            var newShift = new CashShiftDTO
             {
                 CashRegisterId = 3,
-
+                ShiftDate = DateTime.Now.Date,
+                ShiftStart = DateTime.Now,
+                OpeningBalance = 100.00m, // Example opening balance
+                DateCreated = DateTime.Now,
+                EmployeeId = 2, // Example employee ID
+                SaasClientId = 1, // Example SaaS client ID
             };
 
-            await _drawerRequest.PostCashShiftAsync(responseDto);
+            CurrentShift =  await _drawerRequest.PostCashShiftAsync(newShift);
         }
         #endregion
     }
