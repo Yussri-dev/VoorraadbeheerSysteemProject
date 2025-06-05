@@ -44,7 +44,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services.Drawer
             }
         }
 
-        public async Task<CashShiftDTO?> GetCashShiftTodayByEmployeeId(int employeeId)
+        public async Task<CashShiftDTO?> GetCashShiftTodayByEmployeeId(string employeeId)
         {
             try
             {
@@ -53,7 +53,6 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services.Drawer
                 if (response.IsSuccessStatusCode)
                 {
                     var cashShift = await response.Content.ReadFromJsonAsync<CashShiftDTO>();
-                    //var cashShift = (await response.Content.ReadFromJsonAsync<List<CashShiftDTO>>())?.FirstOrDefault(); //temp until response returns 1 row
 
                     return cashShift;
                 }
