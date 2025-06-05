@@ -8,4 +8,13 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="AppConfig.cs" />
+    <Compile Remove="Commands\LineCommands\AddCommand.cs" />
+    <Compile Remove="Commands\LineCommands\ButtonCommand.cs" />
+    <Compile Remove="Commands\LineCommands\DeleteCommand.cs" />
+    <Compile Remove="Commands\LineCommands\ResetCommand.cs" />
+    <Compile Remove="Commands\LineCommands\UpdateCommand.cs" />
+  </ItemGroup>
+
 </Project>

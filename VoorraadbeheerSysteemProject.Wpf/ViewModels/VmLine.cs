@@ -47,10 +47,10 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 NavigateDashboardCommand = new NavigationCommand<VmDashboard>(navigationStore,
                     () => new VmDashboard(navigationStore));
 
-                UpdateCommand = new UpdateCommand(this);
-                ResetCommand = new ResetCommand(this);
-                DeleteCommand = new DeleteCommand(this);
-                AddCommand = new AddCommand(this);
+                UpdateCommand = new UpdateLineCommand(this);
+                ResetCommand = new ResetLineCommand(this);
+                DeleteCommand = new DeleteLineCommand(this);
+                AddCommand = new AddLineCommand(this);
 
                 _apiLine = new ApiLine(AppConfig.ApiUrl);
 
