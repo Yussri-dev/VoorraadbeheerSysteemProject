@@ -76,7 +76,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 JwtTokenStore.Token = result.Token;
                 UserSession.Token = result.Token;
                 UserSession.Email = result.Email;
-
+                UserSession.IdUSer = result.IdUser;
                 LoginSucceeded?.Invoke();
             }
             else

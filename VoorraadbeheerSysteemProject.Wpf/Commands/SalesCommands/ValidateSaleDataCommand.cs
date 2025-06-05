@@ -106,14 +106,17 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands.SalesCommands
 
             decimal paidAmount = _vmNumPad.SelectedAmounts.Sum(s => s.AmountPrice);
             decimal totalAmount = _vmSale.TotalAmount;
+            int customerId = _vmSale.SelectedCustomer.CustomerId;
+            string userId = UserSession.IdUSer;
 
             if (paidAmount >= totalAmount)
             {
                 var saleDto = new SaleDTO
                 {
                     SaleDate = DateTime.Now,
-                    CustomerId = 1,
-                    EmployeeId = 2,
+                    CustomerId = 2,
+                    //EmployeeId = 2,
+                    UserId = userId,
                     TotalAmount = totalAmount,
                     AmountPaid = paidAmount,
                     TvaAmount = 0,
