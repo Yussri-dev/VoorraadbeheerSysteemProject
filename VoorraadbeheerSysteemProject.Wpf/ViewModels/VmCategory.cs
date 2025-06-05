@@ -1,4 +1,5 @@
 ﻿
+
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using VoorraadbeheerSysteemProject.Wpf.Commands;
@@ -8,6 +9,7 @@ using VoorraadbeheerSysteemProject.Wpf.Services;
 using VoorraadbeheerSysteemProject.Wpf.Stores;
 using System.Configuration;
 
+
 namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 {
 
@@ -16,13 +18,14 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         private readonly ApiCategory _apiCategory;
         private string _searchText;
         private int _totalCategories;
-        private int _pageNumber = 1;
-        private readonly int _pageSize = 200; 
+        private int _pageNumber=1 ;
+        private readonly int _pageSize = 15;
         private string _newCategoryName;
         private CategoryDTO _selectedCategory;
 
         public ObservableCollection<CategoryDTO> Categories { get; set; }
         public ObservableCollection<CategoryDTO> FilteredCategories { get; set; }
+      
 
         public ApiCategory ApiCategory => _apiCategory;
 
@@ -156,13 +159,29 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             }
         }
 
+       //property
+
+        public int PageNumber
+        {
+            get => _pageNumber;
+            set
+            {
+                if (_pageNumber != value)
+                {
+                    _pageNumber = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+
         // Pagina navigatie methodes
         private async void PreviousPage(object parameter)
         {
-            if (_pageNumber <= 1) return;
+            if (PageNumber <= 1) return;
 
-            _pageNumber--;
-            var list = await _apiCategory.GetCategoriesAsync(_pageNumber, _pageSize);
+            PageNumber--;
+            var list = await _apiCategory.GetCategoriesAsync(PageNumber, _pageSize);
             Categories = new ObservableCollection<CategoryDTO>(list);
             FilterCategories();
         }
@@ -170,12 +189,13 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         private async void NextPage(object parameter)
         {
             int totalPages = (int)Math.Ceiling(TotalCategories / (double)_pageSize);
-            if (_pageNumber >= totalPages) return;
+            if (PageNumber >= totalPages) return;
 
-            _pageNumber++;
-            var list = await _apiCategory.GetCategoriesAsync(_pageNumber, _pageSize);
+            PageNumber++;
+            var list = await _apiCategory.GetCategoriesAsync(PageNumber, _pageSize);
             Categories = new ObservableCollection<CategoryDTO>(list);
             FilterCategories();
         }
+
     }
 }

@@ -5,9 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:VoorraadbeheerSysteemProject.Wpf.Views"
              xmlns:behaviors="clr-namespace:VoorraadbeheerSysteemProject.Wpf.Behaviors"
+             xmlns:converters="clr-namespace:VoorraadbeheerSysteemProject.Wpf.Converters"
              mc:Ignorable="d">
-    <!--#region custom styles-->
     <UserControl.Resources>
+        <converters:DifferenceToBrushConverter x:Key="DifferenceToBrushConverter"/>
+        <!--#region custom styles-->
         <Style x:Key="CustomTextBoxStyle" TargetType="TextBox">
             <Setter Property="Background" Value="#F6F6FB"/>
             <Setter Property="BorderThickness" Value="0"/>
@@ -27,8 +29,8 @@
                 </Setter.Value>
             </Setter>
         </Style>
-    </UserControl.Resources>
     <!--#endregion-->
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -405,12 +407,19 @@
                 <Label Content="Total in cash register:"
                        FontWeight="Bold"/>
                 <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                         Text="{Binding TotalCashAmount, Mode=OneWay, StringFormat='{}{0} €'}"
+                         IsReadOnly="True"
+                         HorizontalContentAlignment="Right"
                          Width="200"/>
             </StackPanel>
             <StackPanel>
                 <Label Content="Difference:"
                        FontWeight="Bold"/>
                 <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                         Text="{Binding DifferenceAmount, Mode=OneWay, StringFormat='{}{0} €'}"
+                         Foreground="{Binding DifferenceAmount, Converter={StaticResource DifferenceToBrushConverter}}"
+                         IsReadOnly="True"
+                         HorizontalContentAlignment="Right"
                          Width="200"/>
             </StackPanel>
             
@@ -421,6 +430,22 @@
                     Margin="100 30 100 50"
                     Grid.Row="3">
             <Button Content="Compare"
+                    Command="{Binding CompareButtonCommand}"
+                    Background="#DDE4F0"
+                    Padding="30,10"
+                    Margin="0 0 15 0"
+                    VerticalAlignment="Bottom"
+                    BorderThickness="0"
+                    Foreground="#5A6ACF"
+                    FontWeight="Medium">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button Content="End Shift"
+                    Command="{Binding EndShiftButton}"
                     Background="#DDE4F0"
                     Padding="30,10"
                     Margin="0 0 15 0"

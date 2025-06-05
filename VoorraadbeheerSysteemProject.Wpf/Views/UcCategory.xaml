@@ -67,7 +67,7 @@
                          Background="Transparent" 
                          BorderThickness="0" 
                          VerticalContentAlignment="Center"
-                         Padding="5" Margin="-3,43,3,0" Height="34" VerticalAlignment="Top"/>
+                         Padding="5" Margin="-3,0,3,-2" Height="40" VerticalAlignment="Bottom"/>
             </Border>
         </StackPanel>
 
@@ -76,7 +76,7 @@
             <!-- Zoekbalk -->
             <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Right"
-                        Margin="0,0,0,10" Height="45">
+                        Margin="0,0,0,10" Height="45" Width="415">
                 <Label Content="Search by Name" Width="100" VerticalAlignment="Center"/>
 
                 <TextBox Width="130" 
@@ -103,20 +103,20 @@
                 <Border CornerRadius="5" 
                         BorderBrush="Black" 
                         BorderThickness="1" 
-                        Background="#FBFCFE" Width="107">
-                    <StackPanel Orientation="Horizontal">
-                        <Button Command="{Binding PreviousPageButtonCommand}" 
+                        Background="#FBFCFE" Width="120">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,2,0">
+                        <Button Command="{Binding PreviousPageCommand}" 
                                 Style="{StaticResource PrimaryButtonStyle}" 
                                 Width="40" 
                                 Content="&lt;" 
                                 Foreground="Black"
                                 Background="Transparent" Height="39"/>
                         <Label Content="{Binding PageNumber}" 
-                               VerticalAlignment="Center" 
-                               HorizontalAlignment="Center" 
                                Padding="5" 
-                               Foreground="#5A6ACF"/>
-                        <Button Command="{Binding NextPageButtonCommand}" 
+                               Foreground="#5A6ACF"
+                               Width="18"
+                               Height="20"/>
+                        <Button Command="{Binding NextPageCommand}" 
                                 Style="{StaticResource PrimaryButtonStyle}" 
                                 Width="40" 
                                 Content="&gt;" 
@@ -159,8 +159,10 @@
             <StackPanel Grid.Column="1" 
                         Orientation="Horizontal" 
                         HorizontalAlignment="Right"
-                        VerticalAlignment="Top"
-                        Margin="120,0,0,0" Width="340" Height="40">
+                        VerticalAlignment="Top" Width="455" Height="40">
+                <Button Content="Update" 
+                        Command="{Binding UpdateCommand}" 
+                        Style="{StaticResource PrimaryButtonStyle}" Width="70" Height="35"/>
                 <Button Content="Reset" 
                         Command="{Binding ResetCommand}" 
                         Style="{StaticResource PrimaryButtonStyle}" Width="70" Height="35"/>
@@ -173,8 +175,7 @@
                         Style="{StaticResource PrimaryButtonStyle}" Height="35" Width="70"/>
                 <Button Content="Close" 
                         Command="{Binding NavigateDashboardCommand}" 
-                        Style="{StaticResource PrimaryButtonStyle}" 
-                        Margin="0" Height="35" Width="70"/>
+                        Style="{StaticResource PrimaryButtonStyle}" Height="35" Width="70" RenderTransformOrigin="0.929,0.597"/>
             </StackPanel>
         </Grid>
     </Grid>

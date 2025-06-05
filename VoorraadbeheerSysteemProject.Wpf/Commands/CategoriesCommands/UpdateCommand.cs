@@ -10,8 +10,6 @@ using VoorraadbeheerSysteemProject.Wpf.ViewModels;
 namespace VoorraadbeheerSysteemProject.Wpf.Commands.CategoriesCommands
 {
 
-
-
     public class UpdateCommand : ICommand
     {
         private readonly VmCategory _viewModel;
