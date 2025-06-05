@@ -35,7 +35,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
         private async Task CheckShift()
         {
-            CashShiftDTO? existingShift = await _drawerRequest.GetCashShiftTodayByEmployeeId(2);
+            CashShiftDTO? existingShift = await _drawerRequest.GetCashShiftTodayByEmployeeId(UserSession.IdUSer);
             if (existingShift is null)
                 await RegisterCashShiftAsync();
             else
@@ -53,7 +53,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 ShiftStart = DateTime.Now,
                 OpeningBalance = 100.00m, // Example opening balance
                 DateCreated = DateTime.Now,
-                EmployeeId = 2, // Example employee ID
+                EmployeeId = UserSession.IdUSer,
                 SaasClientId = 1, // Example SaaS client ID
             };
 
