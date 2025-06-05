@@ -14,6 +14,8 @@ using VoorraadbeheerSysteemProject.Wpf.Services;
 using VoorraadbeheerSysteemProject.Wpf.Stores;
 using VoorraadbeheerSysteemProject.Wpf.Commands.PurchasesCommands;
 using VoorraadbeheerSysteemProject.Wpf.Services.Purchases;
+using VoorraadbeheerSysteemProject.Wpf.Services.Suppliers;
+using VoorraadbeheerSysteemProject.Wpf.Services.Customers;
 
 namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 {
@@ -31,7 +33,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         //Handles Sales Http Requests
         private readonly SalesRequests _salesRequest;
         private readonly PurchasesRequests _purchaseRequest;
-
+        private readonly SupplierRequests _supplierRequests;
         // Stores the number of purchases
         private int countPurchases = 0;
 
@@ -69,6 +71,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 navigationStore, () => new VmDashboard(navigationStore));
 
             _allProducts = new ObservableCollection<ProductDTO>();
+            _supplierRequests = new SupplierRequests(AppConfig.ApiUrl);
             Products = new ObservableCollection<ProductDTO>();
 
             NumPadViewModel = new VmNumPadDataEntry(this);
@@ -214,6 +217,67 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
         #endregion
 
+        #region Supplier properties
+
+        private SupplierDTO _selectedSupplier = new SupplierDTO();
+
+        private ObservableCollection<SupplierDTO> _suppliers;
+        private ObservableCollection<SupplierDTO> _filteredSupplier;
+        private string _searchTextSupplier;
+        public string SearchTextSupplier
+        {
+            get => _searchTextSupplier;
+            set
+            {
+                _searchTextSupplier = value;
+                OnPropertyChanged();
+                FilterSupplier();
+            }
+        }
+        public ObservableCollection<SupplierDTO> FilteredSupplier
+        {
+            get => _filteredSupplier;
+            set { _filteredSupplier = value; OnPropertyChanged(); }
+        }
+
+        public SupplierDTO? SelectedSupplier
+        {
+            get { return _selectedSupplier; }
+            set
+            {
+                _selectedSupplier = value;
+                OnPropertyChanged(nameof(SelectedSupplier));
+
+                //update text to match selected product
+                SearchTextSupplier = _selectedSupplier?.Name ?? "";
+            }
+        }
+
+        public ObservableCollection<SupplierDTO> AllSupplier
+        {
+            get => _suppliers;
+            set { _suppliers = value; OnPropertyChanged(); }
+        }
+        public void FilterSupplier()
+        {
+            if (string.IsNullOrWhiteSpace(_searchTextSupplier))
+                FilteredSupplier = new ObservableCollection<SupplierDTO>(
+                    _suppliers ?? new ObservableCollection<SupplierDTO>());
+            else
+            {
+                FilteredSupplier = new ObservableCollection<SupplierDTO>(
+                    _suppliers
+                    .Where(
+                        items => items.Name.ToLower()
+                        .Contains(_searchTextSupplier.ToLower())
+                    )
+                    .ToList()
+                );
+            }
+        }
+
+        #endregion
+
         #region Methods - Product Logic
 
         public void FilterProducts()
@@ -242,7 +306,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 var productDetails = _allProducts.FirstOrDefault(p => p.ProductId == product.ProductId);
                 if (productDetails != null)
                 {
-                    total += productDetails.SalePrice1 * product.Quantity;
+                    total += productDetails.PurchasePrice * product.Quantity;
                     totalQuantity += product.Quantity;
                 }
             }
@@ -255,6 +319,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         private async Task LoadDataAsync()
         {
             var products = await _apiService.GetProductsAsync();
+            var suppliers = await _supplierRequests.GetSuppliers();
             countPurchases = await _purchaseRequest.GetPurchasesCountAsync();
 
             OnPropertyChanged(nameof(FormattedPurchaseCount));
@@ -265,7 +330,12 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 Products.Clear();
                 foreach (var product in products)
                     Products.Add(product);
+
+                AllSupplier = new ObservableCollection<SupplierDTO>(suppliers);
+                FilteredSupplier = AllSupplier;
+
             });
+
         }
 
         #endregion

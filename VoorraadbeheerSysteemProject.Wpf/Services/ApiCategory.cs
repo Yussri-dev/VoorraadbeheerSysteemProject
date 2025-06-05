@@ -10,28 +10,42 @@ using VoorraadbeheerSysteemProject.Wpf.Models;
 namespace VoorraadbeheerSysteemProject.Wpf.Services
 {
 
-        public class ApiCategory
+    public class ApiCategory
+    {
+        private readonly HttpClient _httpClient;
+
+        private readonly string _baseUrl;
+        public ApiCategory(string baseUrl)
         {
-            private readonly HttpClient _httpClient;
+            _httpClient = new HttpClient();
+            _baseUrl = baseUrl;
+            _httpClient.BaseAddress = new Uri(_baseUrl);
+        }
+        public async Task<List<CategoryDTO>> GetCategoriesAsync(int pageNumber, int pageSize)
+        {
+            var result = await _httpClient.GetFromJsonAsync<List<CategoryDTO>>($"api/category?pageNumber={pageNumber}&pageSize={pageSize}");
+            return result ?? new List<CategoryDTO>();
+        }
 
-            public ApiCategory()
-            {
-                _httpClient = new HttpClient();
-                _httpClient.BaseAddress = new Uri("https://eafe-2a02-2c40-270-2029-ce-31dc-60b-8f26.ngrok-free.app/");
-            }
-
-            public async Task<List<CategoryDTO>> GetCategoriesAsync()
-            {
-                var result = await _httpClient.GetFromJsonAsync<List<CategoryDTO>>("api/category?pageNumber=1&pagesize=200");
-                return result ?? new List<CategoryDTO>();
-            }
+        public async Task<int> GetCategoryCountAsync()
+        {
+            var result = await _httpClient.GetFromJsonAsync<int>("api/category/count");
+            return result; 
+        }
 
         public async Task<bool> PostCategoryAsync(CategoryDTO newCategory)
         {
             var response = await _httpClient.PostAsJsonAsync("api/category", newCategory);
             return response.IsSuccessStatusCode;
         }
+
+        public async Task<bool> DeleteCategoryAsync(int categoryId)
+        {
+            var response = await _httpClient.DeleteAsync($"api/category/{categoryId}");
+            return response.IsSuccessStatusCode;
+        }
     }
-    }
+
+}
 
 

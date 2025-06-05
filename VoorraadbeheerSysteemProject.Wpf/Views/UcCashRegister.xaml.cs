@@ -22,7 +22,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.Views
     {
         public UcCashRegister()
         {
-            InitializeComponent();
+                InitializeComponent();
         }
     }
 }

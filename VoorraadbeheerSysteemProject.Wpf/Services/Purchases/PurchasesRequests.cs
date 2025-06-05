@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using VoorraadbeheerSysteemProject.Wpf.Models;
 
 namespace VoorraadbeheerSysteemProject.Wpf.Services.Purchases
@@ -35,6 +38,54 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services.Purchases
                 return count;
             }
             return 0;
+        }
+
+        public async Task<decimal> GetSumPurchaseByPeriodAsync(DateTime startDate, DateTime endDate)
+        {
+            try
+            {
+                string formattedStartDate = startDate.ToString("yyyy-MM-dd");
+                string formattedEndDate = endDate.ToString("yyyy-MM-dd");
+
+                HttpResponseMessage responseRequest = await _httpClient.GetAsync(
+                    $"api/purchase/PurchasesAmount?startDate={formattedStartDate}&endDate={formattedEndDate}");
+
+                if (!responseRequest.IsSuccessStatusCode)
+                {
+                    return 0;
+                }
+
+                string responseJson = await responseRequest.Content.ReadAsStringAsync();
+
+                if (decimal.TryParse(responseJson,CultureInfo.InvariantCulture, out decimal amountPurchase))
+                {
+                    return amountPurchase;
+                }
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"API request error: {ex.Message}");
+                return 0;
+            }
+        }
+
+        public async Task<List<PurchaseFlatDTO>> GetPurchaseFlatByPeriodAsync(DateTime startDate, DateTime endDate)
+        {
+            try
+            {
+                string encodedStartDate = HttpUtility.HtmlEncode(startDate.ToString("dd/MM/yyyy"));
+                string encodedEndDate = HttpUtility.HtmlEncode(endDate.ToString("dd/MM/yyyy"));
+
+                var response = await _httpClient.GetAsync($"api/purchase/allpurchase?startdate={encodedStartDate}&enddate={encodedEndDate}");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<List<PurchaseFlatDTO>>();
+
+            }
+            catch (Exception ex)
+            {
+                return new List<PurchaseFlatDTO>();
+            }
         }
 
         public async Task<PurchaseDTO?> PostPurchaseAsync(PurchaseDTO purchase)

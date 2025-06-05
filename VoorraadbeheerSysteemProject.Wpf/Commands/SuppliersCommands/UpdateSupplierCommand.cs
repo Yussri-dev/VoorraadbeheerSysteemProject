@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using VoorraadbeheerSysteemProject.Wpf.ViewModels;
 
-namespace VoorraadbeheerSysteemProject.Wpf.Commands.CategoriesCommands
+namespace VoorraadbeheerSysteemProject.Wpf.Commands.SuppliersCommands
 {
-    public class SearchCommand : ICommand
+    public class UpdateSupplierCommand : ICommand
     {
-        private readonly VmCategory _viewModel;
+        private readonly VmSupplier _viewModel;
 
-        public SearchCommand(VmCategory viewModel)
+        public UpdateSupplierCommand(VmSupplier viewModel)
         {
             _viewModel = viewModel;
         }
@@ -23,8 +23,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands.CategoriesCommands
 
         public void Execute(object? parameter)
         {
-            _viewModel.FilterCategories();
+
+            _viewModel.RefreshSuppliers();
         }
     }
-
 }

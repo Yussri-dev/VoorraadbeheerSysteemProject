@@ -11,6 +11,7 @@ using VoorraadbeheerSysteemProject.Wpf.Commands.ProductsCommands;
 using VoorraadbeheerSysteemProject.Wpf.Models;
 using VoorraadbeheerSysteemProject.Wpf.Requests;
 using VoorraadbeheerSysteemProject.Wpf.Services;
+using VoorraadbeheerSysteemProject.Wpf.Services.Customers;
 using VoorraadbeheerSysteemProject.Wpf.Services.Sales;
 using VoorraadbeheerSysteemProject.Wpf.Stores;
 using VoorraadbeheerSysteemProject.Wpf.Views;
@@ -22,6 +23,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         #region Fields & Constructors
         private readonly ApiService _apiService;
         private readonly SalesRequests _salesRequest;
+        private readonly CustomersRequests _customerRequest;
         private readonly NavigationStore _navigationStore;
         private int countSales = 0;
 
@@ -41,6 +43,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             }
         }
 
+        //adding data to Products Cart
         private ProductSelectedRequest? _selectedProductInCart;
         public ProductSelectedRequest? SelectedProductInCart
         {
@@ -62,17 +65,31 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
             _apiService = new ApiService(AppConfig.ApiUrl);
             _salesRequest = new SalesRequests(AppConfig.ApiUrl);
-
+            _customerRequest = new CustomersRequests(AppConfig.ApiUrl);
+            //Using Observable collection to get products
             _allProducts = new ObservableCollection<ProductDTO>();
             Products = new ObservableCollection<ProductDTO>();
 
+            //All Commands initialisation
             InitialCommands();
 
+            //using NumpadDataEntry
             NumPadViewModel = new VmNumPadDataEntry(this);
-            Task.Run(async () => await LoadDataAsync());
-        }
-        public string FormattedSalesCount => countSales.ToString("N0");
 
+            //Loading data from Get Product Request
+            Task.Run(async () => await LoadDataAsync());
+
+        }
+
+
+        #endregion
+
+        #region Formatted Numbers
+        //formatting Data to show it in UcSale Views
+        public string FormattedSalesCount => countSales.ToString("N0");
+        public string FormattedTotalAmount => TotalAmount.ToString("C");
+        public string FormattedTotalQuantity => TotalQuantity.ToString("C");
+        public string FormattedCountLine => LineCount.ToString("N0");
         #endregion
 
         #region ObservableCollections
@@ -92,6 +109,68 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 OnPropertyChanged(nameof(Products));
             }
         }
+        //--------------------------------------------------
+        //CustomerDTO
+        private CustomerDTO _selectedCustomer = new CustomerDTO();
+
+        private ObservableCollection<CustomerDTO> _customers;
+        private ObservableCollection<CustomerDTO> _filteredCustomer;
+        private string _searchTextCustomer;
+        public string SearchTextCustomer
+        {
+            get => _searchTextCustomer;
+            set
+            {
+                _searchTextCustomer = value;
+                OnPropertyChanged();
+                FilterCustomer();
+            }
+        }
+        #region shelf properties
+        public ObservableCollection<CustomerDTO> FilteredCustomer
+        {
+            get => _filteredCustomer;
+            set { _filteredCustomer = value; OnPropertyChanged(); }
+        }
+
+        public CustomerDTO? SelectedCustomer
+        {
+            get { return _selectedCustomer; }
+            set
+            {
+                _selectedCustomer = value;
+                OnPropertyChanged(nameof(SelectedCustomer));
+
+                //update text to match selected product
+                SearchTextCustomer = _selectedCustomer?.Name ?? "";
+            }
+        }
+
+        public ObservableCollection<CustomerDTO> AllCustomer
+        {
+            get => _customers;
+            set { _customers = value; OnPropertyChanged(); }
+        }
+        #endregion
+        public void FilterCustomer()
+        {
+            if (string.IsNullOrWhiteSpace(_searchTextCustomer))
+                FilteredCustomer = new ObservableCollection<CustomerDTO>(
+                    _customers ?? new ObservableCollection<CustomerDTO>());
+            else
+            {
+                FilteredCustomer = new ObservableCollection<CustomerDTO>(
+                    _customers
+                    .Where(
+                        items => items.Name.ToLower()
+                        .Contains(_searchTextCustomer.ToLower())
+                    )
+                    .ToList()
+                );
+            }
+        }
+
+        //----------------------------------------------------
         #endregion
 
         #region Methods
@@ -120,16 +199,16 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             LineCount = countLine;
         }
 
+        //Englobe commands in one Methods
         private void InitialCommands()
         {
             OpenDialogCommand = new OpenDialogCommand(this, NumPadViewModel);
-            //SearchProductsCommand = new SearchProductsCommand(this);
-            //SearchProductsCommand = new SearchCommand(param => FilterProducts());
             AddSelectedProductCommand = new AddSelectedProductCommand(this, NumPadViewModel);
             RemoveSelectedProductCommand = new RemoveSelectedProductCommand(this);
             ClearSelectedProductCommand = new ClearSelectedProductCommand(this);
         }
 
+        //Method for Searching and Filtering products using Name or barcode
         public void FilterProducts()
         {
             var query = _allProducts.AsEnumerable();
@@ -153,11 +232,12 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             }
         }
 
+        //getting Products from ApiService
         private async Task LoadDataAsync()
         {
             var products = await _apiService.GetProductsAsync();
-
-            countSales = await _salesRequest.GetSalesCountAsync();
+            var customers = await _customerRequest.GetCustomers();
+            countSales = await _salesRequest.GetSalesCountAsync() + 1;
             OnPropertyChanged(nameof(FormattedSalesCount));
 
             App.Current.Dispatcher.Invoke(() =>
@@ -168,6 +248,9 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 {
                     Products.Add(product);
                 }
+                AllCustomer = new ObservableCollection<CustomerDTO>(customers);
+                FilteredCustomer = AllCustomer;
+
             });
         }
         #endregion
@@ -222,7 +305,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             }
         }
 
-        public string FormattedTotalAmount => TotalAmount.ToString("C");
+
 
         // Total Quantity
         private decimal _totalQuantity;
@@ -236,7 +319,6 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 OnPropertyChanged(nameof(FormattedTotalQuantity));
             }
         }
-        public string FormattedTotalQuantity => TotalQuantity.ToString("N0");
 
         //Total Lines
         private int _lineCount;
@@ -251,7 +333,6 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
             }
         }
-        public string FormattedCountLine => LineCount.ToString("N0");
 
         #endregion
 

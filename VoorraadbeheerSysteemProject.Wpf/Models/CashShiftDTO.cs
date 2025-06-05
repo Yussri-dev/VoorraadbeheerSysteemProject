@@ -18,9 +18,10 @@ namespace VoorraadbeheerSysteemProject.Wpf.Models
         public decimal TotalRefunds { get; set; }
         public decimal CashIn { get; set; }
         public decimal CashOut { get; set; }
+        public decimal DrawerBalance { get; set; }
         public DateTime DateCreated { get; set; }
         public int CashRegisterId { get; set; }
-        public int EmployeeId { get; set; }
+        public string? EmployeeId { get; set; }
         public string? NameComplete { get; set; }
 
         public int SaasClientId { get; set; }

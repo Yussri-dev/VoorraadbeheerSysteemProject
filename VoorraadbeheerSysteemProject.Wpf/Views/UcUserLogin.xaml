@@ -1,36 +1,113 @@
 ﻿<UserControl x:Class="VoorraadbeheerSysteemProject.Wpf.Views.UcUserLogin"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             xmlns:helpers="clr-namespace:VoorraadbeheerSysteemProject.Wpf.Helpers"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:local="clr-namespace:VoorraadbeheerSysteemProject.Wpf.Views"
+             xmlns:vm="clr-namespace:VoorraadbeheerSysteemProject.Wpf.ViewModels"
+             xmlns:media="clr-namespace:System.Windows.Media;assembly=PresentationCore">
 
-    <Grid Background="#1E1E1E">
-        <Border Background="White" Padding="20" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" CornerRadius="5">
+    <Grid Background="#121212">
+        <Border
+            Background="#10FFFFFF"
+            CornerRadius="20"
+            Width="440"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center"
+            Padding="35">
+            <!--<Border.Effect>
+                <DropShadowEffect BlurRadius="20" ShadowDepth="4" Opacity="0.3" Color="Black"/>
+            </Border.Effect>-->
+
             <StackPanel>
-                <TextBlock Text="Login" FontSize="22" FontWeight="Bold" Margin="0 0 0 20" HorizontalAlignment="Center"/>
+                <!-- Title -->
+                <TextBlock Text="Welcome Back" 
+                           FontSize="30" FontWeight="Bold" 
+                           Foreground="#FFFFFF"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,10"/>
 
-                <TextBlock Text="Email address" Margin="0 5 0 0"/>
-                <TextBox Margin="0 5" Height="30" Padding="5"/>
+                <TextBlock Text="Sign in to continue"
+                           FontSize="14"
+                           Foreground="#BBBBBB"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,20"/>
 
-                <TextBlock Text="Password" Margin="0 5 0 0"/>
-                <PasswordBox Margin="0 5" Height="30" Padding="5"/>
+                <!-- Username -->
+                <StackPanel Margin="0,0,0,10">
+                    <TextBlock Text="Username" Foreground="#CCCCCC" Margin="0,0,0,4"/>
+                    <DockPanel Background="#1AFFFFFF" Height="42">
+                        <iconPacks:PackIconMaterial Kind="AccountCircle" Foreground="#00BFFF" Width="22" Height="22" Margin="10,0"/>
+                        <TextBox Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}"
+                                 Background="Transparent"
+                                 BorderThickness="0"
+                                 Foreground="White"
+                                 FontSize="14"
+                                 Padding="4"
+                                 VerticalContentAlignment="Center"/>
 
-                <Button Content="Sign In" Margin="0 15 0 0" Background="#007BFF" Foreground="White" Height="35" FontWeight="SemiBold"/>
+                    </DockPanel>
+                </StackPanel>
 
-                <!-- Google Sign-In -->
-                <Button Height="35" Margin="0 10 0 10" Background="White" BorderBrush="LightGray" BorderThickness="1">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Image Source="/Images/Google__G__logo.svg.png" 
-                               Height="20" Width="20" Margin="0 0 8 0"/>
-                        <TextBlock Text="Continue with Google" VerticalAlignment="Center" Foreground="#5F6368"/>
-                    </StackPanel>
+                <!-- Password -->
+                <StackPanel Margin="0,0,0,10">
+                    <TextBlock Text="Password" Foreground="#CCCCCC" Margin="0,10,0,4"/>
+                    <DockPanel Background="#1AFFFFFF" Height="42" >
+                        <iconPacks:PackIconMaterial Kind="Lock" Foreground="#00BFFF" Width="22" Height="22" Margin="10,0"/>
+                        <PasswordBox helpers:PasswordBoxHelper.BoundPassword="{Binding Password, Mode=TwoWay}"
+                                     Background="Transparent"
+                                     BorderThickness="0"
+                                     Foreground="White"
+                                     FontSize="14"
+                                     Padding="4"
+                                     VerticalContentAlignment="Center"/>
+                    </DockPanel>
+                </StackPanel>
+
+                <!-- Button -->
+                <Button Content="Sign In"
+                        Command="{Binding LoginCommand}"
+                        Background="#00BFFF"
+                        Foreground="White"
+                        FontSize="15"
+                        FontWeight="Bold"
+                        Height="44"
+                        BorderThickness="0"
+                        Cursor="Hand"
+                        Margin="0,20,0,10"
+                        >
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                            <Setter Property="Effect">
+                                <Setter.Value>
+                                    <DropShadowEffect Color="#00BFFF" BlurRadius="10" ShadowDepth="0" Opacity="0.5"/>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}" CornerRadius="6">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
                 </Button>
 
-                <TextBlock HorizontalAlignment="Center" Margin="0 10">
-                    <Run Text="Don't have an account? "/>
-                    <Hyperlink Foreground="Blue" TextDecorations="None">
+                <!-- Status -->
+                <TextBlock Text="{Binding StatusMessage}"
+                           Foreground="#FF6B6B"
+                           FontSize="12"
+                           TextWrapping="Wrap"
+                           TextAlignment="Center"
+                           Margin="0,4"/>
+
+                <!-- Footer -->
+                <TextBlock HorizontalAlignment="Center" FontSize="12" Foreground="#CCCCCC" Margin="0,20,0,0">
+                    <Run Text="Don't have an account? " />
+                    <Hyperlink Command="{Binding NavigateToUserCreateCommand}" Foreground="#00BFFF" FontWeight="Bold">
                         Sign up
                     </Hyperlink>
                 </TextBlock>

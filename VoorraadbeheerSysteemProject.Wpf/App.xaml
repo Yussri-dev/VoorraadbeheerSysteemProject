@@ -233,5 +233,9 @@
             <Setter Property="Foreground" Value="#5A6ACF"/>
         </Style>
         <!--#endregion-->
+        
+        <!--#region-->
+
+        <!--#endregion-->
     </Application.Resources>
 </Application>
