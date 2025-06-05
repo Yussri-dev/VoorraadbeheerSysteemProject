@@ -161,7 +161,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         private async Task CompareCash()
         {
             if (CashShift is null || CashShift.CashShiftId == 0)
-                CashShift = await _drawerRequests.GetCashShiftTodayByEmployeeId(2); //temp hard coded employee id
+                CashShift = await _drawerRequests.GetCashShiftTodayByEmployeeId(UserSession.IdUSer);
 
             OnPropertyChanged(nameof(DifferenceAmount));
         }
