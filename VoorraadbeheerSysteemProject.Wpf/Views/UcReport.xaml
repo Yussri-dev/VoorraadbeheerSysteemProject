@@ -1,218 +1,212 @@
-﻿
-    <UserControl x:Class="VoorraadbeheerSysteemProject.Wpf.Views.UcReport"
+﻿<UserControl x:Class="VoorraadbeheerSysteemProject.Wpf.Views.UcReport"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:VoorraadbeheerSysteemProject.Wpf.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-        <Grid Background="White">
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="450"
+             d:DesignWidth="800">
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+    <UserControl.Resources>
+        <!-- Herbruikbare knopstijl -->
+        <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#007bff"/>
+            <!-- Groene kleur zoals in je textbox -->
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Margin" Value="10,0,0,0"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Width" Value="80"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="5">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
 
-            <Grid Grid.Row="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+    <Grid Background="#F6F6FB" >
 
-            </Grid>
-            <Grid Grid.Row="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" MinHeight="56.923"/>
+                          <RowDefinition Height="100"/>
+                          <RowDefinition/>
+                          <RowDefinition Height="90"/>
+          
+        </Grid.RowDefinitions>
 
+        <!-- Titel -->
+        <Label Content="Reports" FontSize="24" FontWeight="Bold" Foreground="#333" Grid.Row="0" Margin="0,0,0,15"/>
 
-                <!--buttons-->
-                <Button Grid.Column="1"
-             Content="Print"
-             Command="{Binding PrintCommand}"
-             HorizontalAlignment="Left" 
-             Margin="185,0,0,0"
-             VerticalAlignment="Center"
-             Height="30" Width="80" Background="#F6F6FB " RenderTransformOrigin="-0.062,0.667" >
-                    <Button.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5"/>
-                        </Style>
+        <!-- Filters -->
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Grid.Row="1" Margin="0,31,5,0" HorizontalAlignment="Right" Width="795" Height="51" >
 
-                    </Button.Resources>
-                </Button>
-                <Button Grid.Column="1"
-             Content="Reset"
-             Command="{Binding ResetCommand}"
-             HorizontalAlignment="Left"
-             Margin="75,0,0,0" VerticalAlignment="Center" Height="30" Width="80" Background="#F6F6FB">
-                    <Button.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
-                <Button Grid.Column="1" 
-             Content="Close" 
-             Command="{Binding CloseCommand}"
-             HorizontalAlignment="Left"
-             Margin="295,0,0,0" VerticalAlignment="Center" Width="80" Height="30" Background="#F6F6FB " RenderTransformOrigin="0.5,0.833">
-                    <Button.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
-
-                <!--Total Amount -->
-                <Label Content="Total Amount" Grid.Column="0" FontWeight="Bold" HorizontalAlignment="Left" Margin="45,39,0,0" VerticalAlignment="Top"/>
-                <TextBox 
-       Grid.Column="0"   
-        HorizontalAlignment="Left"
-       Margin="45,70,0,0"
-       TextWrapping="Wrap"
-       Text="{Binding TotalAmount, Mode=OneWay}"
-       Foreground="#40AF73"
-       VerticalAlignment="Top"
-       Width="120"
-       IsReadOnly="True" />
-
-
-            </Grid>
-            <!-- Titel-->
-
-            <Label Content="Reports" Margin="0,0,645,0"  Grid.Column="0" FontSize="20" FontWeight="Bold" VerticalAlignment="Center" Height="150"/>
-
-            <!--listComboBox-->
-            <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Center" >
-                <!-- Customer  -->
-                <StackPanel>
-                    <TextBlock Text="Customer" FontSize="15" Foreground="#737B8B78" Margin="0,0,0,5"/>
-                    <ComboBox Width="150" 
+            <!-- Customer -->
+            <StackPanel  Margin="0,0,20,0" Width="175">
+                <TextBlock Text="Customer" FontSize="14" Foreground="#737B8B" Margin="0,0,0,5"/>
+                <ComboBox Width="172" 
                           ItemsSource="{Binding Customers}" 
                           SelectedItem="{Binding SelectedCustomer}"
                           Foreground="#40AF73" 
-                          FontSize="18" 
-                          SelectedIndex="0"
+                          FontSize="16" 
                           IsEditable="True"
                           StaysOpenOnEdit="True"
-                          IsTextSearchEnabled="False"
-                          />
-                </StackPanel>
+                          IsTextSearchEnabled="False"/>
+            </StackPanel>
 
-                <!-- Start Date  -->
-                <StackPanel Margin="20,0,0,0">
-                    <TextBlock Text="Start Date" FontSize="15" Foreground="#737B8B78" Margin="0,0,0,5"/>
-                    <ComboBox Width="150" 
+            <!-- Start Date -->
+            <StackPanel Margin="0,0,20,0" >
+                <TextBlock Text="Start Date" FontSize="14" Foreground="#737B8B" Margin="0,0,0,5"/>
+                <ComboBox Width="190" 
                           ItemsSource="{Binding AvailableDates}" 
                           SelectedItem="{Binding SelectedStartDate}"
                           Foreground="#40AF73" 
-                          FontSize="18" 
-                          SelectedIndex="0"
+                          FontSize="16" 
                           IsEditable="True"
                           StaysOpenOnEdit="True"
                           IsTextSearchEnabled="False"/>
-                </StackPanel>
-
-                <!-- End Date  -->
-                <StackPanel Margin="20,0,0,0">
-                    <TextBlock Text="End Date" FontSize="15" Foreground="#737B8B78" Margin="0,0,0,5" />
-                    <ComboBox Width="150"
-                            ItemsSource="{Binding AvailableDates}" 
-                          SelectedItem="{Binding SelectedEndDate}" 
-                          Foreground="#40AF73" 
-                          FontSize="18" 
-                          SelectedIndex="0"
-                          IsEditable="True"
-                          StaysOpenOnEdit="True"
-                          IsTextSearchEnabled="False"/>
-                </StackPanel>
             </StackPanel>
 
-            <StackPanel Grid.Row="1" >
+            <!-- End Date -->
+            <StackPanel>
+                <TextBlock Text="End Date" FontSize="14" Foreground="#737B8B" Margin="0,0,0,5"/>
+                <ComboBox Width="195"
+                          ItemsSource="{Binding AvailableDates}" 
+                          SelectedItem="{Binding SelectedEndDate}" 
+                          Foreground="#40AF73" 
+                          FontSize="16" 
+                          IsEditable="True"
+                          StaysOpenOnEdit="True"
+                          IsTextSearchEnabled="False"/>
+            </StackPanel>
 
-                <!-- Search boxes-->
+        </StackPanel>
 
-                <StackPanel Orientation="Horizontal" Height="32" HorizontalAlignment="Right" Width="720">
-                    <Label Content="Search by Name" VerticalAlignment="Center"/>
-                    <TextBox Width="250" BorderThickness="0" Background="#F6F6FB" VerticalContentAlignment="Center" FontSize="12" Padding="12 0 0 0"
-                         Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" >
-                        <TextBox.Resources>
-                            <Style TargetType="{x:Type Border}">
-                                <Setter Property="CornerRadius" Value="5 0 0 5"/>
-                            </Style>
-                        </TextBox.Resources>
-                    </TextBox>
-                    <Button Margin="0 0 20 0" Background="#F6F6FB" BorderThickness="0" Padding="5">
-                        <Button.Resources>
-                            <Style TargetType="{x:Type Border}">
-                                <Setter Property="CornerRadius" Value="0 5 5 0"/>
-                            </Style>
-                        </Button.Resources>
-                        <Image Source="/Images/search-icon.png"/>
-                    </Button>
-                    <Label Content="Search by Code" VerticalAlignment="Center"/>
-                    <TextBox Width="250" BorderThickness="0" Background="#F6F6FB" VerticalContentAlignment="Center" FontSize="12" Padding="12 0 0 0">
-                        <TextBox.Resources>
-                            <Style TargetType="{x:Type Border}">
-                                <Setter Property="CornerRadius" Value="5 0 0 5"/>
-                            </Style>
-                        </TextBox.Resources>
-                    </TextBox>
-                    <Button Margin="0 0 20 0" Background="#F6F6FB" BorderThickness="0" Padding="5">
-                        <Button.Resources>
-                            <Style TargetType="{x:Type Border}">
-                                <Setter Property="CornerRadius" Value="0 5 5 0"/>
-                            </Style>
-                        </Button.Resources>
-                        <Image Source="/Images/search-icon.png"/>
-                    </Button>
-                    <Button Width="70" Margin="0 0 10 0" Foreground="#5A6ACF" Background="#FBFCFE" FontWeight="Bold">
-                        <Button.Resources>
-                            <Style TargetType="{x:Type Border}">
-                                <Setter Property="CornerRadius" Value="5"/>
-                            </Style>
-                        </Button.Resources>
-                        &lt;
-                    </Button>
-                    <Button Width="70" Foreground="#5A6ACF" Background="#FBFCFE" FontWeight="Bold">
-                        <Button.Resources>
-                            <Style TargetType="{x:Type Border}">
-                                <Setter Property="CornerRadius" Value="5"/>
-                            </Style>
-                        </Button.Resources>
+        <!-- Search + List -->
+        <StackPanel Grid.Row="2">
+            <!-- Search -->
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Margin="0,0,0,10" Height="45" Width="710">
+                <Label Content="Search by Name" Width="100" VerticalAlignment="Center"/>
 
-                        &gt;
-                    </Button>
-                </StackPanel>
+                <TextBox Width="130" 
+                         Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" 
+                      Background="#F6F6FB" 
+                      BorderThickness="0"
+                     FontSize="12"
+                      VerticalContentAlignment="Center"
+                     Padding="12,0,0,0"
+                     Margin="5,0,0,0"/>
 
-                <!-- Reports list-->
+                <Border Margin="0 0 20 0"
+                          Background="#F6F6FB" 
+                       BorderThickness="0" 
+                      Padding="5" 
+                      CornerRadius="0 5 5 0" Height="46" Width="32">
 
-            <ListView ItemsSource="{Binding FilteredReports}"
-          Margin="0 20 0 0"
-          SelectionMode="Single"
-          Style="{StaticResource CustomListViewStyle}">
+                    <Path Fill="#627B87" Data="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"/>
+                </Border>
+
+                <Label Content="Search by Code" Width="100" VerticalAlignment="Center"/>
+
+                <TextBox Width="130" 
+                        Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" 
+                        Background="#F6F6FB" 
+                        BorderThickness="0"
+                        FontSize="12"
+                        VerticalContentAlignment="Center"
+                        Padding="12,0,0,0"
+                        Margin="5,0,0,0"/>
+
+                <Border Margin="0 0 20 0"
+                        Background="#F6F6FB" 
+                        BorderThickness="0" 
+                        Padding="5" 
+                        CornerRadius="0 5 5 0" Height="46" Width="32">
+
+                    <Path Fill="#627B87" Data="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"/>
+                </Border>
+
+
+                <!-- Pagina navigatie -->
+
+                <Border CornerRadius="5" 
+                        BorderBrush="Black" 
+                        BorderThickness="1" 
+                        Background="#FBFCFE" Width="120">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,2,0">
+                        <Button Command="{Binding PreviousPageCommand}" 
+                                Style="{StaticResource PrimaryButtonStyle}" 
+                                Width="40" 
+                                Content="&lt;" 
+                                Foreground="Black"
+                                Background="Transparent" Height="39"/>
+                        <Label Content="{Binding PageNumber}" 
+                                Padding="5" 
+                                Foreground="#5A6ACF"
+                                Width="18"
+                                Height="20"/>
+                        <Button Command="{Binding NextPageCommand}" 
+                                Style="{StaticResource PrimaryButtonStyle}" 
+                                Width="40" 
+                                Content="&gt;" 
+                                Foreground="Black"
+                                Background="Transparent" Height="39"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+            <!-- ListView -->
+            <ListView ItemsSource="{Binding FilteredReports}" 
+                      SelectionMode="Single"
+                      BorderBrush="#DDD" BorderThickness="1"
+                      Background="White"
+                      Height="260">
 
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="#" Width="40" DisplayMemberBinding="{Binding Number}" />
-                        <GridViewColumn Header="Product Name" Width="Auto" DisplayMemberBinding="{Binding Name}" />
-                        <GridViewColumn Header="Qty" Width="Auto" DisplayMemberBinding="{Binding Qty}" />
-                        <GridViewColumn Header="Purchase" Width="Auto" DisplayMemberBinding="{Binding PurchasePrice}" />
-                        <GridViewColumn Header="Sale Price" Width="Auto" DisplayMemberBinding="{Binding SalePrice}" />
-                        <GridViewColumn Header="Tax Rate" Width="Auto" DisplayMemberBinding="{Binding TaxRate}" />
-                        <GridViewColumn Header="Customer" Width="Auto" DisplayMemberBinding="{Binding Customer}" />
-                        <GridViewColumn Header="Sale Date" Width="Auto" DisplayMemberBinding="{Binding SaleDate}" />
-                        <GridViewColumn Header="Amount" Width="Auto" DisplayMemberBinding="{Binding Amount}" />
+                        <GridViewColumn Header="Product Name" Width="120" DisplayMemberBinding="{Binding Name}" />
+                        <GridViewColumn Header="Qty" Width="60" DisplayMemberBinding="{Binding Qty}" />
+                        <GridViewColumn Header="Purchase" Width="80" DisplayMemberBinding="{Binding PurchasePrice}" />
+                        <GridViewColumn Header="Sale Price" Width="80" DisplayMemberBinding="{Binding SalePrice}" />
+                        <GridViewColumn Header="Tax Rate" Width="70" DisplayMemberBinding="{Binding TaxRate}" />
+                        <GridViewColumn Header="Customer" Width="100" DisplayMemberBinding="{Binding Customer}" />
+                        <GridViewColumn Header="Sale Date" Width="100" DisplayMemberBinding="{Binding SaleDate}" />
+                        <GridViewColumn Header="Amount" Width="80" DisplayMemberBinding="{Binding Amount}" />
                     </GridView>
                 </ListView.View>
             </ListView>
-
         </StackPanel>
 
-        </Grid>
-    
+        <!-- Bottom actions -->
+       
+            <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left">
+            <Label Content="Total Amount" FontWeight="Bold" Margin="0,0,0,5"/>
+            <TextBlock Text="{Binding TotalAmount}" 
+                        Foreground="#40AF73" 
+                        FontSize="15"
+                        FontWeight="Bold" Width="100"/>
+        </StackPanel>
+            
+            <!-- Buttons met herbruikbare stijl -->
+        <StackPanel  Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Reset" Command="{Binding ResetCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="20,0"/>
+                <Button Content="Update" Command="{Binding UpdateCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="0,0,20,0"/>
+                <Button Content="Printe" Command="{Binding DeleteReCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="0,0,20,0"/>
+                <Button Content="Close" Command="{Binding NavigateDashboardCommand}" Style="{StaticResource PrimaryButtonStyle}"/>
+            </StackPanel>
+
+        
+
+    </Grid>
 </UserControl>
