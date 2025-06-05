@@ -4,9 +4,524 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:VoorraadbeheerSysteemProject.Wpf.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             xmlns:behaviors="clr-namespace:VoorraadbeheerSysteemProject.Wpf.Behaviors"
+             xmlns:converters="clr-namespace:VoorraadbeheerSysteemProject.Wpf.Converters"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:DifferenceToBrushConverter x:Key="DifferenceToBrushConverter"/>
+        <!--#region custom styles-->
+        <Style x:Key="CustomTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Background" Value="#F6F6FB"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="5 2 5 2"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="5"
+                                Padding="5 2 5 2">
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="CustomTextBoxUpDownStyle" TargetType="TextBox" BasedOn="{StaticResource CustomTextBoxStyle}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Grid>
+                            <Border Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="5"
+                                    Padding="5 2 5 2">
+                                <Grid>
+                                    <ScrollViewer x:Name="PART_ContentHost"/>
+                                    <StackPanel Orientation="Vertical"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Center"
+                                                Margin="0 0 2 0">
+                                        <Button x:Name="PART_UpButton"
+                                                Command="{Binding UpArrowButtonCommand}"
+                                                CommandParameter="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}"
+                                                Content="▲"
+                                                Foreground="#5A6ACF"
+                                                Width="16"
+                                                Height="12"
+                                                Padding="0"
+                                                Focusable="False"
+                                                Background="Transparent"
+                                                BorderThickness="0"/>
+                                        <Button x:Name="DownButton"
+                                                Command="{Binding DownArrowButtonCommand}"
+                                                CommandParameter="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}"
+                                                Content="▼"
+                                                Foreground="#5A6ACF"
+                                                Width="16"
+                                                Height="12"
+                                                Padding="0"
+                                                Focusable="False"
+                                                Background="Transparent"
+                                                BorderThickness="0"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    <!--#endregion-->
+    </UserControl.Resources>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Label Content="Cash Register"
+               Margin="60 40 0 0"
+               FontWeight="Medium"
+               FontSize="18"/>
+        <!--#region cash counter-->
+        <Grid Grid.Row="1"
+              Margin="0 50 0 0"
+              HorizontalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="200" MinWidth="100"/>
+                <ColumnDefinition Width="100"/> <!--gutter column-->
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="200" MinWidth="100"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <!--#region labels pieces col 0-->
+            <Label Content="1 cent:"
+                   Grid.Row="0"
+                   HorizontalContentAlignment="Right"
+                   Margin="0 0 10 10"/>
+            <Label Content="2 cent:"
+                   Grid.Row="1"
+                   HorizontalContentAlignment="Right"
+                   Margin="0 0 10 10"/>
+            <Label Content="5 cent:"
+                   Grid.Row="2"
+                   HorizontalContentAlignment="Right"
+                   Margin="0 0 10 10"/>
+            <Label Content="10 cent:"
+                   Grid.Row="3"
+                   HorizontalContentAlignment="Right"
+                   Margin="0 0 10 10"/>
+            <Label Content="20 cent:"
+                   Grid.Row="4"
+                   HorizontalContentAlignment="Right"
+                   Margin="0 0 10 10"/>
+            <Label Content="50 cent:"
+                   Grid.Row="5"
+                   HorizontalContentAlignment="Right"
+                   Margin="0 0 10 10"/>
+            <Label Content="1 euro:"
+                   Grid.Row="6"
+                   HorizontalContentAlignment="Right"
+                   Margin="0 0 10 10"/>
+            <Label Content="2 euro:"
+                   Grid.Row="7"
+                   HorizontalContentAlignment="Right"
+                   Margin="0 0 10 10"/>
+            <!--#endregion-->
+            <!--#region amount pieces col 1-->
+            <TextBox Style="{StaticResource CustomTextBoxUpDownStyle}"
+                     Text="{Binding Coin1Cent}"
+                     Tag="Coin1Cent"
+                     behaviors:SelectAllTextOnFocusBehavior.Enable="True"
+                     Grid.Row="0"
+                     Grid.Column="1"
+                     Margin="0 0 10 10"
+                     HorizontalContentAlignment="Center"/>
+
+            <TextBox Style="{StaticResource CustomTextBoxUpDownStyle}"
+                     Text="{Binding Coin2Cent}"
+                     Tag="Coin2Cent"
+                     behaviors:SelectAllTextOnFocusBehavior.Enable="True"
+                     Grid.Row="1"
+                     Grid.Column="1"
+                     Margin="0 0 10 10"
+                     HorizontalContentAlignment="Center"/>
+            <TextBox Style="{StaticResource CustomTextBoxUpDownStyle}"
+                     Text="{Binding Coin5Cent}"
+                     Tag="Coin5Cent"
+                     behaviors:SelectAllTextOnFocusBehavior.Enable="True"
+                     Grid.Row="2"
+                     Grid.Column="1"
+                     Margin="0 0 10 10"
+                     HorizontalContentAlignment="Center"/>
+            <TextBox Style="{StaticResource CustomTextBoxUpDownStyle}"
+                     Text="{Binding Coin10Cent}"
+                     Tag="Coin10Cent"
+                     behaviors:SelectAllTextOnFocusBehavior.Enable="True"
+                     Grid.Row="3"
+                     Grid.Column="1"
+                     Margin="0 0 10 10"
+                     HorizontalContentAlignment="Center"/>
+            <TextBox Style="{StaticResource CustomTextBoxUpDownStyle}"
+                     Text="{Binding Coin20Cent}"
+                     Tag="Coin20Cent"
+                     behaviors:SelectAllTextOnFocusBehavior.Enable="True"
+                     Grid.Row="4"
+                     Grid.Column="1"
+                     Margin="0 0 10 10"
+                     HorizontalContentAlignment="Center"/>
+            <TextBox Style="{StaticResource CustomTextBoxUpDownStyle}"
+                     Text="{Binding Coin50Cent}"
+                     Tag="Coin50Cent"
+                     behaviors:SelectAllTextOnFocusBehavior.Enable="True"
+                     Grid.Row="5"
+                     Grid.Column="1"
+                     Margin="0 0 10 10"
+                     HorizontalContentAlignment="Center"/>
+            <TextBox Style="{StaticResource CustomTextBoxUpDownStyle}"
+                     Text="{Binding Coin1Euro}"
+                     Tag="Coin1Euro"
+                     behaviors:SelectAllTextOnFocusBehavior.Enable="True"
+                     Grid.Row="6"
+                     Grid.Column="1"
+                     Margin="0 0 10 10"
+                     HorizontalContentAlignment="Center"/>
+            <TextBox Style="{StaticResource CustomTextBoxUpDownStyle}"
+                     Text="{Binding Coin2Euro}"
+                     Tag="Coin2Euro"
+                     behaviors:SelectAllTextOnFocusBehavior.Enable="True"
+                     Grid.Row="7"
+                     Grid.Column="1"
+                     Margin="0 0 10 10"
+                     HorizontalContentAlignment="Center"/>
+            <!--#endregion-->
+            <!--#region total pieces col 2-->
+            <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Total1CentAmount, Mode=OneWay, StringFormat='{}{0} €'}"
+                     Grid.Row="0"
+                     Grid.Column="2"
+                     IsReadOnly="True"
+                     Focusable="False"
+                     Margin="0 0 0 10"
+                     HorizontalContentAlignment="Right"/>
+            <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Total2CentAmount, Mode=OneWay, StringFormat='{}{0} €'}"
+                     Grid.Row="1"
+                     Grid.Column="2"
+                     IsReadOnly="True"
+                     Focusable="False"
+                     Margin="0 0 0 10"
+                     HorizontalContentAlignment="Right"/>
+            <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Total5CentAmount, Mode=OneWay, StringFormat='{}{0} €'}"
+                     Grid.Row="2"
+                     Grid.Column="2"
+                     IsReadOnly="True"
+                     Focusable="False"
+                     Margin="0 0 0 10"
+                     HorizontalContentAlignment="Right"/>
+            <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Total10CentAmount, Mode=OneWay, StringFormat='{}{0} €'}"
+                     Grid.Row="3"
+                     Grid.Column="2"
+                     IsReadOnly="True"
+                     Focusable="False"
+                     Margin="0 0 0 10"
+                     HorizontalContentAlignment="Right"/>
+            <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Total20CentAmount, Mode=OneWay, StringFormat='{}{0} €'}"
+                     Grid.Row="4"
+                     Grid.Column="2"
+                     IsReadOnly="True"
+                     Focusable="False"
+                     Margin="0 0 0 10"
+                     HorizontalContentAlignment="Right"/>
+            <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Total50CentAmount, Mode=OneWay, StringFormat='{}{0} €'}"
+                     Grid.Row="5"
+                     Grid.Column="2"
+                     IsReadOnly="True"
+                     Focusable="False"
+                     Margin="0 0 0 10"
+                     HorizontalContentAlignment="Right"/>
+            <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Total1EuroAmount, Mode=OneWay, StringFormat='{}{0} €'}"
+                     Grid.Row="6"
+                     Grid.Column="2"
+                     IsReadOnly="True"
+                     Focusable="False"
+                     Margin="0 0 0 10"
+                     HorizontalContentAlignment="Right"/>
+            <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Total2EuroAmount, Mode=OneWay, StringFormat='{}{0} €'}"
+                     Grid.Row="7"
+                     Grid.Column="2"
+                     IsReadOnly="True"
+                     Focusable="False"
+                     Margin="0 0 0 10"
+                     HorizontalContentAlignment="Right"/>
+            <!--#endregion-->
+            <!--gutter column-->
+            <!--#region labels bill col 4-->
+            <Label Content="5 euro:"
+                   Grid.Row="0"
+                   Grid.Column="4"
+                   HorizontalContentAlignment="Right"
+                   Margin="0 0 10 10"/>
+            <Label Content="10 euro:"
+                   Grid.Row="1"
+                   Grid.Column="4"
+                   HorizontalContentAlignment="Right"
+                   Margin="0 0 10 10"/>
+            <Label Content="20 euro:"
+                   Grid.Row="2"
+                   Grid.Column="4"
+                   HorizontalContentAlignment="Right"
+                   Margin="0 0 10 10"/>
+            <Label Content="50 euro:"
+                   Grid.Row="3"
+                   Grid.Column="4"
+                   HorizontalContentAlignment="Right"
+                   Margin="0 0 10 10"/>
+            <Label Content="100 euro:"
+                   Grid.Row="4"
+                   Grid.Column="4"
+                   HorizontalContentAlignment="Right"
+                   Margin="0 0 10 10"/>
+            <Label Content="200 euro:"
+                   Grid.Row="5"
+                   Grid.Column="4"
+                   HorizontalContentAlignment="Right"
+                   Margin="0 0 10 10"/>
+            <Label Content="500 euro:"
+                   Grid.Row="6"
+                   Grid.Column="4"
+                   HorizontalContentAlignment="Right"
+                   Margin="0 0 10 10"/>
+            <!--#endregion-->
+            <!--#region amount bills col 5-->
+            <TextBox Style="{StaticResource CustomTextBoxUpDownStyle}"
+                     Text="{Binding Bill5Euro}"
+                     Tag="Bill5Euro"
+                     behaviors:SelectAllTextOnFocusBehavior.Enable="True"
+                     Grid.Row="0"
+                     Grid.Column="5"
+                     Margin="0 0 10 10"
+                     HorizontalContentAlignment="Center"/>
+            <TextBox Style="{StaticResource CustomTextBoxUpDownStyle}"
+                     Text="{Binding Bill10Euro}"
+                     Tag="Bill10Euro"
+                     behaviors:SelectAllTextOnFocusBehavior.Enable="True"
+                     Grid.Row="1"
+                     Grid.Column="5"
+                     Margin="0 0 10 10"
+                     HorizontalContentAlignment="Center"/>
+            <TextBox Style="{StaticResource CustomTextBoxUpDownStyle}"
+                     Text="{Binding Bill20Euro}"
+                     Tag="Bill20Euro"
+                     behaviors:SelectAllTextOnFocusBehavior.Enable="True"
+                     Grid.Row="2"
+                     Grid.Column="5"
+                     Margin="0 0 10 10"
+                     HorizontalContentAlignment="Center"/>
+            <TextBox Style="{StaticResource CustomTextBoxUpDownStyle}"
+                     Text="{Binding Bill50Euro}"
+                     Tag="Bill50Euro"
+                     behaviors:SelectAllTextOnFocusBehavior.Enable="True"
+                     Grid.Row="3"
+                     Grid.Column="5"
+                     Margin="0 0 10 10"
+                     HorizontalContentAlignment="Center"/>
+            <TextBox Style="{StaticResource CustomTextBoxUpDownStyle}"
+                     Text="{Binding Bill100Euro}"
+                     Tag="Bill100Euro"
+                     behaviors:SelectAllTextOnFocusBehavior.Enable="True"
+                     Grid.Row="4"
+                     Grid.Column="5"
+                     Margin="0 0 10 10"
+                     HorizontalContentAlignment="Center"/>
+            <TextBox Style="{StaticResource CustomTextBoxUpDownStyle}"
+                     Text="{Binding Bill200Euro}"
+                     Tag="Bill200Euro"
+                     behaviors:SelectAllTextOnFocusBehavior.Enable="True"
+                     Grid.Row="5"
+                     Grid.Column="5"
+                     Margin="0 0 10 10"
+                     HorizontalContentAlignment="Center"/>
+            <TextBox Style="{StaticResource CustomTextBoxUpDownStyle}"
+                     Text="{Binding Bill500Euro}"
+                     Tag="Bill500Euro"
+                     behaviors:SelectAllTextOnFocusBehavior.Enable="True"
+                     Grid.Row="6"
+                     Grid.Column="5"
+                     Margin="0 0 10 10"
+                     HorizontalContentAlignment="Center"/>
+            <!--#endregion-->
+            <!--#region total bills col 6-->
+            <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Total5EuroAmount, Mode=OneWay, StringFormat='{}{0} €'}"
+                     Grid.Row="0"
+                     Grid.Column="6"
+                     IsReadOnly="True"
+                     Focusable="False"
+                     Margin="0 0 0 10"
+                     HorizontalContentAlignment="Right"/>
+            <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Total10EuroAmount, Mode=OneWay, StringFormat='{}{0} €'}"
+                     Grid.Row="1"
+                     Grid.Column="6"
+                     IsReadOnly="True"
+                     Focusable="False"
+                     Margin="0 0 0 10"
+                     HorizontalContentAlignment="Right"/>
+            <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Total20EuroAmount, Mode=OneWay, StringFormat='{}{0} €'}"
+                     Grid.Row="2"
+                     Grid.Column="6"
+                     IsReadOnly="True"
+                     Focusable="False"
+                     Margin="0 0 0 10"
+                     HorizontalContentAlignment="Right"/>
+            <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Total50EuroAmount, Mode=OneWay, StringFormat='{}{0} €'}"
+                     Grid.Row="3"
+                     Grid.Column="6"
+                     IsReadOnly="True"
+                     Focusable="False"
+                     Margin="0 0 0 10"
+                     HorizontalContentAlignment="Right"/>
+            <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Total100EuroAmount, Mode=OneWay, StringFormat='{}{0} €'}"
+                     Grid.Row="4"
+                     Grid.Column="6"
+                     IsReadOnly="True"
+                     Focusable="False"
+                     Margin="0 0 0 10"
+                     HorizontalContentAlignment="Right"/>
+            <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Total200EuroAmount, Mode=OneWay, StringFormat='{}{0} €'}"
+                     Grid.Row="5"
+                     Grid.Column="6"
+                     IsReadOnly="True"
+                     Focusable="False"
+                     Margin="0 0 0 10"
+                     HorizontalContentAlignment="Right"/>
+            <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding Total500EuroAmount, Mode=OneWay, StringFormat='{}{0} €'}"
+                     Grid.Row="6"
+                     Grid.Column="6"
+                     IsReadOnly="True"
+                     Focusable="False"
+                     Margin="0 0 0 10"
+                     HorizontalContentAlignment="Right"/>
+            <!--#endregion-->
+            <!--#region total cash-->
+            <Label Content="total coins:"
+                   Grid.Row="8"
+                   Grid.ColumnSpan="2"
+                   FontWeight="Bold"
+                   HorizontalContentAlignment="Right"
+                   Margin="0 0 10 10"/>
+            <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding TotalCoinAmount, Mode=OneWay, StringFormat='{}{0} €'}"
+                     Grid.Row="8"
+                     Grid.Column="2"
+                     IsReadOnly="True"
+                     Margin="0 0 0 10"
+                     HorizontalContentAlignment="Right"/>
+            <Label Content="total bills:"
+                   Grid.Row="8"
+                   Grid.Column="4"
+                   Grid.ColumnSpan="2"
+                   FontWeight="Bold"
+                   HorizontalContentAlignment="Right"
+                   Margin="0 0 10 10"/>
+            <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                     Text="{Binding TotalBillAmount, Mode=OneWay, StringFormat='{}{0} €'}"
+                     Grid.Row="8"
+                     Grid.Column="6"
+                     IsReadOnly="True"
+                     Margin="0 0 0 10"
+                     HorizontalContentAlignment="Right"/>
+            <!--#endregion-->
+        </Grid>
+        <!--#endregion-->
+        <StackPanel HorizontalAlignment="Center" Grid.Row="2" Orientation="Horizontal">
+            <StackPanel Margin="0 0 20 0">
+                <Label Content="Total in cash register:"
+                       FontWeight="Bold"/>
+                <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                         Text="{Binding TotalCashAmount, Mode=OneWay, StringFormat='{}{0} €'}"
+                         IsReadOnly="True"
+                         HorizontalContentAlignment="Right"
+                         Width="200"/>
+            </StackPanel>
+            <StackPanel>
+                <Label Content="Difference:"
+                       FontWeight="Bold"/>
+                <TextBox Style="{StaticResource CustomTextBoxStyle}"
+                         Text="{Binding DifferenceAmount, Mode=OneWay, StringFormat='{}{0} €'}"
+                         Foreground="{Binding DifferenceAmount, Converter={StaticResource DifferenceToBrushConverter}}"
+                         IsReadOnly="True"
+                         HorizontalContentAlignment="Right"
+                         Width="200"/>
+            </StackPanel>
             
+
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" 
+                    HorizontalAlignment="Right" 
+                    Margin="100 30 100 50"
+                    Grid.Row="3">
+            <Button Content="End Shift"
+                    Command="{Binding EndShiftButton}"
+                    Background="#DDE4F0"
+                    Padding="30,10"
+                    Margin="0 0 15 0"
+                    VerticalAlignment="Bottom"
+                    BorderThickness="0"
+                    Foreground="#5A6ACF"
+                    FontWeight="Medium">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button Content="Close"
+                    Command="{Binding NavigateDashboardCommand}"
+                    Background="#DDE4F0"
+                    Padding="30,10"
+                    Margin="0 0 15 0"
+                    VerticalAlignment="Bottom"
+                    BorderThickness="0"
+                    Foreground="#5A6ACF"
+                    FontWeight="Medium">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+        </StackPanel>
     </Grid>
 </UserControl>
+

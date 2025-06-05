@@ -124,19 +124,5 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services
             }
         }
 
-        public async Task<List<PurchaseFlatDTO>> GetPurchasesFlatAsync()
-        {
-            try
-            {
-                var response = await _httpClient.GetAsync("/api/purchase/allpurchase");
-                response.EnsureSuccessStatusCode();
-                return await response.Content.ReadFromJsonAsync<List<PurchaseFlatDTO>>();
-            }
-            catch (Exception ex)
-            {
-                return new List<PurchaseFlatDTO>();
-            }
-        }
-
     }
 }
