@@ -62,6 +62,9 @@
     <Compile Update="Views\UcSupplier.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\UcTax.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\UcUserCreate.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
