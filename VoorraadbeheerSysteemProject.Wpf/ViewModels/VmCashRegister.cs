@@ -10,6 +10,7 @@ using System.Windows.Input;
 using VoorraadbeheerSysteemProject.Wpf.Commands;
 using VoorraadbeheerSysteemProject.Wpf.Models;
 using VoorraadbeheerSysteemProject.Wpf.Services.CashRegister;
+using VoorraadbeheerSysteemProject.Wpf.Services.Drawer;
 using VoorraadbeheerSysteemProject.Wpf.Stores;
 
 namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
@@ -18,10 +19,9 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
     {
         //api
         private CashRegisterRequest _cashRegisterRequest;
+        private DrawerRequests _drawerRequests;
         private CashShiftDTO? _cashShift = null;
         private CashShiftCloseResultDto? _cashShiftCloseResult = null;
-        private int _cashShiftId = 17;
-        
 
 
         //coins
@@ -106,8 +106,6 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         #endregion
         #endregion
 
-
-
         #region Constructor
         public VmCashRegister(NavigationStore navigationStore)
         {
@@ -115,6 +113,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 () => new VmDashboard(navigationStore));
 
             _cashRegisterRequest = new CashRegisterRequest(AppConfig.ApiUrl);
+            _drawerRequests = new DrawerRequests(AppConfig.ApiUrl);
 
             CompareButtonCommand = new ButtonCommand(async _ => await CompareCash());
             EndShiftButton = new ButtonCommand(async _ => await EndShift());
@@ -123,10 +122,14 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
 
         #endregion
+
         #region Methods
         private async Task CompareCash()
         {
-            CashShift = await _cashRegisterRequest.GetShiftByIdAsync(_cashShiftId);
+            if (CashShift is null || CashShift.CashShiftId == 0)
+                CashShift = await _drawerRequests.GetCashShiftTodayByEmployeeId(2); //temp hard coded employee id
+
+            OnPropertyChanged(nameof(DifferenceAmount));
         }
         private async Task EndShift()
         {
@@ -144,7 +147,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                     == MessageBoxResult.No
                 ) return;
             }
-            CashShiftCloseResult = await _cashRegisterRequest.PostEndShiftAsync(TotalCashAmount, _cashShiftId);
+            CashShiftCloseResult = await _cashRegisterRequest.PostEndShiftAsync(TotalCashAmount, CashShift.CashShiftId);
             if (CashShiftCloseResult.Difference == 0)
                 MessageBox.Show("Your shift has ended with no difference");
             else
