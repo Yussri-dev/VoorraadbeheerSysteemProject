@@ -24,8 +24,6 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands.SuppliersCommands
         public void Execute(object? parameter)
         {
 
-            _viewModel.RefreshTaxes();
         }
     }
-
 }
