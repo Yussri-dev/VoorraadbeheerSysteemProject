@@ -16,31 +16,15 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
     class VmDrawer : VmBase
     {
         private readonly DrawerRequests _drawerRequest;
-        private readonly NavigationStore _navigationStore;
 
-        private DateTime _shiftStart;
-        private string _statusMessage;
         private CashShiftDTO _currentShift;
         
 
         #region properties
-
-        public string StatusMessage
-        {
-            get => _statusMessage;
-            set
-            {
-                _statusMessage = value;
-                OnPropertyChanged();
-            }
-        }
-
         public CashShiftDTO CurrentShift { 
             get => _currentShift;
             set { _currentShift = value; OnPropertyChanged(nameof(CurrentShift)); }
         }
-
-
         #endregion
 
         public VmDrawer(NavigationStore navigationStore)
@@ -62,8 +46,6 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         #region Methods
         private async Task RegisterCashShiftAsync()
         {
-            StatusMessage = string.Empty;
-
             var newShift = new CashShiftDTO
             {
                 CashRegisterId = 3,
