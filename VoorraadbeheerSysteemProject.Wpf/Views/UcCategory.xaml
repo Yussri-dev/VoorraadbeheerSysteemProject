@@ -127,7 +127,9 @@
             </StackPanel>
 
             <!-- Categorie lijst -->
-            <ListView ItemsSource="{Binding FilteredCategories}" 
+          
+            <ListView Style="{StaticResource CustomListViewStyle}"
+                ItemsSource="{Binding FilteredCategories}" 
                       SelectedItem="{Binding SelectedCategory, Mode=TwoWay}" 
                       Margin="0,10,0,0">
                 <ListView.View>
@@ -137,6 +139,7 @@
                     </GridView>
                 </ListView.View>
             </ListView>
+           
         </StackPanel>
 
         <!-- Acties + Totaal -->
