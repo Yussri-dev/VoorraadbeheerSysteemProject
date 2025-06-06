@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using VoorraadbeheerSysteemProject.Wpf.Commands;
 using VoorraadbeheerSysteemProject.Wpf.Models;
+using VoorraadbeheerSysteemProject.Wpf.Services.Drawer;
 using VoorraadbeheerSysteemProject.Wpf.Stores;
 
 namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
@@ -14,6 +15,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
     public class VmMainWindow : VmBase
     {
         private readonly NavigationStore _navigationStore;
+        private readonly DrawerRequests _drawerRequests;
 
         public VmBase CurrentViewModel => _navigationStore.CurrentViewModel;
 
@@ -61,9 +63,11 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         {
             _navigationStore = navigationStore;
             _navigationStore.CurrentViewModelChanged += _navigationStore_CurrentViewModelChanged;
+            _drawerRequests = new DrawerRequests(AppConfig.ApiUrl);
 
             LogoutCommand = new ButtonCommand(Logout);
             GetEmailCommand = new ButtonCommand(GetUser);
+
 
 
             ProductsNavigationCommand = new NavigationCommand<VmProducts>(navigationStore,
@@ -79,8 +83,9 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             UserLoginNavigationCommand = new NavigationCommand<VmUserLogin>(navigationStore,
                 () => new VmUserLogin(navigationStore));
 
-            SaleNavigationCommand = new NavigationCommand<VmSale>(navigationStore,
-                () => new VmSale(navigationStore));
+            SaleNavigationCommand = new ButtonCommand(_ => _ = ExecuteSaleNavigation());
+            //SaleNavigationCommand = new NavigationCommand<VmSale>(navigationStore,
+            //    () => new VmSale(navigationStore));
 
             PurchaseNavigationCommand = new NavigationCommand<VmPurchase>(navigationStore,
                 () => new VmPurchase(navigationStore));
@@ -118,6 +123,16 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
             CashShiftNavigationCommand = new NavigationCommand<VmDrawer>(navigationStore,
                 () => new VmDrawer(navigationStore));
+        }
+
+        private async Task ExecuteSaleNavigation()
+        {
+            //check if shift is active
+            var shift = await _drawerRequests.GetCashShiftTodayByEmployeeId(UserSession.IdUSer);
+            if (shift is null)
+                _navigationStore.CurrentViewModel = new VmDrawer(_navigationStore);
+            else
+                _navigationStore.CurrentViewModel = new VmSale(_navigationStore);
         }
 
         private void _navigationStore_CurrentViewModelChanged()
