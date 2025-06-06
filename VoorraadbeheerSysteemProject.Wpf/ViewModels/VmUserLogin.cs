@@ -77,6 +77,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 UserSession.Token = result.Token;
                 UserSession.Email = result.Email;
                 UserSession.IdUSer = result.IdUser;
+                //UserSession.IdSaasClient = result.id
                 LoginSucceeded?.Invoke();
             }
             else

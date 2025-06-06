@@ -320,7 +320,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         {
             var products = await _apiService.GetProductsAsync();
             var suppliers = await _supplierRequests.GetSuppliers();
-            countPurchases = await _purchaseRequest.GetPurchasesCountAsync();
+            countPurchases = await _purchaseRequest.GetPurchasesCountAsync() + 1;
 
             OnPropertyChanged(nameof(FormattedPurchaseCount));
 
