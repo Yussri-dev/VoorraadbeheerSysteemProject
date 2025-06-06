@@ -19,6 +19,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         private readonly DrawerRequests _drawerRequest;
         private bool _shiftIsNotCreated = false;
         private string _title = "Created new Shift";
+        private bool _isReadOnly = false; 
 
         private CashShiftDTO _currentShift = new CashShiftDTO() 
         { 
@@ -53,6 +54,14 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             }
         }
 
+
+        public bool IsReadOnly
+        {
+            get { return _isReadOnly; }
+            set { _isReadOnly = value; }
+        }
+
+
         public ICommand RegisterShiftCommand => new ButtonCommand(async _ => await RegisterCashShiftAsync());
         #endregion
 
@@ -70,11 +79,13 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             {
                 ShiftIsNotCreated = true;
                 Title = "Create new Shift";
+                IsReadOnly = false;
             }
             else
             {
                 CurrentShift = existingShift;
                 Title = "Shift information";
+                IsReadOnly = true;
             }
         }
 
@@ -116,6 +127,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             else
             {
                 ShiftIsNotCreated = false;
+                IsReadOnly = true;
                 MessageBox.Show("Shift created successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }    
         }

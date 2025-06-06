@@ -25,6 +25,7 @@
                         Margin="5">
                 <TextBlock Text="Opening Balance:" Width="120"/>
                 <TextBox Text="{Binding CurrentShift.OpeningBalance}"
+                         IsReadOnly="{Binding IsReadOnly}"
                          Width="120"
                          Padding="2"
                          BorderThickness="0">
@@ -47,6 +48,7 @@
                         Margin="5">
                 <TextBlock Text="Cash Register ID:" Width="120"/>
                 <TextBox Text="{Binding CurrentShift.CashRegisterId}"
+                         IsReadOnly="{Binding IsReadOnly}"
                          Width="120"
                          Padding="2"
                          BorderThickness="0">
