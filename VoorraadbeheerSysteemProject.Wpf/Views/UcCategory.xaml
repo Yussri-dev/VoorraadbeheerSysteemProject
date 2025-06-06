@@ -9,30 +9,6 @@
              d:DesignHeight="450" 
              d:DesignWidth="800">
 
-    <UserControl.Resources>
-        <!-- Herbruikbare knopstijl -->
-        <Style x:Key="PrimaryButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="#007bff"/>
-            <Setter Property="Foreground" Value="#ffffff"/>
-            <Setter Property="Padding" Value="30,10"/>
-            <Setter Property="Margin" Value="0,0,15,0"/>
-            <Setter Property="VerticalAlignment" Value="Bottom"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="FontWeight" Value="Medium"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}" 
-                                CornerRadius="5">
-                            <ContentPresenter HorizontalAlignment="Center" 
-                                              VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </UserControl.Resources>
-
     <Grid Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="150"/>

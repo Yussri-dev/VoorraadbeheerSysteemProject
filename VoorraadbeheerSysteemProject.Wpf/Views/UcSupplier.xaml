@@ -9,30 +9,8 @@
              d:DesignHeight="450"
              d:DesignWidth="800">
 
-    <UserControl.Resources>
-        <!-- Algemene knopstijl -->
-        <Style x:Key="PrimaryButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="#007bff"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Padding" Value="5"/>
-            <Setter Property="Height" Value="30"/>
-            <Setter Property="Width" Value="80"/>
-            <Setter Property="Margin" Value="5,0,0,0"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="VerticalAlignment" Value="Top"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}" CornerRadius="5">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </UserControl.Resources>
-
     <Grid Background="White">
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="150"/>
             <RowDefinition Height="*"/>
@@ -113,7 +91,8 @@
             </StackPanel>
 
             <!-- Supplier List -->
-            <ListView ItemsSource="{Binding FilteredSuppliers}" 
+            <ListView  Style="{StaticResource CustomListViewStyle}"
+                       ItemsSource="{Binding FilteredSuppliers}" 
                       SelectedItem="{Binding SelectedSupplier}" 
                       DisplayMemberPath="Name" 
                       SelectionMode="Single">
