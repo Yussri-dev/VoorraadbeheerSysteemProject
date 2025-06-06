@@ -58,7 +58,10 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         public bool IsReadOnly
         {
             get { return _isReadOnly; }
-            set { _isReadOnly = value; }
+            set { 
+                _isReadOnly = value; 
+                OnPropertyChanged(nameof(IsReadOnly));
+            }
         }
 
 
