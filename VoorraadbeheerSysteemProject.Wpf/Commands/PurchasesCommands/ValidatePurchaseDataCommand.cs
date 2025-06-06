@@ -36,14 +36,13 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands.PurchasesCommands
             }
 
             decimal totalAmount = _vmPurchase.TotalAmount;
-
-
+            string userId = UserSession.IdUSer;
+            int saasId = UserSession.IdSaasClient;
             var purchaseDto = new PurchaseDTO
             {
-
                 PurchaseDate = DateTime.Now,
-                SupplierId = 2,
-                EmployeeId = 2,
+                SupplierId = 1,
+                UserId = userId,
                 TvaAmount = 0,
                 TotalAmount = totalAmount,
                 AmountPaid = totalAmount,
