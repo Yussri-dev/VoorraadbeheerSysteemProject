@@ -9,11 +9,11 @@ using VoorraadbeheerSysteemProject.Wpf.ViewModels;
 
 namespace VoorraadbeheerSysteemProject.Wpf.Commands.SuppliersCommands
 {
-    public class DeleteCommand : ICommand
+    public class DeleteSupplierCommand : ICommand
     {
         private readonly VmSupplier _vm;
 
-        public DeleteCommand(VmSupplier vm)
+        public DeleteSupplierCommand(VmSupplier vm)
         {
             _vm = vm;
             _vm.PropertyChanged += (s, e) =>

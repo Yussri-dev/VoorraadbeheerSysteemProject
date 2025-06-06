@@ -8,11 +8,11 @@ using VoorraadbeheerSysteemProject.Wpf.ViewModels;
 
 namespace VoorraadbeheerSysteemProject.Wpf.Commands.SuppliersCommands
 {
-    public class UpdateCommand : ICommand
+    public class UpdateSupplierCommand : ICommand
     {
         private readonly VmSupplier _viewModel;
 
-        public UpdateCommand(VmSupplier viewModel)
+        public UpdateSupplierCommand(VmSupplier viewModel)
         {
             _viewModel = viewModel;
         }
@@ -27,5 +27,4 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands.SuppliersCommands
             _viewModel.RefreshSuppliers();
         }
     }
-
 }

@@ -8,11 +8,11 @@ using VoorraadbeheerSysteemProject.Wpf.ViewModels;
 
 namespace VoorraadbeheerSysteemProject.Wpf.Commands.SuppliersCommands
 {
-    public class ResetCommand : ICommand
+    public class ResetSupplierCommand : ICommand
     {
         private readonly VmSupplier _viewModel;
 
-        public ResetCommand(VmSupplier viewModel)
+        public ResetSupplierCommand(VmSupplier viewModel)
         {
             _viewModel = viewModel;
         }

@@ -4,42 +4,44 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using VoorraadbeheerSysteemProject.Wpf.Commands;
+using VoorraadbeheerSysteemProject.Wpf.Commands.ReportsCommands;
+using VoorraadbeheerSysteemProject.Wpf.Models;
+using VoorraadbeheerSysteemProject.Wpf.Services;
 using VoorraadbeheerSysteemProject.Wpf.Stores;
 
 namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 {
 
+
     public class VmReport : VmBase
     {
+        private readonly ApiReport _apiReport;
+        private int _pageNumber = 1;
+        private readonly int _pageSize = 15;
+        private int _totalProducts;
         private string _searchText;
-        private ObservableCollection<Report> _filteredReports;
-        private readonly ObservableCollection<Report> _allReports;
-        private readonly NavigationStore _navigationStore;
+        private ObservableCollection<ProductDTO> _products;
+        private ObservableCollection<ProductDTO> _filteredProducts;
 
-        public VmReport(NavigationStore navigationStore)
+        public ObservableCollection<ProductDTO> Products
         {
-            _navigationStore = navigationStore;
-
-            // voorbeelddata
-            _allReports = new ObservableCollection<Report>
-            {
-                new Report { Number = 1, Name = "Product Name 1", Qty = 2, PurchasePrice = 20.50m, SalePrice = 30.00m, TaxRate = 10.00m, Customer = "Customer I",  SaleDate = "18/03/2025", Amount = 50.00m },
-                new Report { Number = 2, Name = "Product Name 2", Qty = 25,PurchasePrice = 10.00m, SalePrice = 20.50m, TaxRate = 15.00m, Customer = "Customer II", SaleDate = "10/09/2025", Amount = 90.00m },
-                new Report { Number = 3, Name = "Product Name 3", Qty = 10,PurchasePrice = 5.00m,  SalePrice = 15.00m, TaxRate = 5.00m,  Customer = "Customer III",SaleDate = "20/10/2025", Amount = 150.00m },
-                new Report { Number = 4, Name = "Product Name 4", Qty = 5, PurchasePrice = 8.00m,  SalePrice = 12.00m, TaxRate = 8.00m,  Customer = "Customer IV", SaleDate = "15/11/2025", Amount = 60.00m }
-            };
-
-            _filteredReports = new ObservableCollection<Report>(_allReports);
-        }
-
-        public ObservableCollection<Report> FilteredReports
-        {
-            get => _filteredReports;
+            get => _products;
             set
             {
-                _filteredReports = value;
+                _products = value;
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(TotalAmount));
+            }
+        }
+
+        public ObservableCollection<ProductDTO> FilteredProducts
+        {
+            get => _filteredProducts;
+            set
+            {
+                _filteredProducts = value;
+                OnPropertyChanged();
             }
         }
 
@@ -48,69 +50,121 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             get => _searchText;
             set
             {
-                if (_searchText != value)
+                _searchText = value;
+                OnPropertyChanged();
+                FilterProducts();
+            }
+        }
+
+        public int PageNumber
+        {
+            get => _pageNumber;
+            set
+            {
+                _pageNumber = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int TotalProducts
+        {
+            get => _totalProducts;
+            set
+            {
+                _totalProducts = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ICommand NavigateDashboardCommand { get; }
+        public ICommand PreviousPageCommand { get; }
+        public ICommand NextPageCommand { get; }
+        public ICommand ResetCommand { get; }
+        public ICommand UpdateCommand { get; }
+        public ICommand PrintCommand { get; }
+
+        public VmReport(NavigationStore navigationStore)
+        {
+            _apiReport = new ApiReport(AppConfig.ApiUrl);
+
+            NavigateDashboardCommand = new NavigationCommand<VmDashboard>(navigationStore,
+                () => new VmDashboard(navigationStore));
+
+            PreviousPageCommand = new ButtonCommand(PreviousPage);
+            NextPageCommand = new ButtonCommand(NextPage);
+
+            Products = new ObservableCollection<ProductDTO>();
+            FilteredProducts = new ObservableCollection<ProductDTO>();
+            PrintCommand = new UpdateCommand(this);
+            ResetCommand = new ResetCommand(this);
+            PrintCommand = new PrintCommand(this);
+            LoadProducts(); 
+        }
+
+        private async void LoadProducts()
+        {
+            var list = await _apiReport.GetReportsAsync(PageNumber, _pageSize);
+            Products.Clear();
+            FilteredProducts.Clear();
+
+            foreach (var p in list)
+            {
+                Products.Add(p);
+                FilteredProducts.Add(p);
+            }
+
+            TotalProducts = await _apiReport.GetProductCountAsync();
+        }
+
+        private void FilterProducts()
+        {
+            FilteredProducts.Clear();
+            foreach (var p in Products)
+            {
+                if (string.IsNullOrWhiteSpace(SearchText) || p.Name.ToLower().Contains(SearchText.ToLower()))
                 {
-                    _searchText = value;
-                    OnPropertyChanged();
-                    UpdateFilteredReports();
+                    FilteredProducts.Add(p);
                 }
             }
+
+            TotalProducts = FilteredProducts.Count;
         }
 
-        public decimal TotalAmount => FilteredReports.Sum(r => r.Amount);
-
-        private void UpdateFilteredReports()
+        private async void PreviousPage(object parameter)
         {
-            if (string.IsNullOrWhiteSpace(_searchText))
-            {
-                FilteredReports = new ObservableCollection<Report>(_allReports);
-            }
-            else
-            {
-                var lower = _searchText.ToLower();
-                var matches = _allReports
-                    .Where(r => r.Name.ToLower().Contains(lower))
-                    .ToList();
-                FilteredReports = new ObservableCollection<Report>(matches);
-            }
+            if (PageNumber <= 1) return;
 
-            OnPropertyChanged(nameof(TotalAmount));
+            PageNumber--;
+            var list = await _apiReport.GetReportsAsync(PageNumber, _pageSize);
+            Products = new ObservableCollection<ProductDTO>(list);
+            FilterProducts();
         }
 
-
-
-        public ObservableCollection<string> Customers { get; set; } = new ObservableCollection<string>
-{
-          "Customer I",
-          "Customer II",
-          "Customer III",
-          "Customer IV"
-};
-
-        public ObservableCollection<string> AvailableDates { get; set; } = new ObservableCollection<string>
-{
-           "01/01/2025",
-           "15/02/2025",
-           "10/03/2025",
-           "20/04/2025"
-};
-
-        public string SelectedCustomer { get; set; }
-        public string SelectedStartDate { get; set; }
-        public string SelectedEndDate { get; set; }
-
-
-        public class Report
+        private async void NextPage(object parameter)
         {
-            public int Number { get; set; }
-            public string Name { get; set; }
-            public int Qty { get; set; }
-            public decimal PurchasePrice { get; set; }
-            public decimal SalePrice { get; set; }
-            public decimal TaxRate { get; set; }
-            public string Customer { get; set; }
-            public string SaleDate { get; set; }
-            public decimal Amount { get; set; }
+            int totalPages = (int)Math.Ceiling(TotalProducts / (double)_pageSize);
+            if (PageNumber >= totalPages) return;
+
+            PageNumber++;
+            var list = await _apiReport.GetReportsAsync(PageNumber, _pageSize);
+            Products = new ObservableCollection<ProductDTO>(list);
+            FilterProducts();
+        }
+
+        public async void RefreshProducts()
+        {
+            var list = await _apiReport.GetReportsAsync(PageNumber, _pageSize);
+
+            Products.Clear();
+            FilteredProducts.Clear();
+
+            foreach (var p in list)
+            {
+                Products.Add(p);
+                FilteredProducts.Add(p);
+            }
+
+            TotalProducts = await _apiReport.GetProductCountAsync();
         }
     }
 }

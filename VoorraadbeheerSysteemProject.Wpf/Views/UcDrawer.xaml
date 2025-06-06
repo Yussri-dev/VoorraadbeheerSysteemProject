@@ -7,41 +7,102 @@
              d:DesignHeight="300" d:DesignWidth="400">
     <Border Padding="20" Background="#F7F7F7" CornerRadius="10" BorderBrush="#DDD" BorderThickness="1">
         <StackPanel>
-            <TextBlock Text="Shift Information" FontWeight="Bold" FontSize="18" Margin="0 0 0 10" />
+            <TextBlock Text="Shift Information" FontWeight="Bold" FontSize="18" Margin="0 0 10 0"/>
 
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal"
+                        Margin="5">
                 <TextBlock Text="Shift Date:" Width="120"/>
                 <TextBlock Text="{Binding CurrentShift.ShiftStart, StringFormat='{}{0:dd/MM/yyyy}'}" Width="120"/>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal"
+                        Margin="5">
                 <TextBlock Text="Start Time:" Width="120"/>
                 <TextBlock Text="{Binding CurrentShift.ShiftStart, StringFormat='{}{0:HH:mm}'}" Width="120"/>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal"
+                        Margin="5">
                 <TextBlock Text="Opening Balance:" Width="120"/>
-                <TextBlock Text="{Binding CurrentShift.OpeningBalance, StringFormat=C}" Width="120"/>
+                <TextBox Text="{Binding CurrentShift.OpeningBalance, StringFormat='{}{0} €'}"
+                         Width="120"
+                         Padding="2"
+                         BorderThickness="0">
+                    <TextBox.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </TextBox.Resources>
+                </TextBox>
+                <TextBlock Text="€" Width="120"/>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal"
+                        Margin="5">
                 <TextBlock Text="Created On:" Width="120"/>
                 <TextBlock Text="{Binding CurrentShift.DateCreated, StringFormat='{}{0:dd/MM/yyyy HH:mm}'}" Width="120"/>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal"
+                        Margin="5">
                 <TextBlock Text="Cash Register ID:" Width="120"/>
-                <TextBlock Text="{Binding CurrentShift.CashRegisterId}" Width="120"/>
+                <TextBox Text="{Binding CurrentShift.CashRegisterId}"
+                         Width="120"
+                         Padding="2"
+                         BorderThickness="0">
+                    <TextBox.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </TextBox.Resources>
+                </TextBox>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Employee ID:" Width="120"/>
-                <TextBlock Text="{Binding CurrentShift.EmployeeId}" Width="120" />
+            <StackPanel Orientation="Horizontal"
+                        Margin="5">
+                <TextBlock Text="User ID:" Width="120"/>
+                <TextBlock Text="{Binding CurrentShift.UserId}" />
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal"
+                        Margin="5">
                 <TextBlock Text="SaaS Client ID:" Width="120"/>
                 <TextBlock Text="{Binding CurrentShift.SaasClientId}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" 
+                        HorizontalAlignment="Right" 
+                        Margin="100,30"
+                        Grid.Row="3">
+                <Button Content="Start shift"
+                        Command="{Binding RegisterShiftCommand}"
+                        IsEnabled="{Binding ShiftIsNotCreated}"
+                        Background="#DDE4F0"
+                        Padding="30,10"
+                        Margin="0 0 15 0"
+                        VerticalAlignment="Bottom"
+                        BorderThickness="0"
+                        Foreground="#5A6ACF"
+                        FontWeight="Medium">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button Content="Close"
+                        Command="{Binding NavigateDashboardCommand}"
+                        Background="#DDE4F0"
+                        Padding="30,10"
+                        VerticalAlignment="Bottom"
+                        BorderThickness="0"
+                        Foreground="#5A6ACF"
+                        FontWeight="Medium">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
             </StackPanel>
         </StackPanel>
     </Border>

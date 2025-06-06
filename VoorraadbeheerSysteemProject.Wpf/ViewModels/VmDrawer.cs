@@ -18,13 +18,23 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         private readonly DrawerRequests _drawerRequest;
 
         private CashShiftDTO _currentShift;
-        
+        private bool _shiftIsNotCreated = false;
+
 
         #region properties
         public CashShiftDTO CurrentShift { 
             get => _currentShift;
             set { _currentShift = value; OnPropertyChanged(nameof(CurrentShift)); }
         }
+        public bool ShiftIsNotCreated
+        {
+            get => _shiftIsNotCreated;
+            set {
+                _shiftIsNotCreated = value;
+                OnPropertyChanged(nameof(ShiftIsNotCreated));
+            }
+        }
+        public ICommand RegisterShiftCommand => new ButtonCommand(async _ => await RegisterCashShiftAsync());
         #endregion
 
         public VmDrawer(NavigationStore navigationStore)
@@ -33,11 +43,12 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             CheckShift();
         }
 
+
         private async Task CheckShift()
         {
-            CashShiftDTO? existingShift = await _drawerRequest.GetCashShiftTodayByEmployeeId(2);
+            CashShiftDTO? existingShift = await _drawerRequest.GetCashShiftTodayByEmployeeId(UserSession.IdUSer);
             if (existingShift is null)
-                await RegisterCashShiftAsync();
+                ShiftIsNotCreated = true;
             else
                 CurrentShift = existingShift;
         }
@@ -46,18 +57,19 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         #region Methods
         private async Task RegisterCashShiftAsync()
         {
+            if (CurrentShift != null) return;
+
             var newShift = new CashShiftDTO
             {
-                CashRegisterId = 3,
                 ShiftDate = DateTime.Now.Date,
                 ShiftStart = DateTime.Now,
-                OpeningBalance = 100.00m, // Example opening balance
                 DateCreated = DateTime.Now,
-                EmployeeId = 2, // Example employee ID
+                UserId = UserSession.IdUSer,
                 SaasClientId = 1, // Example SaaS client ID
             };
 
             CurrentShift =  await _drawerRequest.PostCashShiftAsync(newShift);
+            ShiftIsNotCreated = false;
         }
         #endregion
     }
