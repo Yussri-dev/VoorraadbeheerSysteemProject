@@ -139,6 +139,14 @@
                 <DataTemplate DataType="{x:Type viewModels:VmCategory}">
                     <userControls:UcCategory/>
                 </DataTemplate>
+
+                <DataTemplate DataType="{x:Type viewModels:VmSaasClient}">
+                    <userControls:UcSaasClient/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type viewModels:VmDrawer}">
+                    <userControls:UcDrawer/>
+                </DataTemplate>
             </ContentControl.Resources>
         </ContentControl>
         <!--<Grid Grid.Column="1">
