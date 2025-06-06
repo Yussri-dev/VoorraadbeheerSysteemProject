@@ -80,7 +80,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services.Sales
                 string formattedEndDate = endDate.ToString("yyyy-MM-dd");
 
                 HttpResponseMessage response = await _httpClient.GetAsync(
-                    $"api/sale/monthly-summary?startDate={formattedStartDate}&endDate={formattedEndDate}");
+                    $"api/sale/monthly-summary?userId={UserSession.IdUSer}&startDate={formattedStartDate}&endDate={formattedEndDate}");
 
                 if (!response.IsSuccessStatusCode)
                 {
