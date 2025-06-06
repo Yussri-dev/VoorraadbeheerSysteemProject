@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using VoorraadbeheerSysteemProject.Wpf.Commands;
 using VoorraadbeheerSysteemProject.Wpf.Models;
@@ -16,13 +17,21 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
     class VmDrawer : VmBase
     {
         private readonly DrawerRequests _drawerRequest;
-
-        private CashShiftDTO _currentShift;
         private bool _shiftIsNotCreated = false;
+        private string _title = "Created new Shift";
+
+        private CashShiftDTO _currentShift = new CashShiftDTO() 
+        { 
+            ShiftStart = DateTime.Now,
+            DateCreated = DateTime.Now,
+            UserId = UserSession.IdUSer,
+            SaasClientId = 1
+        };
 
 
         #region properties
-        public CashShiftDTO CurrentShift { 
+        public CashShiftDTO CurrentShift
+        {
             get => _currentShift;
             set { _currentShift = value; OnPropertyChanged(nameof(CurrentShift)); }
         }
@@ -34,6 +43,16 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 OnPropertyChanged(nameof(ShiftIsNotCreated));
             }
         }
+
+        public string Title
+        {
+            get => _title;
+            set { 
+                _title = value; 
+                OnPropertyChanged(nameof(Title));
+            }
+        }
+
         public ICommand RegisterShiftCommand => new ButtonCommand(async _ => await RegisterCashShiftAsync());
         #endregion
 
@@ -48,16 +67,22 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         {
             CashShiftDTO? existingShift = await _drawerRequest.GetCashShiftTodayByEmployeeId(UserSession.IdUSer);
             if (existingShift is null)
+            {
                 ShiftIsNotCreated = true;
+                Title = "Create new Shift";
+            }
             else
+            {
                 CurrentShift = existingShift;
+                Title = "Shift information";
+            }
         }
 
 
         #region Methods
         private async Task RegisterCashShiftAsync()
         {
-            if (CurrentShift != null) return;
+            if (CurrentShift.CashShiftId != 0) return;
 
             var newShift = new CashShiftDTO
             {
@@ -67,9 +92,32 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 UserId = UserSession.IdUSer,
                 SaasClientId = 1, // Example SaaS client ID
             };
+            //check if filled in correctly
+            if(CurrentShift.OpeningBalance <= 0)
+            {
+                MessageBox.Show("Opening balance must be greater than zero.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (CurrentShift.CashRegisterId <= 0)
+            {
+                MessageBox.Show("Cash register ID must be greater than zero.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
-            CurrentShift =  await _drawerRequest.PostCashShiftAsync(newShift);
-            ShiftIsNotCreated = false;
+            //fill in the properties
+            newShift.CashRegisterId = CurrentShift.CashRegisterId;
+            newShift.OpeningBalance = CurrentShift.OpeningBalance;
+
+            var createdShift =  await _drawerRequest.PostCashShiftAsync(newShift);
+
+            //check if the shift was created successfully
+            if (createdShift is null)
+                MessageBox.Show("Failed to create shift. Please try again.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            else
+            {
+                ShiftIsNotCreated = false;
+                MessageBox.Show("Shift created successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }    
         }
         #endregion
     }
