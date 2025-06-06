@@ -77,94 +77,73 @@
             </StackPanel>
         </Border>
 
-        <!-- Top Bar and Main Content -->
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="60"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+        <!-- Main Content Area -->
+        <ContentControl Content="{Binding CurrentViewModel}" Grid.Column="1" x:Name="MainContent">
+            <!--  linken van vm aan userControl  -->
+            <ContentControl.Resources>
+                <DataTemplate DataType="{x:Type viewModels:VmProducts}">
+                    <userControls:UcProducts/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewModels:VmDashboard}">
+                    <userControls:UcDashboard/>
+                </DataTemplate>
 
-            <!-- Top Bar -->
-            <DockPanel Background="#FFFFFF" LastChildFill="False" VerticalAlignment="Center" Margin="0,0,10,0">
-                <TextBlock DockPanel.Dock="Left" FontSize="16" FontWeight="SemiBold" Margin="20,0,0,0" VerticalAlignment="Center">
-                    <Run Text="Welcome "/>
-                    <Run Text="{Binding Email}" Foreground="#2563EB"/>
-                </TextBlock>
-                <Button DockPanel.Dock="Right" Content="Logout"
-                        Command="{Binding LogoutCommand}"
-                        Background="#EF4444"
-                        Foreground="White"
-                        FontWeight="Bold"
-                        Margin="0,10"
-                        Padding="8,4"
-                        Width="90"
-                        Height="36"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"
-                        Cursor="Hand"
-                        BorderThickness="0"
-                        />
-            </DockPanel>
+                <DataTemplate DataType="{x:Type viewModels:VmCustomer}">
+                    <userControls:UcCustomer/>
+                </DataTemplate>
 
-            <!-- Main Content -->
-            <Border Grid.Row="1" Background="#F9FAFB" Padding="20">
-                <ContentControl Content="{Binding CurrentViewModel}" x:Name="MainContent">
-                    <ContentControl.Resources>
-                        <DataTemplate DataType="{x:Type viewModels:VmProducts}">
-                            <userControls:UcProducts/>
-                        </DataTemplate>
-                        <DataTemplate DataType="{x:Type viewModels:VmDashboard}">
-                            <userControls:UcDashboard/>
-                        </DataTemplate>
-                        <DataTemplate DataType="{x:Type viewModels:VmCustomer}">
-                            <userControls:UcCustomer/>
-                        </DataTemplate>
-                        <DataTemplate DataType="{x:Type viewModels:VmInventory}">
-                            <userControls:UcInventory/>
-                        </DataTemplate>
-                        <DataTemplate DataType="{x:Type viewModels:VmLine}">
-                            <userControls:UcLine/>
-                        </DataTemplate>
-                        <DataTemplate DataType="{x:Type viewModels:VmPurchase}">
-                            <userControls:UcPurchase/>
-                        </DataTemplate>
-                        <DataTemplate DataType="{x:Type viewModels:VmReport}">
-                            <userControls:UcReport/>
-                        </DataTemplate>
-                        <DataTemplate DataType="{x:Type viewModels:VmSale}">
-                            <userControls:UcSale/>
-                        </DataTemplate>
-                        <DataTemplate DataType="{x:Type viewModels:VmShelf}">
-                            <userControls:UcShelf/>
-                        </DataTemplate>
-                        <DataTemplate DataType="{x:Type viewModels:VmSupplier}">
-                            <userControls:UcSupplier/>
-                        </DataTemplate>
-                        <DataTemplate DataType="{x:Type viewModels:VmTax}">
-                            <userControls:UcTax/>
-                        </DataTemplate>
-                        <DataTemplate DataType="{x:Type viewModels:VmUserCreate}">
-                            <userControls:UcUserCreate/>
-                        </DataTemplate>
-                        <DataTemplate DataType="{x:Type viewModels:VmUserLogin}">
-                            <userControls:UcUserLogin/>
-                        </DataTemplate>
-                        <DataTemplate DataType="{x:Type viewModels:VmCashRegister}">
-                            <userControls:UcCashRegister/>
-                        </DataTemplate>
-                        <DataTemplate DataType="{x:Type viewModels:VmCategory}">
-                            <userControls:UcCategory/>
-                        </DataTemplate>
-                        <DataTemplate DataType="{x:Type viewModels:VmSaasClient}">
-                            <userControls:UcSaasClient/>
-                        </DataTemplate>
+                <DataTemplate DataType="{x:Type viewModels:VmInventory}">
+                    <userControls:UcInventory/>
+                </DataTemplate>
 
-                        <DataTemplate DataType="{x:Type viewModels:VmDrawer}">
-                            <userControls:UcDrawer/>
-                        </DataTemplate>
-                    </ContentControl.Resources>
-                </ContentControl>
-            </Border>
-        </Grid>
+                <DataTemplate DataType="{x:Type viewModels:VmLine}">
+                    <userControls:UcLine/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type viewModels:VmPurchase}">
+                    <userControls:UcPurchase/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type viewModels:VmReport}">
+                    <userControls:UcReport/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type viewModels:VmSale}">
+                    <userControls:UcSale/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type viewModels:VmShelf}">
+                    <userControls:UcShelf/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type viewModels:VmSupplier}">
+                    <userControls:UcSupplier/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type viewModels:VmTax}">
+                    <userControls:UcTax/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type viewModels:VmUserCreate}">
+                    <userControls:UcUserCreate/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type viewModels:VmUserLogin}">
+                    <userControls:UcUserLogin/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type viewModels:VmCashRegister}">
+                    <userControls:UcCashRegister/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type viewModels:VmCategory}">
+                    <userControls:UcCategory/>
+                </DataTemplate>
+            </ContentControl.Resources>
+        </ContentControl>
+        <!--<Grid Grid.Column="1">
+            <TextBlock Text="Main Content Here" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </Grid>-->
+      
     </Grid>
 </Window>
