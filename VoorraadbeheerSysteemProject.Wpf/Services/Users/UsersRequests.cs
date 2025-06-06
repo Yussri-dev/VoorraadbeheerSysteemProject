@@ -86,11 +86,13 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services.Users
 
                 if (authResponse != null && authResponse.IsSuccess)
                 {
+                    var saas = authResponse.IdSaasClient;
                     return new AuthResult
                     {
-                        Token = authResponse.Token!,
+                        Token = authResponse.Token,
                         Email = authResponse.UserName,
                         IdUser = authResponse.IdUser,
+                        IdSaasClient = authResponse.IdSaasClient
                     };
                 }
 

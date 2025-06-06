@@ -11,5 +11,6 @@ namespace VoorraadbeheerSysteemProject.Wpf.Models
         public string Token { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string IdUser { get; set; }
+        public int IdSaasClient { get; set; }
     }
 }
