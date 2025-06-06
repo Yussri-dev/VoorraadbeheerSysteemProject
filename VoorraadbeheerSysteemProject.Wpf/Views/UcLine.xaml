@@ -132,7 +132,8 @@
             </StackPanel>
 
             <!-- Line lijst -->
-            <ListView ItemsSource="{Binding FilteredLines}" 
+            <ListView Style="{StaticResource CustomListViewStyle}"
+               ItemsSource="{Binding FilteredLines}" 
                SelectedItem="{Binding SelectedLine, Mode=TwoWay}" 
                Margin="0,10,0,0">
                 <ListView.View>
