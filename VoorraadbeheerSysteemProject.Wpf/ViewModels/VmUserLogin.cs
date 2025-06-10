@@ -60,8 +60,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         {
             StatusMessage = string.Empty;
 
-            UserName = "ghanmiyoussri@gmail.com";
-            //UserName = "ghanmi.youssri.dev@gmail.com";
+            //UserName = "ghanmiyoussri@gmail.com";
+            UserName = "ghanmi.youssri.dev@gmail.com";
             Password = "077671699Yos@";
             if (string.IsNullOrWhiteSpace(UserName) || string.IsNullOrWhiteSpace(Password))
             {

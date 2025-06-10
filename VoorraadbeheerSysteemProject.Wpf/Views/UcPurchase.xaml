@@ -92,6 +92,7 @@
                             </Grid.ColumnDefinitions>
 
                             <TextBlock Grid.Column="0" Text="{Binding Quantity}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
                             <TextBlock Grid.Column="1" Text="{Binding ProductName}" VerticalAlignment="Center" Margin="10,0,0,0"/>
                             <TextBlock Grid.Column="2" Text="{Binding Price}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             <TextBlock Grid.Column="3" Text="{Binding Amount}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -115,7 +116,23 @@
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Id" DisplayMemberBinding="{Binding ProductId}" Width="0" />
-                            <GridViewColumn Header="Quantity" DisplayMemberBinding="{Binding Quantity}" Width="150" />
+                            <GridViewColumn Header="Quantity" Width="150">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <Button Content="−"
+                    Width="25" Height="25" Margin="0,0,5,0"
+                    Command="{Binding DataContext.DecrementQuantityCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                    CommandParameter="{Binding}" />
+                                            <TextBlock Text="{Binding Quantity}" VerticalAlignment="Center" Width="40" TextAlignment="Center"/>
+                                            <Button Content="+"
+                    Width="25" Height="25" Margin="5,0,0,0"
+                    Command="{Binding DataContext.IncrementQuantityCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                    CommandParameter="{Binding}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
                             <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="200" />
                             <GridViewColumn Header="PurchasePrice" DisplayMemberBinding="{Binding PurchasePrice}" Width="100" />
                             <GridViewColumn Header="Amount" DisplayMemberBinding="{Binding AmountPrice}" Width="100" />

@@ -78,7 +78,24 @@
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Id" DisplayMemberBinding="{Binding ProductId}" Width="0" />
-                            <GridViewColumn Header="Quantity" DisplayMemberBinding="{Binding Quantity}" Width="150" />
+                            <GridViewColumn Header="Quantity" Width="150">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <Button Content="−"
+                                                Width="25" Height="25" Margin="0,0,5,0"
+                                                Command="{Binding DataContext.DecrementQuantityCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                                CommandParameter="{Binding}" />
+                                            <TextBlock Text="{Binding Quantity}" VerticalAlignment="Center" Width="40" TextAlignment="Center"/>
+                                            <Button Content="+"
+                                                Width="25" Height="25" Margin="5,0,0,0"
+                                                Command="{Binding DataContext.IncrementQuantityCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                                CommandParameter="{Binding}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
                             <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="200" />
                             <GridViewColumn Header="SalePrice" DisplayMemberBinding="{Binding SalePrice}" Width="100" />
                             <GridViewColumn Header="Amount" DisplayMemberBinding="{Binding AmountPrice}" Width="100" />
