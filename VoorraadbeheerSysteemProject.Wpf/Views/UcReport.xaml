@@ -7,31 +7,7 @@
              d:DesignHeight="450"
              d:DesignWidth="800">
 
-    <UserControl.Resources>
-        <!-- Herbruikbare knopstijl -->
-        <Style x:Key="PrimaryButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="#007bff"/>
-            <!-- Groene kleur zoals in je textbox -->
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Padding" Value="10,5"/>
-            <Setter Property="Margin" Value="10,0,0,0"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Height" Value="35"/>
-            <Setter Property="Width" Value="80"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}"
-                                CornerRadius="5">
-                            <ContentPresenter HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </UserControl.Resources>
+
 
     <Grid Background="#F6F6FB" >
 
@@ -166,7 +142,8 @@
             </StackPanel>
 
             <!-- ListView -->
-            <ListView ItemsSource="{Binding FilteredReports}" 
+            <ListView Style="{StaticResource CustomListViewStyle}"
+                      ItemsSource="{Binding FilteredReports}" 
                       SelectionMode="Single"
                       BorderBrush="#DDD" BorderThickness="1"
                       Background="White"
@@ -203,7 +180,7 @@
                 <Button Content="Reset" Command="{Binding ResetCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="20,0"/>
                 <Button Content="Update" Command="{Binding UpdateCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="0,0,20,0"/>
                 <Button Content="Printe" Command="{Binding DeleteReCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="0,0,20,0"/>
-                <Button Content="Close" Command="{Binding NavigateDashboardCommand}" Style="{StaticResource PrimaryButtonStyle}"/>
+            <Button Content="Close" Command="{Binding NavigateDashboardCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="0,0,20,0"/>
             </StackPanel>
 
         
