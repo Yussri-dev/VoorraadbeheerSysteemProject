@@ -27,7 +27,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.Views
         {
             InitializeComponent();
 
-            DataContext = new VmSupplier(new NavigationStore());
+            //DataContext = new VmSupplier(new NavigationStore());
 
         }
     }
