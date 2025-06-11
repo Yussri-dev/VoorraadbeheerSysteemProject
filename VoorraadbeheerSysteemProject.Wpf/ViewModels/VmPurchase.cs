@@ -50,7 +50,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         //Input Fields
         private string _inputText = string.Empty;
         private string _inputSearchNameText = string.Empty;
-        private string _inputSearchBarcodeText = string.Empty;
+        //private string _inputSearchBarcodeText = string.Empty;
 
         // Totals
         private decimal _totalAmount;
@@ -144,16 +144,16 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             }
         }
 
-        public string InputSearchBarcodeText
-        {
-            get => _inputSearchBarcodeText;
-            set
-            {
-                _inputSearchBarcodeText = value;
-                OnPropertyChanged(nameof(InputSearchBarcodeText));
-                FilterProducts();
-            }
-        }
+        //public string InputSearchBarcodeText
+        //{
+        //    get => _inputSearchBarcodeText;
+        //    set
+        //    {
+        //        _inputSearchBarcodeText = value;
+        //        OnPropertyChanged(nameof(InputSearchBarcodeText));
+        //        FilterProducts();
+        //    }
+        //}
 
         #endregion
 
@@ -207,12 +207,17 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         public ICommand OpenDialogCommand { get; set; }
         public ICommand SearchProductsCommand { get; set; }
 
+        public ICommand IncrementQuantityCommand { get; set; }
+        public ICommand DecrementQuantityCommand { get; set; }
         private void InitialCommands()
         {
             AddSelectedProductCommand = new AddSelectedProductToPurchaseCommand(this, NumPadViewModel);
             RemoveSelectedProductCommand = new RemoveSelectedProductCommand(this);
             ClearSelectedProductCommand = new ClearSelectedProductCommand(this);
             ValidatePurchaseDataCommand = new ValidatePurchaseDataCommand(this);
+
+            IncrementQuantityCommand = new ButtonCommand(param => IncrementQuantity(param));
+            DecrementQuantityCommand = new ButtonCommand(param => DecrementQuantity(param));
         }
 
         #endregion
@@ -338,6 +343,79 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
         }
 
+        private string _inputSearchBarcodeText = string.Empty;
+        public string InputSearchBarcodeText
+        {
+            get => _inputSearchBarcodeText;
+            set
+            {
+                _inputSearchBarcodeText = value;
+                OnPropertyChanged(nameof(InputSearchBarcodeText));
+                FilterProducts();
+
+                // Ajout automatique si un code-barres complet est scanné
+                if (!string.IsNullOrWhiteSpace(_inputSearchBarcodeText) && _inputSearchBarcodeText.Length >= 6)
+                {
+                    AddProductByBarcode();
+                }
+            }
+        }
+
+        public void AddProductByBarcode()
+        {
+            if (string.IsNullOrWhiteSpace(InputSearchBarcodeText))
+                return;
+
+            var product = _allProducts.FirstOrDefault(p => p.Barcode == InputSearchBarcodeText);
+            if (product == null)
+                return;
+
+            var existing = SelectedProducts.FirstOrDefault(p => p.ProductId == product.ProductId);
+            if (existing == null)
+            {
+                decimal totalPrice = product.SalePrice1;
+                decimal taxAmount = Math.Round(product.TaxRate * totalPrice, 2);
+
+                SelectedProducts.Add(new ProductSelectedRequest
+                {
+                    ProductId = product.ProductId,
+                    Name = product.Name,
+                    Quantity = 1,
+                    SalePrice = product.SalePrice1,
+                    AmountPrice = totalPrice,
+                    PurchasePrice = product.PurchasePrice,
+                    TaxAmount = taxAmount
+                });
+            }
+            else
+            {
+                existing.Quantity += 1;
+                existing.AmountPrice += product.SalePrice1;
+            }
+
+            InputSearchBarcodeText = string.Empty;
+            CalculateTotalAmount();
+        }
+
+        private void IncrementQuantity(object param)
+        {
+            if (param is ProductSelectedRequest item)
+            {
+                item.Quantity += 1;
+                item.AmountPrice = item.Quantity * item.SalePrice;
+                CalculateTotalAmount();
+            }
+        }
+
+        private void DecrementQuantity(object param)
+        {
+            if (param is ProductSelectedRequest item && item.Quantity > 1)
+            {
+                item.Quantity -= 1;
+                item.AmountPrice = item.Quantity * item.SalePrice;
+                CalculateTotalAmount();
+            }
+        }
         #endregion
 
         #region Methods - Save to API

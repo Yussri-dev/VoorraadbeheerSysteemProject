@@ -132,7 +132,7 @@
                     Command="{Binding AddCommand}"
                     Style="{StaticResource PrimaryButtonStyle}"/>
             <Button Content="Update"
-                    Command="{Binding UpdateCommand}"
+                    Command="{Binding UpdateTaxCommand}"
                     Style="{StaticResource PrimaryButtonStyle}"/>
             <Button Content="Reset"
                     Command="{Binding ResetCommand}"

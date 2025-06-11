@@ -77,7 +77,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services.Purchases
                 string encodedStartDate = HttpUtility.HtmlEncode(startDate.ToString("dd/MM/yyyy"));
                 string encodedEndDate = HttpUtility.HtmlEncode(endDate.ToString("dd/MM/yyyy"));
 
-                var response = await _httpClient.GetAsync($"api/purchase/allpurchase?startdate={encodedStartDate}&enddate={encodedEndDate}");
+                var response = await _httpClient.GetAsync($"api/purchase/allpurchase?userid={UserSession.IdUSer}&startdate={encodedStartDate}&enddate={encodedEndDate}");
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadFromJsonAsync<List<PurchaseFlatDTO>>();
 

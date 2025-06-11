@@ -206,6 +206,10 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             AddSelectedProductCommand = new AddSelectedProductCommand(this, NumPadViewModel);
             RemoveSelectedProductCommand = new RemoveSelectedProductCommand(this);
             ClearSelectedProductCommand = new ClearSelectedProductCommand(this);
+
+            IncrementQuantityCommand = new ButtonCommand(param => IncrementQuantity(param));
+            DecrementQuantityCommand = new ButtonCommand(param => DecrementQuantity(param));
+
         }
 
         //Method for Searching and Filtering products using Name or barcode
@@ -253,6 +257,81 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
             });
         }
+
+        private string _inputSearchBarcodeText = string.Empty;
+        public string InputSearchBarcodeText
+        {
+            get => _inputSearchBarcodeText;
+            set
+            {
+                _inputSearchBarcodeText = value;
+                OnPropertyChanged(nameof(InputSearchBarcodeText));
+                FilterProducts();
+
+                // Ajout automatique si un code-barres complet est scanné
+                if (!string.IsNullOrWhiteSpace(_inputSearchBarcodeText) && _inputSearchBarcodeText.Length >= 6)
+                {
+                    AddProductByBarcode();
+                }
+            }
+        }
+
+        public void AddProductByBarcode()
+        {
+            if (string.IsNullOrWhiteSpace(InputSearchBarcodeText))
+                return;
+
+            var product = _allProducts.FirstOrDefault(p => p.Barcode == InputSearchBarcodeText);
+            if (product == null)
+                return;
+
+            var existing = SelectedProducts.FirstOrDefault(p => p.ProductId == product.ProductId);
+            if (existing == null)
+            {
+                decimal totalPrice = product.SalePrice1;
+                decimal taxAmount = Math.Round(product.TaxRate * totalPrice, 2);
+
+                SelectedProducts.Add(new ProductSelectedRequest
+                {
+                    ProductId = product.ProductId,
+                    Name = product.Name,
+                    Quantity = 1,
+                    SalePrice = product.SalePrice1,
+                    AmountPrice = totalPrice,
+                    PurchasePrice = product.PurchasePrice,
+                    TaxAmount = taxAmount
+                });
+            }
+            else
+            {
+                existing.Quantity += 1;
+                existing.AmountPrice += product.SalePrice1;
+            }
+
+            InputSearchBarcodeText = string.Empty;
+            CalculateTotalAmount();
+        }
+
+        private void IncrementQuantity(object param)
+        {
+            if (param is ProductSelectedRequest item)
+            {
+                item.Quantity += 1;
+                item.AmountPrice = item.Quantity * item.SalePrice;
+                CalculateTotalAmount();
+            }
+        }
+
+        private void DecrementQuantity(object param)
+        {
+            if (param is ProductSelectedRequest item && item.Quantity > 1)
+            {
+                item.Quantity -= 1;
+                item.AmountPrice = item.Quantity * item.SalePrice;
+                CalculateTotalAmount();
+            }
+        }
+
         #endregion
 
         #region InputText and Calcul
@@ -279,18 +358,18 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             }
         }
 
-        private string _inputSearchBarcodeText = string.Empty;
-        public string InputSearchBarcodeText
-        {
-            get => _inputSearchBarcodeText;
-            set
-            {
-                _inputSearchBarcodeText = value;
-                OnPropertyChanged(nameof(InputSearchBarcodeText));
-                FilterProducts();
+        //private string _inputSearchBarcodeText = string.Empty;
+        //public string InputSearchBarcodeText
+        //{
+        //    get => _inputSearchBarcodeText;
+        //    set
+        //    {
+        //        _inputSearchBarcodeText = value;
+        //        OnPropertyChanged(nameof(InputSearchBarcodeText));
+        //        FilterProducts();
 
-            }
-        }
+        //    }
+        //}
 
         //Total Amount
         private decimal _totalAmount;
@@ -343,6 +422,9 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         public ICommand ClearSelectedProductCommand { get; set; }
         public ICommand OpenDialogCommand { get; set; }
         public ICommand SearchProductsCommand { get; set; }
+        public ICommand IncrementQuantityCommand { get; set; }
+        public ICommand DecrementQuantityCommand { get; set; }
+
         #endregion
 
     }

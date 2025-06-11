@@ -42,6 +42,23 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services.CashRegister
 
         }
 
+        public async Task<CashRegisterDTO?> GetShiftByUserIdAsync(string userId)
+        {
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync($"api/cashregister/cash/{userId}");
+                if (!response.IsSuccessStatusCode)
+                    return null;
+                
+                var cashRegister = await response.Content.ReadFromJsonAsync<CashRegisterDTO>();
+                return cashRegister;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
         public async Task<CashShiftCloseResultDto?> PostEndShiftAsync(decimal cashamount, int id)
         {
             try
