@@ -9,7 +9,7 @@
     <Grid Background="#F7F7F7">
         <Border Background="White" CornerRadius="12" Padding="30" 
                 VerticalAlignment="Center" HorizontalAlignment="Center" Width="360" >
-                <!--Effect="{DynamicResource {x:Static SystemParameters.DropShadowKey}}"-->
+            <!--Effect="{DynamicResource {x:Static SystemParameters.DropShadowKey}}"-->
             <StackPanel>
 
                 <!-- Title -->
@@ -42,6 +42,13 @@
                 <PasswordBox Margin="0 6 0 20" Height="30"
                              helpers:PasswordBoxHelper.BoundPassword="{Binding ConfirmPassword, Mode=TwoWay}"/>
 
+                <!-- Role -->
+                <TextBlock Text="Role" FontWeight="SemiBold" Foreground="#444"/>
+                <ComboBox Margin="0 6 0 12" Height="30"
+                          ItemsSource="{Binding AvailableRoles}"
+                          SelectedItem="{Binding SelectedRole, Mode=TwoWay}"
+                            />
+
                 <!-- Register Button -->
                 <Button Content="Register"
                         Command="{Binding RegisterCommands}"
@@ -59,6 +66,7 @@
                            TextWrapping="Wrap"
                            TextAlignment="Center"/>
 
+                
                 <!-- Sign In Link -->
                 <TextBlock HorizontalAlignment="Center" Margin="0,20,0,0"
                            FontSize="12" Foreground="#555">

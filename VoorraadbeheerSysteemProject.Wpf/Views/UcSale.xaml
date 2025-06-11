@@ -160,8 +160,8 @@
                 Width="100" Height="40" Margin="5"
                 Background="White" BorderBrush="#E0E0E0"/>
                     <Button Content="Close" Command="{Binding NavigateDashboardCommand}"
-                Width="100" Height="40" Margin="5"
-                Background="White" BorderBrush="#E0E0E0"/>
+                    Width="100" Height="40" Margin="5"
+                    Background="White" BorderBrush="#E0E0E0"/>
                 </StackPanel>
             </Grid>
         </Grid>

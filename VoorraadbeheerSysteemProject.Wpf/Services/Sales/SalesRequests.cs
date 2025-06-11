@@ -10,6 +10,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Web;
 using System.Windows.Automation.Peers;
+using VoorraadbeheerSysteemProject.Wpf.Helpers;
 using VoorraadbeheerSysteemProject.Wpf.Models;
 
 namespace VoorraadbeheerSysteemProject.Wpf.Services.Sales
@@ -23,11 +24,13 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services.Sales
             _httpClient = new HttpClient();
             _baseUrl = baseUrl;
             _httpClient.BaseAddress = new Uri(_baseUrl);
+            JwtTokenHelper.SetJwtToken(_httpClient, JwtTokenStore.Token);
+
         }
 
         public async Task<int> GetSalesCountAsync()
         {
-            HttpResponseMessage responseMessage = await _httpClient.GetAsync("api/sale/count");
+            HttpResponseMessage responseMessage = await _httpClient.GetAsync("api/V1.0/sale/count");
 
             if (!responseMessage.IsSuccessStatusCode)
             {
@@ -129,7 +132,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services.Sales
         {
             try
             {
-                HttpResponseMessage response = await _httpClient.PostAsJsonAsync("api/sale", sale);
+                HttpResponseMessage response = await _httpClient.PostAsJsonAsync("api/v1.0/sale", sale);
                 if (response.IsSuccessStatusCode)
                 {
                     var createdSale = await response.Content.ReadFromJsonAsync<SaleDTO>();

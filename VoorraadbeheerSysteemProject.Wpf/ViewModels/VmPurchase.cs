@@ -16,6 +16,7 @@ using VoorraadbeheerSysteemProject.Wpf.Commands.PurchasesCommands;
 using VoorraadbeheerSysteemProject.Wpf.Services.Purchases;
 using VoorraadbeheerSysteemProject.Wpf.Services.Suppliers;
 using VoorraadbeheerSysteemProject.Wpf.Services.Customers;
+using VoorraadbeheerSysteemProject.Wpf.Helpers;
 
 namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 {
