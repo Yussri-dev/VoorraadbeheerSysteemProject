@@ -35,7 +35,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands.SalesCommands
             FlowDocument ticket = CreateTicketDocument(_savedSaleItems);
 
             // Mise en page du document
-            ticket.PageHeight = double.NaN;
+            ticket.PageHeight = 500;
             ticket.PageWidth = 350;
             ticket.PagePadding = new Thickness(20);
             ticket.ColumnGap = 0;

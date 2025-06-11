@@ -366,19 +366,6 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             }
         }
 
-        //private string _inputSearchBarcodeText = string.Empty;
-        //public string InputSearchBarcodeText
-        //{
-        //    get => _inputSearchBarcodeText;
-        //    set
-        //    {
-        //        _inputSearchBarcodeText = value;
-        //        OnPropertyChanged(nameof(InputSearchBarcodeText));
-        //        FilterProducts();
-
-        //    }
-        //}
-
         //Total Amount
         private decimal _totalAmount;
         public decimal TotalAmount
