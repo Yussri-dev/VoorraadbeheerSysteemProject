@@ -219,8 +219,27 @@
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Foreground" Value="#1F384C"/>
             <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Padding" Value="8"/>
-            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="GridViewColumnHeader">
+                        <Grid>
+                            <Border Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="0 0 1 1"
+                                    Padding="10 10 0 10">
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                                  VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            </Border>
+                            <Thumb x:Name="PART_HeaderGripper"
+                                   HorizontalAlignment="Right"
+                                   Width="0"
+                                   Background="Transparent"
+                                   Cursor="SizeWE"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
 
         <!-- Base ListView Style -->
