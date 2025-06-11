@@ -30,7 +30,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         public ObservableCollection<TaxDTO> FilteredTaxes { get; set; }
 
         public ApiTax ApiTax => _apiTax;
-        //public ICommand UpdateCommand { get; }
+        public ICommand UpdateTaxCommand { get; }
         public ICommand PreviousPageCommand { get; }
         public ICommand NextPageCommand { get; }
         public ICommand AddCommand { get; }
@@ -47,7 +47,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
             NavigateDashboardCommand = new NavigationCommand<VmDashboard>(
                 navigationStore, () => new VmDashboard(navigationStore));
-            //UpdateCommand = new UpdateCommand(this);
+            UpdateTaxCommand = new UpdateTaxCommand(this);
             AddCommand = new AddCommand(this);
             ResetCommand = new ResetCommand(this);
             DeleteCommand = new DeleteCommand(this);
