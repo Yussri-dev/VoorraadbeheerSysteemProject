@@ -42,8 +42,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             public string NewEmail { get; set; }
             public SupplierDTO NewSupplier { get; set; } = new SupplierDTO();
 
-            //  Commands
-            //public ICommand UpdateCommand { get; }
+        //  Commands
+            public ICommand UpdateSupplierCommand { get; }
             public ICommand ResetCommand { get; }
             public ICommand NavigateDashboardCommand { get; }
             //public ICommand SearchCommand { get; }
@@ -61,14 +61,14 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 NavigateDashboardCommand = new NavigationCommand<VmDashboard>(navigationStore,
                     () => new VmDashboard(navigationStore));
 
-                //UpdateCommand = new UpdateCommand(this);
-                ResetCommand = new ResetSupplierCommand(this);
-                //SearchCommand = new SearchCommand(this);
-                AddCommand = new AddSupplierCommand(this);
-               _apiSupplier = new ApiSupplier(AppConfig.ApiUrl);
-               DeleteCommand = new DeleteSupplierCommand(this);
-                PreviousPageCommand = new ButtonCommand(PreviousPage);
-                NextPageCommand = new ButtonCommand(NextPage);
+            UpdateSupplierCommand = new UpdateSupplierCommand(this);
+            ResetCommand = new ResetSupplierCommand(this);
+            //SearchCommand = new SearchCommand(this);
+            AddCommand = new AddSupplierCommand(this);
+            _apiSupplier = new ApiSupplier(AppConfig.ApiUrl);
+             DeleteCommand = new DeleteSupplierCommand(this);
+            PreviousPageCommand = new ButtonCommand(PreviousPage);
+            NextPageCommand = new ButtonCommand(NextPage);
 
                 LoadSuppliers();
             }
@@ -150,7 +150,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             TotalSuppliers = await _apiSupplier.GetSupplierCountAsync();
             }
 
-        // CRUD – Toevoegen
+        //  Toevoegen
 
         public async void AddSupplier()
         {

@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Input;
 using VoorraadbeheerSysteemProject.Wpf.Commands;
 using VoorraadbeheerSysteemProject.Wpf.Models;
+using VoorraadbeheerSysteemProject.Wpf.Services.CashRegister;
 using VoorraadbeheerSysteemProject.Wpf.Services.Drawer;
 using VoorraadbeheerSysteemProject.Wpf.Services.SaasClients;
 using VoorraadbeheerSysteemProject.Wpf.Stores;
@@ -17,9 +18,11 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
     class VmDrawer : VmBase
     {
         private readonly DrawerRequests _drawerRequest;
+        private readonly CashRegisterRequest _cashRegisterRequest;
         private bool _shiftIsNotCreated = false;
         private string _title = "Created new Shift";
         private bool _isReadOnly = false; 
+        private CashRegisterDTO? _cashRegister;
 
         private CashShiftDTO _currentShift = new CashShiftDTO() 
         { 
@@ -31,6 +34,16 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
 
         #region properties
+
+        public CashRegisterDTO? CashRegister
+        {
+            get => _cashRegister;
+            set { 
+                _cashRegister = value;
+                OnPropertyChanged(nameof(CashRegister));
+            }
+        }
+
         public CashShiftDTO CurrentShift
         {
             get => _currentShift;
@@ -71,7 +84,11 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         public VmDrawer(NavigationStore navigationStore)
         {
             _drawerRequest = new DrawerRequests(AppConfig.ApiUrl);
+            _cashRegisterRequest = new CashRegisterRequest(AppConfig.ApiUrl);
+
             CheckShift();
+            GetCashRegister();
+
         }
 
 
@@ -90,6 +107,11 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 Title = "Shift information";
                 IsReadOnly = true;
             }
+        }
+
+        private async Task GetCashRegister()
+        {
+            CashRegister = await _cashRegisterRequest.GetShiftByUserIdAsync(UserSession.IdUSer);
         }
 
 
