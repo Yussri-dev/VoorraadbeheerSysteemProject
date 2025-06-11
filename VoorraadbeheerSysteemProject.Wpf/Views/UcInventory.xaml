@@ -60,20 +60,11 @@
             </StackPanel>
             <Button Grid.Column="3"
                     Content="Search"
+                    FontSize="14"
                     Command="{Binding SearchButtonCommand}"
-                    Background="#DDE4F0"
-                    BorderThickness="0"
-                    Foreground="#5A6ACF"
+                    Style="{StaticResource CustomButtonStyle}"
                     VerticalAlignment="Bottom"
-                    Padding="30,10"
-                    Margin="0 0 50 0"
-                    FontWeight="Medium">
-                <Button.Resources>
-                    <Style TargetType="{x:Type Border}">
-                        <Setter Property="CornerRadius" Value="5"/>
-                    </Style>
-                </Button.Resources>
-            </Button>
+                    Margin="0 0 50 0"/>
         </Grid>
         <!--#endregion-->
 
@@ -178,48 +169,18 @@
                     Grid.Row="3">
             <Button Content="Reset"
                     Command="{Binding ResetButtonCommand}"
-                    Background="#DDE4F0"
-                    Padding="30,10"
+                    Style="{StaticResource CustomButtonStyle}"
                     Margin="0 0 15 0"
-                    VerticalAlignment="Bottom"
-                    BorderThickness="0"
-                    Foreground="#5A6ACF"
-                    FontWeight="Medium">
-                <Button.Resources>
-                    <Style TargetType="{x:Type Border}">
-                        <Setter Property="CornerRadius" Value="5"/>
-                    </Style>
-                </Button.Resources>
-            </Button>
+                    VerticalAlignment="Bottom"/>
             <Button Content="Print"
                     Command="{Binding PrintButtonCommand}"
-                    Background="#DDE4F0"
-                    Padding="30,10"
+                    Style="{StaticResource CustomButtonStyle}"
                     Margin="0 0 15 0"
-                    VerticalAlignment="Bottom"
-                    BorderThickness="0"
-                    Foreground="#5A6ACF"
-                    FontWeight="Medium">
-                <Button.Resources>
-                    <Style TargetType="{x:Type Border}">
-                        <Setter Property="CornerRadius" Value="5"/>
-                    </Style>
-                </Button.Resources>
-            </Button>
+                    VerticalAlignment="Bottom"/>
             <Button Content="Close"
                     Command="{Binding NavigateDashboardCommand}"
-                    Background="#DDE4F0"
-                    Padding="30,10"
-                    VerticalAlignment="Bottom"
-                    BorderThickness="0"
-                    Foreground="#5A6ACF"
-                    FontWeight="Medium">
-                <Button.Resources>
-                    <Style TargetType="{x:Type Border}">
-                        <Setter Property="CornerRadius" Value="5"/>
-                    </Style>
-                </Button.Resources>
-            </Button>
+                    Style="{StaticResource CustomButtonStyle}"
+                    VerticalAlignment="Bottom"/>
         </StackPanel>
         <!--#endregion-->
 

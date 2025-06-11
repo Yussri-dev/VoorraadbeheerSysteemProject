@@ -53,7 +53,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services.Sales
                 string formattedEndDate = endDate.ToString("yyyy-MM-dd");
 
                 HttpResponseMessage responseRequest = await _httpClient.GetAsync(
-                    $"api/sale/SalesAmount?startDate={formattedStartDate}&endDate={formattedEndDate}");
+                    $"api/v1.0/sale/SalesAmount?startDate={formattedStartDate}&endDate={formattedEndDate}");
 
                 if (!responseRequest.IsSuccessStatusCode)
                 {
@@ -83,7 +83,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services.Sales
                 string formattedEndDate = endDate.ToString("yyyy-MM-dd");
 
                 HttpResponseMessage response = await _httpClient.GetAsync(
-                    $"api/sale/monthly-summary?userId={UserSession.IdUSer}&startDate={formattedStartDate}&endDate={formattedEndDate}");
+                    $"api/v1.0/sale/monthly-summary?userId={UserSession.IdUSer}&startDate={formattedStartDate}&endDate={formattedEndDate}");
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -112,7 +112,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services.Sales
                 string formattedEndDate = HttpUtility.HtmlEncode(endDate.ToString("dd/MM/yyyy"));
 
                 HttpResponseMessage response = await _httpClient.GetAsync(
-                    $"api/sale/allsale?startDate={formattedStartDate}&endDate={formattedEndDate}");
+                    $"api/v1.0/sale/allsale?startDate={formattedStartDate}&endDate={formattedEndDate}");
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -155,7 +155,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services.Sales
         {
             try
             {
-                HttpResponseMessage response = await _httpClient.PostAsJsonAsync("api/saleItem", saleItem);
+                HttpResponseMessage response = await _httpClient.PostAsJsonAsync("api/v1.0/saleItem", saleItem);
                 if (response.IsSuccessStatusCode)
                 {
                     var createdSaleItem = await response.Content.ReadFromJsonAsync<SaleItemDTO>();
