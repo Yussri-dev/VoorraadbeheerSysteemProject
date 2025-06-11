@@ -243,6 +243,12 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 return;
             }
 
+            if(FilteredPurchases is null || FilteredSales is null)
+            {
+                MessageBox.Show("You cannot print without any data. Try selecting different dates");
+                return;
+            }
+
 
             UserControl? printView = null;
             string fileName = string.Empty;
