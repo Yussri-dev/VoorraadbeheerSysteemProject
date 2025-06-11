@@ -53,7 +53,7 @@
                         <Label Content="Customer" FontSize="15" Foreground="#737B8B78" Margin="0,16,323,10"/>
                         <ComboBox Style="{StaticResource CustomComboBoxStyle}"
                                   ItemsSource="{Binding FilteredCustomer}"
-                                  SelectedItem="{Binding SelectedCustomer.Name}"
+                                  SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}"
                                   DisplayMemberPath="Name"
                                   Foreground="#40AF73" 
                                   FontSize="18" 
@@ -61,7 +61,9 @@
                                   IsEditable="True"
                                   StaysOpenOnEdit="True"
                                   IsTextSearchEnabled="True"
-                                  Text="{Binding SearchTextCustomer, UpdateSourceTrigger=PropertyChanged}" Margin="192,0,0,0"/>
+                                  Text="{Binding SearchTextCustomer, UpdateSourceTrigger=PropertyChanged}" 
+                                  Margin="192,0,0,0"/>
+
                     </Grid>
                 </Border>
             </Grid>

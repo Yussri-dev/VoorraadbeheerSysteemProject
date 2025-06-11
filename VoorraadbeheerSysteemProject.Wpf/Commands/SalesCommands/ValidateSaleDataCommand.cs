@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Xps;
 using VoorraadbeheerSysteemProject.Wpf.Models;
 using VoorraadbeheerSysteemProject.Wpf.ViewModels;
 
@@ -33,66 +34,88 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands.SalesCommands
         {
             FlowDocument ticket = CreateTicketDocument(_savedSaleItems);
 
-            PrintDialog printDialog = new PrintDialog();
-            if (printDialog.ShowDialog() == true)
-            {
-                ticket.PageHeight = printDialog.PrintableAreaHeight;
-                ticket.PageWidth = printDialog.PrintableAreaWidth;
-                ticket.PagePadding = new Thickness(50);
-                ticket.ColumnGap = 0;
-                ticket.ColumnWidth = printDialog.PrintableAreaWidth;
+            // Mise en page du document
+            ticket.PageHeight = double.NaN;
+            ticket.PageWidth = 350;
+            ticket.PagePadding = new Thickness(20);
+            ticket.ColumnGap = 0;
+            ticket.ColumnWidth = 350;
 
-                IDocumentPaginatorSource idpSource = ticket;
-                printDialog.PrintDocument(idpSource.DocumentPaginator, "Ticket Print");
-            }
+            // Sélectionne l'imprimante par défaut
+            LocalPrintServer printServer = new LocalPrintServer();
+            PrintQueue defaultPrintQueue = printServer.DefaultPrintQueue;
+
+            // Prépare le paginator
+            IDocumentPaginatorSource idpSource = ticket;
+
+            // Imprime sans dialogue
+            XpsDocumentWriter xpsWriter = PrintQueue.CreateXpsDocumentWriter(defaultPrintQueue);
+            xpsWriter.Write(idpSource.DocumentPaginator);
         }
+
 
         private FlowDocument CreateTicketDocument(List<SaleItemDTO> items)
         {
-            FlowDocument doc = new FlowDocument();
-
-            // Header
-            Paragraph header = new Paragraph(new Run("Ticket"))
+            FlowDocument doc = new FlowDocument
             {
-                FontSize = 24,
-                FontWeight = FontWeights.Bold,
-                TextAlignment = TextAlignment.Center,
-                Margin = new Thickness(0, 0, 0, 20)
+                FontFamily = new System.Windows.Media.FontFamily("Consolas"),
+                FontSize = 12,
+                PagePadding = new Thickness(20)
             };
-            doc.Blocks.Add(header);
 
-            // Customer info
-            doc.Blocks.Add(new Paragraph(new Run("Naam: CUSTOMER NAME")));
-            doc.Blocks.Add(new Paragraph(new Run("Datum: " + DateTime.Now.ToString("dd-MM-yyyy HH:mm"))));
+            doc.Blocks.Add(new Paragraph(new Run("***Supermarkt B.V.***"))
+            {
+                TextAlignment = TextAlignment.Center,
+                FontWeight = FontWeights.Bold
+            });
+            doc.Blocks.Add(new Paragraph(new Run("Amsterdam")) { TextAlignment = TextAlignment.Center });
+            doc.Blocks.Add(new Paragraph(new Run("KvK: 12345678")) { TextAlignment = TextAlignment.Center });
+            doc.Blocks.Add(new Paragraph(new Run("Tel. Winkel 020-1234567")) { TextAlignment = TextAlignment.Center });
+            doc.Blocks.Add(new Paragraph(new Run("Klantenservice 0800-1234567")) { TextAlignment = TextAlignment.Center });
+            doc.Blocks.Add(new Paragraph(new Run(new string('*', 40))) { TextAlignment = TextAlignment.Center });
 
-            // Separator
-            doc.Blocks.Add(new Paragraph(new Run("-----------------------------")));
+            string klantNaam = _vmSale.SelectedCustomer.Name ?? "Klant";
 
-            // Sale items details
+            doc.Blocks.Add(new Paragraph(new Run($"Klant: {klantNaam}")));
+            doc.Blocks.Add(new Paragraph(new Run($"Datum: {DateTime.Now:dd-MM-yyyy HH:mm}")));
+
+            doc.Blocks.Add(new Paragraph(new Run(new string('-', 40))));
+
+            // Utilisez le même format pour l'en-tête et les lignes
+            string dataHeader = string.Format("{0,2} {1,8} {2,-20} {3,8}", "Aant", "Prijs", "Product", "Totaal");
+            doc.Blocks.Add(new Paragraph(new Run(dataHeader)));
+
             foreach (var item in items)
             {
-                var itemParagraph = new Paragraph();
-                itemParagraph.Inlines.Add(new Run($"Qty:{item.Quantity} Product ID: {item.ProductName}  "));
-                itemParagraph.Inlines.Add(new Run($"Price: {item.Price:C}  "));
-                itemParagraph.Inlines.Add(new Run($"Total: {item.Total:C}"));
-                doc.Blocks.Add(itemParagraph);
+                string line = string.Format("{0,2} {1,8:0.00} {2,-20} {3,8:0.00}",
+                    item.Quantity,
+                    item.Price / (item.Quantity == 0 ? 1 : item.Quantity),
+                    Truncate(item.ProductName, 20),
+                    item.Total);
+                doc.Blocks.Add(new Paragraph(new Run(line)));
             }
 
-            // Separator
-            doc.Blocks.Add(new Paragraph(new Run("-----------------------------")));
+            doc.Blocks.Add(new Paragraph(new Run(new string('*', 40))));
 
-            // Total amount
-            decimal totalAmount = items.Sum(i => i.Total);
-            Paragraph amount = new Paragraph(new Run($"Totaal: {totalAmount:C}"))
+            decimal totaalBedrag = items.Sum(i => i.Total);
+            Paragraph totaal = new Paragraph(new Run($"TOTAAL: {totaalBedrag,30:0.00}"))
             {
-                FontSize = 18,
                 FontWeight = FontWeights.Bold,
+                FontSize = 16,
                 TextAlignment = TextAlignment.Right
             };
-            doc.Blocks.Add(amount);
+            doc.Blocks.Add(totaal);
 
             return doc;
         }
+
+        // Petite méthode utilitaire pour tronquer les noms longs
+        private string Truncate(string? value, int maxLength)
+        {
+            if (string.IsNullOrEmpty(value)) return "";
+            return value.Length <= maxLength ? value : value.Substring(0, maxLength);
+        }
+
 
         public async void Execute(object? parameter)
         {
@@ -106,15 +129,22 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands.SalesCommands
 
             decimal paidAmount = _vmNumPad.SelectedAmounts.Sum(s => s.AmountPrice);
             decimal totalAmount = _vmSale.TotalAmount;
+
             int customerId = _vmSale.SelectedCustomer.CustomerId;
+            
             string userId = UserSession.IdUSer;
 
+            if (_vmSale.SelectedCustomer == null || _vmSale.SelectedCustomer.CustomerId == 0)
+            {
+                MessageBox.Show("No Client Selected.");
+                return;
+            }
             if (paidAmount >= totalAmount)
             {
                 var saleDto = new SaleDTO
                 {
                     SaleDate = DateTime.Now,
-                    CustomerId = 2,
+                    CustomerId = customerId,
                     //EmployeeId = 2,
                     UserId = userId,
                     TotalAmount = totalAmount,

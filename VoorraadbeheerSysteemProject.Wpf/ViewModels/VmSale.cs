@@ -111,7 +111,6 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         }
         //--------------------------------------------------
         //CustomerDTO
-        private CustomerDTO _selectedCustomer = new CustomerDTO();
 
         private ObservableCollection<CustomerDTO> _customers;
         private ObservableCollection<CustomerDTO> _filteredCustomer;
@@ -133,18 +132,27 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             set { _filteredCustomer = value; OnPropertyChanged(); }
         }
 
+        private CustomerDTO? _selectedCustomer = null;
+
         public CustomerDTO? SelectedCustomer
         {
-            get { return _selectedCustomer; }
+            get => _selectedCustomer;
             set
             {
-                _selectedCustomer = value;
-                OnPropertyChanged(nameof(SelectedCustomer));
+                if (_selectedCustomer != value)
+                {
+                    _selectedCustomer = value;
+                    OnPropertyChanged(nameof(SelectedCustomer));
 
-                //update text to match selected product
-                SearchTextCustomer = _selectedCustomer?.Name ?? "";
+                    if (_selectedCustomer?.Name != SearchTextCustomer)
+                        _searchTextCustomer = _selectedCustomer?.Name ?? "";
+
+                    OnPropertyChanged(nameof(SearchTextCustomer));
+                }
             }
         }
+
+
 
         public ObservableCollection<CustomerDTO> AllCustomer
         {

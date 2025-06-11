@@ -40,12 +40,17 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands
 
             if (_vmSale.TotalAmount != 0)
             {
-                bool? result = dialog.ShowDialog();
-                if (result == true)
+                //if (_vmSale.SelectedCustomer.CustomerId != 0)
+                if (_vmSale.SelectedCustomer != null && _vmSale.SelectedCustomer.CustomerId != 0)
                 {
-                    _vmnumPad.TotalAmount = totalAmount;
-                    _vmnumPad.TotalQuantity = totalQuantity;
-                    _vmnumPad.LineCount = LineCount;
+                    bool? result = dialog.ShowDialog();
+                    if (result == true)
+                    {
+                        _vmnumPad.TotalAmount = totalAmount;
+                        _vmnumPad.TotalQuantity = totalQuantity;
+                        _vmnumPad.LineCount = LineCount;
+                    }
+
                 }
             }
         }
