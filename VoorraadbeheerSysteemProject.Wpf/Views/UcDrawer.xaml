@@ -47,7 +47,8 @@
             <StackPanel Orientation="Horizontal"
                         Margin="5">
                 <TextBlock Text="Cash Register ID:" Width="120"/>
-                <TextBox Text="{Binding CurrentShift.CashRegisterId}"
+                <TextBlock Text="{Binding CashRegister.CashRegisterId}" Width="120"/>
+                <!--<TextBox Text="{Binding CurrentShift.CashRegisterId}"
                          IsReadOnly="{Binding IsReadOnly}"
                          Width="120"
                          Padding="2"
@@ -57,7 +58,7 @@
                             <Setter Property="CornerRadius" Value="5"/>
                         </Style>
                     </TextBox.Resources>
-                </TextBox>
+                </TextBox>-->
             </StackPanel>
 
             <StackPanel Orientation="Horizontal"
