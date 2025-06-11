@@ -37,7 +37,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands.ProductsCommands
 
             if (existing == null)
             {
-                decimal totalPrice = quantity * selected.SalePrice1;
+                decimal totalPrice = quantity * selected.PurchasePrice;
                 decimal taxAmount = Math.Round(selected.TaxRate * totalPrice, 2);
 
                 _vmPurchase.SelectedProducts.Add(new ProductSelectedRequest
@@ -55,7 +55,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands.ProductsCommands
             else
             {
                 existing.Quantity += quantity;
-                existing.AmountPrice += quantity * selected.SalePrice1;
+                existing.AmountPrice += quantity * selected.PurchasePrice;
             }
             _vmNumPad.InputText = string.Empty;
             _vmPurchase.InputSearchNameText = string.Empty;

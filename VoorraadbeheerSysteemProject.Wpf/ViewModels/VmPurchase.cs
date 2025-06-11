@@ -65,14 +65,15 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         public VmPurchase(NavigationStore navigationStore)
         {
             _navigationStore = navigationStore;
+
             _apiService = new ApiService(AppConfig.ApiUrl);
             _purchaseRequest = new PurchasesRequests(AppConfig.ApiUrl);
+            _supplierRequests = new SupplierRequests(AppConfig.ApiUrl);
 
             NavigateDashboardCommand = new NavigationCommand<VmDashboard>(
                 navigationStore, () => new VmDashboard(navigationStore));
 
             _allProducts = new ObservableCollection<ProductDTO>();
-            _supplierRequests = new SupplierRequests(AppConfig.ApiUrl);
             Products = new ObservableCollection<ProductDTO>();
 
             NumPadViewModel = new VmNumPadDataEntry(this);
@@ -391,7 +392,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             else
             {
                 existing.Quantity += 1;
-                existing.AmountPrice += product.SalePrice1;
+                existing.AmountPrice += product.PurchasePrice;
             }
 
             InputSearchBarcodeText = string.Empty;
@@ -403,7 +404,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             if (param is ProductSelectedRequest item)
             {
                 item.Quantity += 1;
-                item.AmountPrice = item.Quantity * item.SalePrice;
+                item.AmountPrice = item.Quantity * item.PurchasePrice;
                 CalculateTotalAmount();
             }
         }
@@ -413,7 +414,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             if (param is ProductSelectedRequest item && item.Quantity > 1)
             {
                 item.Quantity -= 1;
-                item.AmountPrice = item.Quantity * item.SalePrice;
+                item.AmountPrice = item.Quantity * item.PurchasePrice;
                 CalculateTotalAmount();
             }
         }

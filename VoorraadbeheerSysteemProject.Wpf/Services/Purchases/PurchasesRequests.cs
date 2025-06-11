@@ -29,11 +29,11 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services.Purchases
         /// <summary>
         /// Définit le token JWT à utiliser pour toutes les requêtes protégées.
         /// </summary>
-        public void SetJwtToken(string jwtToken)
-        {
-            _httpClient.DefaultRequestHeaders.Authorization =
-                new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", jwtToken);
-        }
+        //public void SetJwtToken(string jwtToken)
+        //{
+        //    _httpClient.DefaultRequestHeaders.Authorization =
+        //        new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", jwtToken);
+        //}
 
         public async Task<int> GetPurchasesCountAsync()
         {
