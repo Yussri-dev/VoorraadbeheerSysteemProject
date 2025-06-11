@@ -10,11 +10,11 @@ using VoorraadbeheerSysteemProject.Wpf.ViewModels;
 namespace VoorraadbeheerSysteemProject.Wpf.Commands.TaxCommands
 {
 
-    public class UpdateTaxCommand : ICommand
+    public class UpdateCommand : ICommand
     {
         private readonly VmTax _viewModel;
 
-        public UpdateTaxCommand(VmTax viewModel)
+        public UpdateCommand(VmTax viewModel)
         {
             _viewModel = viewModel;
         }
