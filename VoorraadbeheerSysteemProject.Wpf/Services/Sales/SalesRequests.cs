@@ -103,7 +103,6 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services.Sales
             }
         }
 
-
         public async Task<List<SaleFlatDTO>?> GetSaleFlatByPeriodAsync(DateTime startDate, DateTime endDate)
         {
             try

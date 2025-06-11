@@ -46,7 +46,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands.PurchasesCommands
                 TvaAmount = 0,
                 TotalAmount = totalAmount,
                 AmountPaid = totalAmount,
-                SupplierName = "Testing Supplier",
+                SupplierName = "Supplier",
                 SaasClientId = 1
             };
 
@@ -54,7 +54,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands.PurchasesCommands
 
             if (result == null)
             {
-                MessageBox.Show("❌ Failed to save sale.");
+                MessageBox.Show("❌ Failed to save Purchase.");
                 return;
             }
 
