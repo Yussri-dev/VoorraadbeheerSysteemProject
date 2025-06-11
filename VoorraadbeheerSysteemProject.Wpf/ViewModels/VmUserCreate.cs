@@ -92,8 +92,28 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        private string _selectedRole;
+        public string SelectedRole
+        {
+            get => _selectedRole;
+            set
+            {
+                _selectedRole = value;
+                OnPropertyChanged();
+            }
+        }
+        public List<string> Roles { get; } = new List<string>
+        {
+            "Admin",
+            "User"
+        };
+
+        public List<string> AvailableRoles { get; } = new List<string> { "User", "Admin" };
+       
+
         #endregion
-        
+
         #region Commands
         public ICommand RegisterCommands { get; set; }
         public ICommand NavigateToUserLoginCommand { get; }
@@ -108,9 +128,10 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 string.IsNullOrWhiteSpace(FirstName) ||
                 string.IsNullOrWhiteSpace(LastName) ||
                 string.IsNullOrWhiteSpace(Email) ||
-                string.IsNullOrWhiteSpace(Password) )
+                string.IsNullOrWhiteSpace(Password))
             {
                 StatusMessage = "All fields are Required";
+                return; 
             }
 
             if (Password != ConfirmPassword)
@@ -124,7 +145,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 FirstName = FirstName,
                 LastName = LastName,
                 Email = Email,
-                Password = Password
+                Password = Password,
+                Roles = new List<string> { SelectedRole } 
             };
 
             var response = await _userService.RegisterAsync(responseDto);
@@ -140,6 +162,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 StatusMessage = $"Registration Failed";
             }
         }
+
 
         private void Navigate(object parameter)
         {

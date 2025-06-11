@@ -24,9 +24,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands.ProductsCommands
             _vmNumPad = vmNumPad;
         }
         public bool CanExecute(object? parameter) => true;
-        //{
-        //    return _vmSale.SelectedProductInCart != null;
-        //}
+        
 
         public void Execute(object? parameter)
         {

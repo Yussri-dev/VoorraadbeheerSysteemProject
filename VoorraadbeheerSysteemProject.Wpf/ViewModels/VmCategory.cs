@@ -35,7 +35,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
         // commands
         public ICommand UpdateCommand { get; }
         public ICommand ResetCommand { get; }
-        public ICommand NavigateDashboardCommand { get; }
+        public ICommand NavigateDashboardCommand { get; set; }
         //public ICommand SearchCommand { get; }
         public ICommand AddCommand { get; }
         public ICommand DeleteCategoryCommand { get; }

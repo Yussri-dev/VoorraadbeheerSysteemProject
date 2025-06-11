@@ -8,6 +8,7 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using VoorraadbeheerSysteemProject.Wpf.Helpers;
 using VoorraadbeheerSysteemProject.Wpf.Models;
 
 namespace VoorraadbeheerSysteemProject.Wpf.Services.Purchases
@@ -16,11 +17,22 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services.Purchases
     {
         private readonly HttpClient _httpClient;
         private readonly string _baseUrl;
+
         public PurchasesRequests(string baseUrl)
         {
             _httpClient = new HttpClient();
             _baseUrl = baseUrl;
             _httpClient.BaseAddress = new Uri(_baseUrl);
+            JwtTokenHelper.SetJwtToken(_httpClient, JwtTokenStore.Token);
+        }
+
+        /// <summary>
+        /// Définit le token JWT à utiliser pour toutes les requêtes protégées.
+        /// </summary>
+        public void SetJwtToken(string jwtToken)
+        {
+            _httpClient.DefaultRequestHeaders.Authorization =
+                new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", jwtToken);
         }
 
         public async Task<int> GetPurchasesCountAsync()
@@ -57,7 +69,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services.Purchases
 
                 string responseJson = await responseRequest.Content.ReadAsStringAsync();
 
-                if (decimal.TryParse(responseJson,CultureInfo.InvariantCulture, out decimal amountPurchase))
+                if (decimal.TryParse(responseJson, CultureInfo.InvariantCulture, out decimal amountPurchase))
                 {
                     return amountPurchase;
                 }
@@ -80,14 +92,17 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services.Purchases
                 var response = await _httpClient.GetAsync($"api/purchase/allpurchase?userid={UserSession.IdUSer}&startdate={encodedStartDate}&enddate={encodedEndDate}");
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadFromJsonAsync<List<PurchaseFlatDTO>>();
-
             }
             catch (Exception ex)
             {
+                Debug.WriteLine($"API request error: {ex.Message}");
                 return new List<PurchaseFlatDTO>();
             }
         }
 
+        /// <summary>
+        /// Crée un achat (nécessite un token JWT avec le rôle Admin).
+        /// </summary>
         public async Task<PurchaseDTO?> PostPurchaseAsync(PurchaseDTO purchase)
         {
             try
@@ -101,16 +116,17 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services.Purchases
                 else
                 {
                     var errorContent = await response.Content.ReadAsStringAsync();
+                    Debug.WriteLine($"Erreur API: {errorContent}");
                     return null;
                 }
             }
             catch (Exception ex)
             {
+                Debug.WriteLine($"Exception lors de la création d'un achat: {ex.Message}");
                 return null;
             }
         }
 
-        ////PostSaleItemAsync
         public async Task<PurchaseItemDTO?> PostPurchaseItemAsync(PurchaseItemDTO purchaseItem)
         {
             try
@@ -124,12 +140,13 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services.Purchases
                 else
                 {
                     var errorContent = await response.Content.ReadAsStringAsync();
+                    Debug.WriteLine($"Erreur API: {errorContent}");
                     return null;
                 }
             }
             catch (Exception ex)
             {
-
+                Debug.WriteLine($"Exception lors de la création d'un item d'achat: {ex.Message}");
                 return null;
             }
         }

@@ -25,8 +25,10 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services.Users
             _httpClient = new HttpClient();
             _baseUrl = baseUrl;
             _httpClient.BaseAddress = new Uri(_baseUrl);
-            _httpClient.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", JwtTokenStore.Token);
+            //_httpClient.DefaultRequestHeaders.Authorization =
+            //    new AuthenticationHeaderValue("Bearer", JwtTokenStore.Token);
+            JwtTokenHelper.SetJwtToken(_httpClient, JwtTokenStore.Token);
+
         }
 
 
