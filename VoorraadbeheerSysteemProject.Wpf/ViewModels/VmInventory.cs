@@ -130,7 +130,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 OnPropertyChanged(nameof(SelectedStartDate));
             }
         }
-        public DateTime FilteredStartDate { get; set; }
+        public DateTime FilteredStartDate { get; set; } = DateTime.Now.Date.AddDays(-1);
 
         public DateTime SelectedEndDate
         {
@@ -141,7 +141,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 OnPropertyChanged(nameof(SelectedEndDate));
             }
         }
-        public DateTime FilteredEndDate { get; set; }
+        public DateTime FilteredEndDate { get; set; } = DateTime.Now.Date;
 
         public string SearchTextName
         {
