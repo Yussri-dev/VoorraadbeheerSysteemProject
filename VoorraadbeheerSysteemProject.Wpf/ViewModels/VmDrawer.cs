@@ -77,12 +77,15 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             }
         }
 
-
+        public ICommand NavigateDashboardCommand { get; }
         public ICommand RegisterShiftCommand => new ButtonCommand(async _ => await RegisterCashShiftAsync());
         #endregion
 
         public VmDrawer(NavigationStore navigationStore)
         {
+            NavigateDashboardCommand = new NavigationCommand<VmDashboard>(navigationStore,
+                () => new VmDashboard(navigationStore));
+
             _drawerRequest = new DrawerRequests(AppConfig.ApiUrl);
             _cashRegisterRequest = new CashRegisterRequest(AppConfig.ApiUrl);
 
