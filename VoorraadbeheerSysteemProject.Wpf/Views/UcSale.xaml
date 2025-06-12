@@ -152,20 +152,21 @@
                 <StackPanel Orientation="Horizontal" 
                 HorizontalAlignment="Right" VerticalAlignment="Center" 
                 Margin="10">
-                    <Button Content="Reset" Command="{Binding ClearSelectedProductCommand}"
-                Width="100" Height="40" Margin="5"
-                Background="White" BorderBrush="#E0E0E0"/>
+                    <Button Content="Reset" 
+                            Command="{Binding ClearSelectedProductCommand}"
+                            Style="{StaticResource CustomButtonStyle}"                            
+                            Margin="5"/>
                     <Button Content="Delete" Command="{Binding RemoveSelectedProductCommand}"
-                Width="100" Height="40" Margin="5"
-                Background="White" BorderBrush="#E0E0E0"/>
-                    <Button Content="Add" Command="{Binding OpenDialogCommand}"
-                Width="100" Height="40" Margin="5"
-                Background="White" BorderBrush="#E0E0E0"/>
-                    <Button Content="Close" Command="{Binding NavigateDashboardCommand}"
-                    Style="{StaticResource CustomButtonStyle}"                            
-                            Margin="5"
-                    
-                            />
+                            Style="{StaticResource CustomButtonStyle}"                            
+                            Margin="5"/>
+                    <Button Content="Add" 
+                            Command="{Binding OpenDialogCommand}"
+                            Style="{StaticResource CustomButtonStyle}"                            
+                            Margin="5"/>
+                    <Button Content="Close" 
+                            Command="{Binding NavigateDashboardCommand}"
+                            Style="{StaticResource CustomButtonStyle}"                            
+                            Margin="5"/>
                 </StackPanel>
             </Grid>
         </Grid>
