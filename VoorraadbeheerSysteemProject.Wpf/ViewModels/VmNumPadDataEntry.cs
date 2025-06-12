@@ -142,11 +142,11 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
                 if (difference >= 0)
                 {
-                    return $"Monnaie retournée : {difference.ToString("C")}";
+                    return $"Change to return: {difference.ToString("C")}";
                 }
                 else
                 {
-                    return $"Il vous reste : {Math.Abs(difference).ToString("C")}";
+                    return $"Amount remaining: {Math.Abs(difference).ToString("C")}";
                 }
             }
         }
