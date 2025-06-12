@@ -140,13 +140,30 @@
             <!-- Buttons -->
             <StackPanel Grid.Column="1" 
                         Orientation="Horizontal"
-                        HorizontalAlignment="Right" 
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
                         Margin="100,0,0,0">
-                <Button Content="Add" Command="{Binding AddSupplierCommand}" Style="{StaticResource PrimaryButtonStyle}"/>
-                <Button Content="Update" Command="{Binding UpdateSupplierCommand}" Style="{StaticResource PrimaryButtonStyle}"/>
-                <Button Content="Reset" Command="{Binding ResetCommand}" Style="{StaticResource PrimaryButtonStyle}"/>
-                <Button Content="Delete" Command="{Binding DeleteCommand}" CommandParameter="{Binding SelectedSupplier}" Style="{StaticResource PrimaryButtonStyle}"/>
-                <Button Content="Close" Command="{Binding NavigateDashboardCommand}" Style="{StaticResource PrimaryButtonStyle}"/>
+                <Button Content="Add"
+                        Command="{Binding AddSupplierCommand}"
+                        Style="{StaticResource CustomButtonStyle}"
+                        Margin="0 0 5 0"/>
+                <Button Content="Update"
+                        Command="{Binding UpdateSupplierCommand}"
+                        Style="{StaticResource CustomButtonStyle}"
+                        Margin="0 0 5 0"/>
+                <Button Content="Reset"
+                        Command="{Binding ResetCommand}"
+                        Style="{StaticResource CustomButtonStyle}"
+                        Margin="0 0 5 0"/>
+                <Button Content="Delete"
+                        Command="{Binding DeleteCommand}"
+                        CommandParameter="{Binding SelectedSupplier}"
+                        Style="{StaticResource CustomButtonStyle}"
+                        Margin="0 0 5 0"/>
+                <Button Content="Close"
+                        Command="{Binding NavigateDashboardCommand}"
+                        Style="{StaticResource CustomButtonStyle}"
+                        Margin="0 0 5 0"/>
             </StackPanel>
         </Grid>
     </Grid>
