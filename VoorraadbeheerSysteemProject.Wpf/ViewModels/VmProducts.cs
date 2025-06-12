@@ -493,61 +493,19 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
             //get products from api
             Products = new ObservableCollection<ProductDTO>(await _apiService.GetProductsAsync());
-
-            if (Products.Count == 0)
-            {
-                Products = new ObservableCollection<ProductDTO>()
-                {
-                    new ProductDTO(){ ProductId = 0, Name = "product 1", PurchasePrice = 13.20m, SalePrice1 = 15.60m, SalePrice2 = 17.60m, TaxRate = 6, CategoryName = "category 1", Barcode = "4534843785"},
-                    new ProductDTO(){ ProductId = 1, Name = "special product 1", PurchasePrice = 13.20m, SalePrice1 = 15.60m, SalePrice2 = 17.60m, TaxRate = 6, CategoryName = "category 1", Barcode = "46348644"},
-                    new ProductDTO(){ ProductId = 2, Name = "product 2", PurchasePrice = 13.20m, SalePrice1 = 15.60m, SalePrice2 = 17.60m, TaxRate = 6, CategoryName = "category 5", Barcode = "87641864164"},
-                    new ProductDTO(){ ProductId = 3, Name = "extremely special product 1", PurchasePrice = 13.20m, SalePrice1 = 15.60m, SalePrice2 = 17.60m, TaxRate = 6, CategoryName = "category 2", Barcode = "5384353843"}
-                };
-
-            }
             FilteredProducts = new ObservableCollection<ProductDTO>(Products.OrderBy(p => p.Name).ToList());
 
 
             //get categories from api
             AllCategories = new ObservableCollection<CategoryDTO>(await _apiService.GetCategoriesAsync());
-
-            if (AllCategories.Count == 0)
-            {
-                AllCategories = new ObservableCollection<CategoryDTO> {
-                    new CategoryDTO(){ CategoryId = 0, Name = "no category selected"},
-                    new CategoryDTO(){ CategoryId = 1, Name = "category 1"},
-                    new CategoryDTO(){ CategoryId = 2, Name = "category 2"},
-                    new CategoryDTO(){ CategoryId = 3, Name = "category 3"},
-                };
-            }
             FilteredCategories = AllCategories;
 
 
 
             AllTaxRate = new ObservableCollection<TaxDTO>(await _apiService.GetTaxRatesAsync());
-
-            //temp filling of tax rates
-            if (AllTaxRate.Count == 0)
-            {
-                AllTaxRate = new ObservableCollection<TaxDTO> {
-                    new TaxDTO(){ TaxId = 0, TaxRate = 0},
-                    new TaxDTO(){ TaxId = 1, TaxRate = 6},
-                    new TaxDTO(){ TaxId = 2, TaxRate = 21},
-                };
-            }
             FilteredTaxRate = new ObservableCollection<TaxDTO>(AllTaxRate.OrderBy(t => t.TaxRate));
 
             AllShelf = new ObservableCollection<ShelfDTO>(await _apiService.GetShelfsAsync());
-
-            //temp filling of shelves
-            if (AllShelf.Count == 0)
-            {
-                AllShelf = new ObservableCollection<ShelfDTO> {
-                    new ShelfDTO(){ ShelfId = 1, Name = "shelf 1"},
-                    new ShelfDTO(){ ShelfId = 2, Name = "shelf 2"},
-                    new ShelfDTO(){ ShelfId = 3, Name = "shelf 3"},
-                };
-            }
             FilteredShelf = AllShelf;
 
 
