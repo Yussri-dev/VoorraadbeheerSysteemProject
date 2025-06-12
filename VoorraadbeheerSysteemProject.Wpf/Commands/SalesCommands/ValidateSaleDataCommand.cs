@@ -121,9 +121,21 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands.SalesCommands
         {
             var window = parameter as Window;
 
+            if (UserSession.Roles == null || !UserSession.Roles.Contains("Admin"))
+            {
+                MessageBox.Show("U heeft geen rechten om een aankoop toe te voegen.", "Toegang geweigerd", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (_vmSale.SelectedProducts.Count == 0)
+            {
+                MessageBox.Show("No sales data to save.");
+                return;
+            }
+
             if (_vmNumPad.SelectedAmounts.Count == 0)
             {
-                MessageBox.Show("No sale data to save.");
+                MessageBox.Show("No sales data to save.");
                 return;
             }
 

@@ -377,7 +377,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             {
                 decimal totalPrice = product.SalePrice1;
                 decimal taxAmount = Math.Round(product.TaxRate * totalPrice, 2);
-
+                
                 SelectedProducts.Add(new ProductSelectedRequest
                 {
                     ProductId = product.ProductId,
