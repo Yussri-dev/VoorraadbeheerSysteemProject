@@ -10,25 +10,23 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands.SuppliersCommands
 {
     public class AddSupplierCommand : ICommand
     {
+       
+
         private readonly VmSupplier _viewModel;
 
         public AddSupplierCommand(VmSupplier viewModel)
         {
-            _viewModel = viewModel;
+            _viewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
         }
 
-        public bool CanExecute(object parameter)
+        public bool CanExecute(object? parameter) => true;
+
+        public async void Execute(object? parameter)
         {
-            // Eventueel validatie, bv. niet toevoegen als naam leeg is
-            return true;
+            await _viewModel.AddSupplierAsync();
         }
 
-        public void Execute(object parameter)
-        {
-            _viewModel.AddSupplier();
-        }
-
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler? CanExecuteChanged;
     }
 
 }

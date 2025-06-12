@@ -10,46 +10,57 @@
              d:DesignWidth="800">
 
     <Grid Background="White">
-        
+
         <Grid.RowDefinitions>
-            <RowDefinition Height="150"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="100"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="100"/>
         </Grid.RowDefinitions>
 
         <!-- Titel en formulier -->
         <StackPanel Grid.Row="0" Margin="5,0,0,0" Orientation="Horizontal">
-            <Label Content="Supplier" FontSize="20" FontWeight="Bold" VerticalAlignment="top" Height="45"/>
-            <StackPanel Orientation="Horizontal" Margin="40,20,0,0" VerticalAlignment="Top" Height="115">
-                <!-- Supplier Name -->
-                <StackPanel Margin="10,0" Width="150">
-                    <TextBlock Text="Supplier Name" FontWeight="SemiBold" Foreground="Black" Margin="0,0,0,5"/>
-                    <TextBox Text="{Binding NewSupplierName}" Height="30" Padding="5" BorderBrush="#ccc" BorderThickness="1" />
-                </StackPanel>
-
-                <!-- Telefoon 1 -->
-                <StackPanel Margin="10,0" Width="120">
-                    <TextBlock Text="Telefoon 1" FontWeight="SemiBold" Foreground="Black" Margin="0,0,0,5"/>
-                    <TextBox Text="{Binding NewPhone1}" Height="30" Padding="5" BorderBrush="#ccc" BorderThickness="1"/>
-                </StackPanel>
-
-                <!-- Telefoon 2 -->
-                <StackPanel Margin="10,0" Width="120">
-                    <TextBlock Text="Telefoon 2" FontWeight="SemiBold" Foreground="Black" Margin="0,0,0,5"/>
-                    <TextBox Text="{Binding NewPhone2}" Height="30" Padding="5" BorderBrush="#ccc" BorderThickness="1"/>
-                </StackPanel>
-
-                <!-- Email -->
-                <StackPanel Margin="10,0" Width="180">
-                    <TextBlock Text="Email" FontWeight="SemiBold" Foreground="Black" Margin="0,0,0,5"/>
-                    <TextBox Text="{Binding NewEmail}" Height="30" Padding="5" BorderBrush="#ccc" BorderThickness="1"/>
-                </StackPanel>
-            </StackPanel>
-
+            <Label Content="Supplier"
+                   FontSize="20" 
+                   FontWeight="Bold" 
+                   VerticalAlignment="top" 
+                   Height="45"/>
         </StackPanel>
 
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top" Margin="0,20,0,0" 
+                    Height="115" Width="800">
+            <!-- Supplier Name -->
+            <StackPanel Margin="10,0" Width="190">
+                <TextBlock Text="Supplier Name" FontWeight="SemiBold" Foreground="Black" Margin="0,0,0,5"/>
+                <TextBox Text="{Binding NewSupplierName}" Height="30" Padding="5" BorderBrush="#ccc" BorderThickness="1" />
+            </StackPanel>
+
+            <!-- Telefoon 1 -->
+            <StackPanel Margin="10,0" Width="165">
+                <TextBlock Text="Telefoon 1" FontWeight="SemiBold" Foreground="Black" Margin="0,0,0,5"/>
+                <TextBox Text="{Binding NewPhone1}" Height="30" Padding="5" BorderBrush="#ccc" BorderThickness="1"/>
+            </StackPanel>
+
+            <!-- Telefoon 2 -->
+            <StackPanel Margin="10,0" Width="155">
+                <TextBlock Text="Telefoon 2" FontWeight="SemiBold" Foreground="Black" Margin="0,0,0,5"/>
+                <TextBox Text="{Binding NewPhone2}" Height="30" Padding="5" BorderBrush="#ccc" BorderThickness="1" Width="150"/>
+            </StackPanel>
+
+            <!-- Email -->
+            <StackPanel Margin="10,0" Width="205">
+                <TextBlock Text="Email" FontWeight="SemiBold" Foreground="Black" Margin="0,0,0,5"/>
+                <TextBox Text="{Binding NewEmail}" Height="30" Padding="5" BorderBrush="#ccc" BorderThickness="1" Width="193"/>
+            </StackPanel>
+        </StackPanel>
+
+
+
         <!-- Zoekveld en lijst -->
-        <StackPanel Grid.Row="1" Margin="20">
+        <StackPanel Grid.Row="2" Margin="20,0,20,0">
 
             <!-- Zoekbalk en paginatie -->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,10" Height="45" Width="415">
@@ -110,7 +121,7 @@
         </StackPanel>
 
         <!-- Actieknoppen en info -->
-        <Grid Grid.Row="2" Margin="20">
+        <Grid Grid.Row="3" Margin="20">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200"/>
                 <ColumnDefinition Width="*"/>
@@ -127,12 +138,32 @@
             </StackPanel>
 
             <!-- Buttons -->
-            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" Margin="100,0,0,0">
-                <Button Content="Add" Command="{Binding AddCommand}" Style="{StaticResource PrimaryButtonStyle}"/>
-                <Button Content="Update" Command="{Binding UpdateCommand}" Style="{StaticResource PrimaryButtonStyle}"/>
-                <Button Content="Reset" Command="{Binding ResetCommand}" Style="{StaticResource PrimaryButtonStyle}"/>
-                <Button Content="Delete" Command="{Binding DeleteCommand}" CommandParameter="{Binding SelectedSupplier}" Style="{StaticResource PrimaryButtonStyle}"/>
-                <Button Content="Close" Command="{Binding NavigateDashboardCommand}" Style="{StaticResource PrimaryButtonStyle}"/>
+            <StackPanel Grid.Column="1" 
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Margin="100,0,0,0">
+                <Button Content="Add"
+                        Command="{Binding AddSupplierCommand}"
+                        Style="{StaticResource CustomButtonStyle}"
+                        Margin="0 0 5 0"/>
+                <Button Content="Update"
+                        Command="{Binding UpdateSupplierCommand}"
+                        Style="{StaticResource CustomButtonStyle}"
+                        Margin="0 0 5 0"/>
+                <Button Content="Reset"
+                        Command="{Binding ResetCommand}"
+                        Style="{StaticResource CustomButtonStyle}"
+                        Margin="0 0 5 0"/>
+                <Button Content="Delete"
+                        Command="{Binding DeleteCommand}"
+                        CommandParameter="{Binding SelectedSupplier}"
+                        Style="{StaticResource CustomButtonStyle}"
+                        Margin="0 0 5 0"/>
+                <Button Content="Close"
+                        Command="{Binding NavigateDashboardCommand}"
+                        Style="{StaticResource CustomButtonStyle}"
+                        Margin="0 0 5 0"/>
             </StackPanel>
         </Grid>
     </Grid>
