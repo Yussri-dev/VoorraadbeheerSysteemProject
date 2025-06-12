@@ -137,11 +137,6 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 MessageBox.Show("Opening balance must be greater than zero.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            //if (CurrentShift.CashRegisterId <= 0)
-            //{
-            //    MessageBox.Show("Cash register ID must be greater than zero.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            //    return;
-            //}
 
             //fill in the properties
             newShift.CashRegisterId = (await _cashRegisterRequest.GetShiftByUserIdAsync(UserSession.IdUSer)).CashRegisterId;

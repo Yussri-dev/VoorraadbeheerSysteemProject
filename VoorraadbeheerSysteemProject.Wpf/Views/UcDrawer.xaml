@@ -69,20 +69,6 @@
                                        FontWeight="Medium"/>
                             <TextBlock Text="{Binding CashRegister.CashRegisterId}" Width="120"/>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal"
-                                    Margin="5">
-                            <TextBlock Text="User ID:"
-                                       Width="120"
-                                       FontWeight="Medium"/>
-                            <TextBlock Text="{Binding CurrentShift.UserId}" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal"
-                                    Margin="5">
-                            <TextBlock Text="SaaS Client ID:"
-                                       Width="120"
-                                       FontWeight="Medium"/>
-                            <TextBlock Text="{Binding CurrentShift.SaasClientId}" />
-                        </StackPanel>
                     </StackPanel>
                 </Border>
             </StackPanel>
