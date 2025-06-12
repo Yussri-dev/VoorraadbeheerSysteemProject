@@ -23,8 +23,10 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             private readonly int _pageSize = 15;
             private string _newLineName;
             private LineDTO _selectedLine;
+            public string NewLine { get; set; }
 
-            public ObservableCollection<LineDTO> Lines { get; set; }
+
+        public ObservableCollection<LineDTO> Lines { get; set; }
             public ObservableCollection<LineDTO> FilteredLines { get; set; }
 
             public ApiLine ApiLine => _apiLine;
@@ -33,11 +35,11 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             public ICommand NextPageCommand { get; }
 
             // Commands
-            public ICommand UpdateCommand { get; }
-            public ICommand ResetCommand { get; }
+            public ICommand UpdateLineCommand { get; }
+            public ICommand ResetLineCommand { get; }
             public ICommand NavigateDashboardCommand { get; }
-            public ICommand AddCommand { get; }
-            public ICommand DeleteCommand { get; }
+            public ICommand AddLineCommand { get; }
+            public ICommand DeleteLineCommand { get; }
 
             public VmLine(NavigationStore navigationStore)
             {
@@ -47,14 +49,14 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 NavigateDashboardCommand = new NavigationCommand<VmDashboard>(navigationStore,
                     () => new VmDashboard(navigationStore));
 
-                UpdateCommand = new UpdateLineCommand(this);
-                ResetCommand = new ResetLineCommand(this);
-                DeleteCommand = new DeleteLineCommand(this);
-                AddCommand = new AddLineCommand(this);
+            UpdateLineCommand = new UpdateLineCommand(this);
+            ResetLineCommand = new ResetLineCommand(this);
+            DeleteLineCommand = new DeleteLineCommand(this);
+            AddLineCommand = new AddLineCommand(this);
 
-                //_apiLine = new ApiLine(AppConfig.ApiUrl);
+            _apiLine = new ApiLine(AppConfig.ApiUrl);
 
-                PreviousPageCommand = new ButtonCommand(PreviousPage);
+            PreviousPageCommand = new ButtonCommand(PreviousPage);
                 NextPageCommand = new ButtonCommand(NextPage);
 
                 LoadLines();
