@@ -493,34 +493,14 @@
                     Grid.Row="3">
             <Button Content="End Shift"
                     Command="{Binding EndShiftButton}"
-                    Background="#DDE4F0"
-                    Padding="30,10"
+                    Style="{StaticResource CustomButtonStyle}"
                     Margin="0 0 15 0"
-                    VerticalAlignment="Bottom"
-                    BorderThickness="0"
-                    Foreground="#5A6ACF"
-                    FontWeight="Medium">
-                <Button.Resources>
-                    <Style TargetType="{x:Type Border}">
-                        <Setter Property="CornerRadius" Value="5"/>
-                    </Style>
-                </Button.Resources>
-            </Button>
+                    VerticalAlignment="Bottom"/>
             <Button Content="Close"
                     Command="{Binding NavigateDashboardCommand}"
-                    Background="#DDE4F0"
-                    Padding="30,10"
+                    Style="{StaticResource CustomButtonStyle}"
                     Margin="0 0 15 0"
-                    VerticalAlignment="Bottom"
-                    BorderThickness="0"
-                    Foreground="#5A6ACF"
-                    FontWeight="Medium">
-                <Button.Resources>
-                    <Style TargetType="{x:Type Border}">
-                        <Setter Property="CornerRadius" Value="5"/>
-                    </Style>
-                </Button.Resources>
-            </Button>
+                    VerticalAlignment="Bottom"/>
         </StackPanel>
     </Grid>
 </UserControl>
