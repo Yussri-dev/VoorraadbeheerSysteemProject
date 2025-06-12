@@ -124,26 +124,32 @@
 
         <!-- Knoppen + Total Rows -->
         <StackPanel Grid.Row="3"
-                      Orientation="Horizontal" 
-                      HorizontalAlignment="Right"
-                      VerticalAlignment="Top" Width="455" Height="95" Margin="0,5,0,0">
+                    Orientation="Horizontal" 
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Margin="0,5,0,0">
 
             <Button Content="Add"
                     Command="{Binding AddCommand}"
-                    Style="{StaticResource PrimaryButtonStyle}"/>
+                    Style="{StaticResource CustomButtonStyle}"
+                    Margin="0 0 15 0"/>
             <Button Content="Update"
                     Command="{Binding UpdateCommand}"
-                    Style="{StaticResource PrimaryButtonStyle}"/>
+                    Style="{StaticResource CustomButtonStyle}"
+                    Margin="0 0 15 0"/>
             <Button Content="Reset"
                     Command="{Binding ResetCommand}"
-                    Style="{StaticResource PrimaryButtonStyle}"/>
+                    Style="{StaticResource CustomButtonStyle}"
+                    Margin="0 0 15 0"/>
             <Button Content="Delete"
                     Command="{Binding DeleteCommand}"
                     CommandParameter="{Binding SelectedTax}"
-                    Style="{StaticResource PrimaryButtonStyle}"/>
+                    Style="{StaticResource CustomButtonStyle}"
+                    Margin="0 0 15 0"/>
             <Button Content="Close"
                     Command="{Binding NavigateDashboardCommand}"
-                    Style="{StaticResource PrimaryButtonStyle}"/>
+                    Style="{StaticResource CustomButtonStyle}"
+                    Margin="0 0 15 0"/>
 
         </StackPanel>
 
