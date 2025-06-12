@@ -367,6 +367,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             if (_selectedProduct == null)
                 return;
 
+            //_selectedProduct.Category = SearchTextCategories
+
             _selectedProduct.DateModified = DateTime.Now;
 
             //TODO check if there are changes
@@ -449,11 +451,11 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 }
                 newProduct.Barcode = barcode;
             }
-            else if (!Int32.TryParse(newProduct.Barcode, out int barcodeInt))
-            {
-                MessageBox.Show("Barcode must be a number (leave empty to auto-generate a barcode");
-                return;
-            }
+            //else if (!Int32.TryParse(newProduct.Barcode, out int barcodeInt))
+            //{
+            //    MessageBox.Show("Barcode must be a number (leave empty to auto-generate a barcode");
+            //    return;
+            //}
             else if (newProduct.Barcode.Length != 13)
             {
                 MessageBox.Show("Barcode must be 13 characters long (leave empty to auto-generate a barcode)");
@@ -465,7 +467,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             //temp fill in data
             newProduct.LineId = 1;
             newProduct.UnitId = 1;
-            newProduct.PackUnitType = "Box";
+            newProduct.ProductUnitId = 1;
 
 
 
