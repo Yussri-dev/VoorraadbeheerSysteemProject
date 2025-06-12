@@ -77,12 +77,15 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             }
         }
 
-
+        public ICommand NavigateDashboardCommand { get; }
         public ICommand RegisterShiftCommand => new ButtonCommand(async _ => await RegisterCashShiftAsync());
         #endregion
 
         public VmDrawer(NavigationStore navigationStore)
         {
+            NavigateDashboardCommand = new NavigationCommand<VmDashboard>(navigationStore,
+                () => new VmDashboard(navigationStore));
+
             _drawerRequest = new DrawerRequests(AppConfig.ApiUrl);
             _cashRegisterRequest = new CashRegisterRequest(AppConfig.ApiUrl);
 
@@ -134,14 +137,9 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 MessageBox.Show("Opening balance must be greater than zero.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            if (CurrentShift.CashRegisterId <= 0)
-            {
-                MessageBox.Show("Cash register ID must be greater than zero.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
 
             //fill in the properties
-            newShift.CashRegisterId = CurrentShift.CashRegisterId;
+            newShift.CashRegisterId = (await _cashRegisterRequest.GetShiftByUserIdAsync(UserSession.IdUSer)).CashRegisterId;
             newShift.OpeningBalance = CurrentShift.OpeningBalance;
 
             var createdShift =  await _drawerRequest.PostCashShiftAsync(newShift);
