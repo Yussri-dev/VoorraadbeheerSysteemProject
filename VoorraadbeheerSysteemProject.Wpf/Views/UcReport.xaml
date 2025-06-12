@@ -176,12 +176,24 @@
         </StackPanel>
             
             <!-- Buttons met herbruikbare stijl -->
-        <StackPanel  Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Reset" Command="{Binding ResetCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="20,0"/>
-                <Button Content="Update" Command="{Binding UpdateCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="0,0,20,0"/>
-                <Button Content="Printe" Command="{Binding DeleteReCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="0,0,20,0"/>
-            <Button Content="Close" Command="{Binding NavigateDashboardCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="0,0,20,0"/>
-            </StackPanel>
+        <StackPanel  Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+            <Button Content="Reset"
+                    Command="{Binding ResetCommand}"
+                    Style="{StaticResource CustomButtonStyle}"
+                    Margin="20,0"/>
+            <Button Content="Update"
+                    Command="{Binding UpdateCommand}"
+                    Style="{StaticResource CustomButtonStyle}"
+                    Margin="0,0,20,0"/>
+            <Button Content="Print"
+                    Command="{Binding DeleteReCommand}"
+                    Style="{StaticResource CustomButtonStyle}"
+                    Margin="0,0,20,0"/>
+            <Button Content="Close"
+                    Command="{Binding NavigateDashboardCommand}"
+                    Style="{StaticResource CustomButtonStyle}"
+                    Margin="0,0,20,0"/>
+        </StackPanel>
 
         
 
