@@ -35,7 +35,7 @@
 
                 <!-- Sales ID Section -->
                 <StackPanel Grid.Column="0" Margin="20,20,0,0">
-                    <TextBlock Text="Sales" FontSize="16" FontWeight="SemiBold"/>
+                    <TextBlock Text="Purchase" FontSize="16" FontWeight="SemiBold"/>
                     <TextBlock Text="{Binding FormattedPurchaseCount}" Foreground="#888888" Margin="0,5,0,0"/>
                 </StackPanel>
 
@@ -183,10 +183,20 @@
             </Grid>
             <Grid Grid.Row="4">
                 <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,0,10">
-                    <Button Content="Reset" Command="{Binding ClearSelectedProductCommand}" Width="140" Height="50" Background="White" BorderBrush="#E0E0E0" Margin="5"/>
-                    <Button Content="Delete" Command="{Binding RemoveSelectedProductCommand}" Width="140" Height="50" Background="White" BorderBrush="#E0E0E0" Margin="5"/>
-                    <Button Content="Add" Command="{Binding ValidatePurchaseDataCommand}" Width="140" Height="50" Background="White" BorderBrush="#E0E0E0" Margin="5"/>
-                    <Button Content="Close" Command="{Binding NavigateDashboardCommand}" Width="140" Height="50" Background="White" BorderBrush="#E0E0E0" Margin="5"/>
+                    <Button Content="Reset" Command="{Binding ClearSelectedProductCommand}" 
+                            Style="{StaticResource CustomButtonStyle}" Margin="5" 
+                            />
+                            <!--Width="140" Height="50" Background="White" BorderBrush="#E0E0E0"--> 
+                    <Button Content="Delete" Command="{Binding RemoveSelectedProductCommand}" 
+                            Style="{StaticResource CustomButtonStyle}" Margin="5" />
+                            <!--Width="140" Height="50" Background="White" BorderBrush="#E0E0E0"--> 
+                    <Button Content="Add" Command="{Binding ValidatePurchaseDataCommand}" 
+                            Style="{StaticResource CustomButtonStyle}" Margin="5"/>
+                            <!--Width="140" Height="50" Background="White" BorderBrush="#E0E0E0"--> 
+                    <Button Content="Close" Command="{Binding NavigateDashboardCommand}" 
+                            Style="{StaticResource CustomButtonStyle}" Margin="5"
+                            />
+                            <!--Width="140" Height="50" Background="White" BorderBrush="#E0E0E0"--> 
 
                 </StackPanel>
             </Grid>
