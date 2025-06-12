@@ -80,18 +80,20 @@
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Id" DisplayMemberBinding="{Binding ProductId}" Width="0" />
-                            <GridViewColumn Header="Quantity" Width="150">
+                            <GridViewColumn Header="Quantity" Width="250">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                             <Button Content="−"
-                                                Width="25" Height="25" Margin="0,0,5,0"
+                                                Width="80" Height="25" Margin="0,0,5,0"
                                                 Command="{Binding DataContext.DecrementQuantityCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
-                                                CommandParameter="{Binding}" />
+                                                Background="White" BorderBrush="#E0E0E0"
+                                                    CommandParameter="{Binding}" />
                                             <TextBlock Text="{Binding Quantity}" VerticalAlignment="Center" Width="40" TextAlignment="Center"/>
                                             <Button Content="+"
-                                                Width="25" Height="25" Margin="5,0,0,0"
+                                                Width="80" Height="25" Margin="5,0,0,0"
                                                 Command="{Binding DataContext.IncrementQuantityCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                                    Background="White" BorderBrush="#E0E0E0"
                                                 CommandParameter="{Binding}" />
                                         </StackPanel>
                                     </DataTemplate>
@@ -153,19 +155,19 @@
                 HorizontalAlignment="Right" VerticalAlignment="Center" 
                 Margin="10">
                     <Button Content="Reset" Command="{Binding ClearSelectedProductCommand}"
-                Width="100" Height="40" Margin="5"
-                Background="White" BorderBrush="#E0E0E0"/>
+                            Style="{StaticResource CustomButtonStyle}"  Margin="5"
+                            />
+                    <!--Width="100" Height="40" Margin="5"                Background="White" BorderBrush="#E0E0E0"-->
                     <Button Content="Delete" Command="{Binding RemoveSelectedProductCommand}"
-                Width="100" Height="40" Margin="5"
-                Background="White" BorderBrush="#E0E0E0"/>
+                            Style="{StaticResource CustomButtonStyle}"  Margin="5"
+                            />
+                <!--Width="100" Height="40" Margin="5"                Background="White" BorderBrush="#E0E0E0"-->
                     <Button Content="Add" Command="{Binding OpenDialogCommand}"
-                Width="100" Height="40" Margin="5"
-                Background="White" BorderBrush="#E0E0E0"/>
+                            Style="{StaticResource CustomButtonStyle}" Margin="5"/>
+                    <!--Width="100" Height="40" Margin="5"  Background="White" BorderBrush="#E0E0E0"-->
                     <Button Content="Close" Command="{Binding NavigateDashboardCommand}"
                     Style="{StaticResource CustomButtonStyle}"                            
-                            Margin="5"
-                    
-                            />
+                            Margin="5" />
                 </StackPanel>
             </Grid>
         </Grid>
