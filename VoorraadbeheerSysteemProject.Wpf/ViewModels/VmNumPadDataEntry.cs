@@ -105,7 +105,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
             AddSelectedProductCommand = new AddSelectedProductToPurchaseCommand(_vmPurchase, this);
 
-            _purchasesRequests = new PurchasesRequests("https://localhost:5001/");
+            _purchasesRequests = new PurchasesRequests(AppConfig.ApiUrl);
 
             InitialCommandsPurchases();
         }

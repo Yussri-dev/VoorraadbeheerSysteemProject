@@ -27,7 +27,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services
             try
             {
                 //var response = await _httpClient.GetAsync("api/product");
-                var response = await _httpClient.GetAsync($"api/product?pageNumber={pageNumber}&pageSize={pageSize}"); //pageNumber pageSize
+                var response = await _httpClient.GetAsync($"api/product?pageNumber={pageNumber}&pageSize={pageSize}");
                 response.EnsureSuccessStatusCode();
 
                 return await response.Content.ReadFromJsonAsync<List<ProductDTO>>();
