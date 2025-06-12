@@ -94,7 +94,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services.Users
                         Token = authResponse.Token,
                         Email = authResponse.UserName,
                         IdUser = authResponse.IdUser,
-                        IdSaasClient = authResponse.IdSaasClient
+                        IdSaasClient = authResponse.IdSaasClient,
+                        Roles = authResponse.Roles
                     };
                 }
 

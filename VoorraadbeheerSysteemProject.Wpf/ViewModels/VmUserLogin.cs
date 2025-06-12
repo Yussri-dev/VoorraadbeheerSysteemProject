@@ -61,7 +61,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             StatusMessage = string.Empty;
 
             //UserName = "ghanmiyoussri@gmail.com";
-            UserName = "ghanmi.youssri.dev@gmail.com";
+            //UserName = "ghanmi.youssri.dev@gmail.com";
             Password = "077671699Yos@";
             if (string.IsNullOrWhiteSpace(UserName) || string.IsNullOrWhiteSpace(Password))
             {
@@ -78,6 +78,8 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 UserSession.Token = result.Token;
                 UserSession.Email = result.Email;
                 UserSession.IdUSer = result.IdUser;
+                UserSession.Roles = result.Roles ?? new List<string>();
+
                 //UserSession.IdSaasClient = result.id
                 LoginSucceeded?.Invoke();
             }

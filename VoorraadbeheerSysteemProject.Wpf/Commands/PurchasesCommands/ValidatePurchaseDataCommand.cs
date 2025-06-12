@@ -27,7 +27,17 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands.PurchasesCommands
 
         public async void Execute(object? parameter)
         {
-            //var window = parameter as Window;
+            if (UserSession.Roles == null || !UserSession.Roles.Contains("Admin"))
+            {
+                MessageBox.Show("U heeft geen rechten om een aankoop toe te voegen.", "Toegang geweigerd", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (_vmPurchase.SelectedProducts.Count == 0)
+            {
+                MessageBox.Show("No purchase data to save.");
+                return;
+            }
 
             if (_vmPurchase.SelectedProducts.Count == 0)
             {
