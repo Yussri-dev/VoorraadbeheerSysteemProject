@@ -69,12 +69,12 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services.Users
                     return registerResponse;
                 }
 
-                return new AuthResponseDto { ErrorMessage = "Registration Failed" };
+                var errorContent = await response.Content.ReadAsStringAsync();
+                return new AuthResponseDto { ErrorMessage = $"Registration Failed: {errorContent}" };
             }
             catch (Exception ex)
             {
-                return new AuthResponseDto { ErrorMessage = "Registration Failed" };
-
+                return new AuthResponseDto { ErrorMessage = $"Registration Failed : {ex}" };
             }
         }
         public async Task<AuthResult?> LoginAsync(string userName, string password)

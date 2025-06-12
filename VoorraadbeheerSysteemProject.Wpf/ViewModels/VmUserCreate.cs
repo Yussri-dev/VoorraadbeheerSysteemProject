@@ -146,6 +146,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 LastName = LastName,
                 Email = Email,
                 Password = Password,
+                SaasClientId = 1,
                 Roles = new List<string> { SelectedRole } 
             };
 
