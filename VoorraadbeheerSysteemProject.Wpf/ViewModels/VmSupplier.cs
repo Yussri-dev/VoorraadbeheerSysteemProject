@@ -47,7 +47,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             public ICommand ResetCommand { get; }
             public ICommand NavigateDashboardCommand { get; }
             //public ICommand SearchCommand { get; }
-            public ICommand AddCommand { get; }
+            public ICommand AddSupplierCommand { get; }
             public ICommand DeleteCommand { get; }
             public ICommand PreviousPageCommand { get; }
             public ICommand NextPageCommand { get; }
@@ -64,7 +64,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
             UpdateSupplierCommand = new UpdateSupplierCommand(this);
             ResetCommand = new ResetSupplierCommand(this);
             //SearchCommand = new SearchCommand(this);
-            AddCommand = new AddSupplierCommand(this);
+            AddSupplierCommand = new AddSupplierCommand(this);
             _apiSupplier = new ApiSupplier(AppConfig.ApiUrl);
              DeleteCommand = new DeleteSupplierCommand(this);
             PreviousPageCommand = new ButtonCommand(PreviousPage);
@@ -152,7 +152,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
 
         //  Toevoegen
 
-        public async void AddSupplier()
+        public async Task AddSupplierAsync()
         {
             var newSupplier = new SupplierDTO
             {
@@ -163,21 +163,30 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 DateCreated = DateTime.Now
             };
 
-            Console.WriteLine($"Updating Supplier with ID: {newSupplier.SupplierId}");
-            Console.WriteLine($"Naam: {newSupplier.Name}");
-            Console.WriteLine($"Telefoon1: {newSupplier.PhoneNumber1}");
-            Console.WriteLine($"Email: {newSupplier.Email}");
+            Console.WriteLine($"Toevoegen Supplier met Naam: {newSupplier.Name}, Telefoon1: {newSupplier.PhoneNumber1}, Email: {newSupplier.Email}");
 
             var result = await _apiSupplier.PostSupplierAsync(newSupplier);
 
             if (!result)
             {
                 Console.WriteLine("POST mislukt – controleer of alle verplichte velden gevuld zijn.");
+                
             }
-
-            RefreshSuppliers();
+            else
+            {
+                
+                RefreshSuppliers();
+               
+                NewSupplierName = string.Empty;
+                NewPhone1 = string.Empty;
+                NewPhone2 = string.Empty;
+                NewEmail = string.Empty;
+                OnPropertyChanged(nameof(NewSupplierName));
+                OnPropertyChanged(nameof(NewPhone1));
+                OnPropertyChanged(nameof(NewPhone2));
+                OnPropertyChanged(nameof(NewEmail));
+            }
         }
-
 
         //property
 
