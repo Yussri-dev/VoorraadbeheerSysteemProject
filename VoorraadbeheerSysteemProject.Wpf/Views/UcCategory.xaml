@@ -121,7 +121,7 @@
         <!-- Acties + Totaal -->
         <Grid Grid.Row="2" Margin="20,0,20,20">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
@@ -138,23 +138,29 @@
             <StackPanel Grid.Column="1" 
                         Orientation="Horizontal" 
                         HorizontalAlignment="Right"
-                        VerticalAlignment="Top" Width="455" Height="40">
+                        VerticalAlignment="Top"
+                        Height="40">
                 <Button Content="Update" 
                         Command="{Binding UpdateCommand}" 
-                        Style="{StaticResource PrimaryButtonStyle}" Width="70" Height="35"/>
+                        Style="{StaticResource CustomButtonStyle}"
+                        Margin="0 0 15 0"/>
                 <Button Content="Reset" 
                         Command="{Binding ResetCommand}" 
-                        Style="{StaticResource PrimaryButtonStyle}" Width="70" Height="35"/>
+                        Style="{StaticResource CustomButtonStyle}"
+                        Margin="0 0 15 0"/>
                 <Button Content="Add" 
                         Command="{Binding AddCommand}" 
-                        Style="{StaticResource PrimaryButtonStyle}" Height="35" Width="70"/>
+                        Style="{StaticResource CustomButtonStyle}"
+                        Margin="0 0 15 0"/>
                 <Button Content="Delete" 
                         Command="{Binding DeleteCategoryCommand}" 
                         CommandParameter="{Binding SelectedCategory}"
-                        Style="{StaticResource PrimaryButtonStyle}" Height="35" Width="70"/>
+                        Style="{StaticResource CustomButtonStyle}"
+                        Margin="0 0 15 0"/>
                 <Button Content="Close" 
                         Command="{Binding NavigateDashboardCommand}" 
-                        Style="{StaticResource PrimaryButtonStyle}" Height="35" Width="70" RenderTransformOrigin="0.929,0.597"/>
+                        Style="{StaticResource CustomButtonStyle}"
+                        Margin="0 0 15 0"/>
             </StackPanel>
         </Grid>
     </Grid>
