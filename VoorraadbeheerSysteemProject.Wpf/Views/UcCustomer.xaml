@@ -3,44 +3,96 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:vm="clr-namespace:VoorraadbeheerSysteemProject.Wpf.ViewModels"
              xmlns:local="clr-namespace:VoorraadbeheerSysteemProject.Wpf.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" 
-             d:DesignWidth="800">
-
+             mc:Ignorable="d">
     <Grid>
-        <!-- Search TextBox -->
-        <TextBox x:Name="SearchTextBox" 
-                 Width="200" 
-                 VerticalAlignment="Top" 
-                 Margin="10" 
-                 Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" 
-                 />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <!-- Title with label -->
+            <RowDefinition Height="auto"/>
+            <!-- Customer info -->
+            <RowDefinition Height="auto"/>
+            <!-- Search bars -->
+            <RowDefinition Height="*"/>
+            <!-- ListView -->
+            <RowDefinition Height="auto"/>
+            <!-- Buttons -->
+        </Grid.RowDefinitions>
+
+        <!-- Title Section -->
+        <StackPanel Margin="60 20 60 0">
+            <Label Content="Customer" FontSize="18" Foreground="#1F384C"/>
+            <Label Margin="60 0 0 0" FontSize="15" Foreground="#737B8B78">
+                <Label.Content>
+                    <TextBlock>
+                        <Run Text="Total customers: " />
+                        <Run Text="{Binding TotalCustomers, Mode=OneWay}" />
+                    </TextBlock>
+                </Label.Content>
+            </Label>
+        </StackPanel>
+
+        <!-- Customer Info Section -->
+        <Grid Margin="60 20 60 40" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Customer Name -->
+            <StackPanel HorizontalAlignment="Left">
+                <Label Content="Customer Name" FontSize="15" Foreground="#737B8B78"/>
+                <TextBox Text="{Binding SelectedCustomer.Name}" FontSize="18" Margin="5,0,0,10" Width="300" BorderThickness="0" Foreground="#40AF73"/>
+            </StackPanel>
+
+            <!-- Email -->
+            <StackPanel Grid.Column="1" HorizontalAlignment="Left">
+                <Label Content="Email" FontSize="15" Foreground="#737B8B78"/>
+                <TextBox Text="{Binding SelectedCustomer.Email}" FontSize="18" Margin="5,0,0,10" Width="300" BorderThickness="0" Foreground="#40AF73"/>
+            </StackPanel>
+
+            <!-- Phone Number -->
+            <StackPanel Grid.Column="2" HorizontalAlignment="Left">
+                <Label Content="Phone Number" FontSize="15" Foreground="#737B8B78"/>
+                <TextBox Text="{Binding SelectedCustomer.PhoneNumber}" FontSize="18" Margin="5,0,0,10" Width="300" BorderThickness="0" Foreground="#40AF73"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- Search Filters Section -->
+        <StackPanel Orientation="Horizontal" Height="32" HorizontalAlignment="Right" Grid.Row="2" Margin="0 0 30 30">
+            <Label Content="Search by Name" VerticalAlignment="Center"/>
+            <TextBox Text="{Binding SearchTextName, UpdateSourceTrigger=PropertyChanged}"
+                     Width="250" BorderThickness="0" 
+                     Background="#F6F6FB" 
+                     VerticalContentAlignment="Center" 
+                     FontSize="12" 
+                     Padding="12 0 0 0"></TextBox>
+        </StackPanel>
 
         <!-- Customer List -->
-        <ListView ItemsSource="{Binding FilteredCustomers}" 
-                  Margin="10,50,10,100" 
-                  SelectedItem="{Binding SelectedCustomer}">
+        <ListView ItemsSource="{Binding FilteredCustomers}" SelectedItem="{Binding SelectedCustomer}" Grid.Row="3">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Customer Name" DisplayMemberBinding="{Binding Name}" Width="300" />
-                    <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="300" />
-                    <!-- Add other columns as needed -->
+                    <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding Name}"/>
+                    <GridViewColumn Header="Email" Width="200" DisplayMemberBinding="{Binding Email}"/>
+                    <GridViewColumn Header="Phone" Width="150" DisplayMemberBinding="{Binding PhoneNumber}"/>
                 </GridView>
             </ListView.View>
         </ListView>
 
-        <!-- Paging Buttons -->
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10">
+        <!-- Pagination Controls -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="4" Margin="0,30">
             <Button Content="Previous" Command="{Binding PreviousPageCommand}" Width="100" Margin="5"/>
             <Button Content="Next" Command="{Binding NextPageCommand}" Width="100" Margin="5"/>
         </StackPanel>
 
-        <!-- Add New Customer Section -->
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,60">
-            <TextBox Width="200" Margin="5" Text="{Binding NewCustomerName}"/>
-            <Button Content="Add Customer" Command="{Binding AddCommand}" Width="100" Margin="5"/>
+        <!-- Buttons Section -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="100,30" Grid.Row="5">
+            <Button Content="Save" Command="{Binding SaveCommand}" Style="{StaticResource CustomButtonStyle}" Margin="0 0 15 0" VerticalAlignment="Bottom"/>
+            <Button Content="Add" Command="{Binding AddCommand}" Style="{StaticResource CustomButtonStyle}" Margin="0 0 15 0" VerticalAlignment="Bottom"/>
+            <Button Content="Reset" Command="{Binding ResetCommand}" Style="{StaticResource CustomButtonStyle}" Margin="0 0 15 0" VerticalAlignment="Bottom"/>
+            <Button Content="Close" Command="{Binding NavigateDashBoardCommand}" Style="{StaticResource CustomButtonStyle}" VerticalAlignment="Bottom"/>
         </StackPanel>
     </Grid>
 </UserControl>

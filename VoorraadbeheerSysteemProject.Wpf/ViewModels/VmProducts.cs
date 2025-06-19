@@ -242,7 +242,7 @@ namespace VoorraadbeheerSysteemProject.Wpf.ViewModels
                 () => new VmDashboard(navigationStore));
 
             //initialize the api service
-            _apiService = new ApiService(ConfigurationManager.AppSettings.Get("NGrokApiUri"));
+            _apiService = new ApiService(AppConfig.ApiUrl);
 
             //get products from api
             Task.Run(LoadDataAsync);
