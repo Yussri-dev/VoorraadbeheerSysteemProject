@@ -11,9 +11,9 @@
              Background="White">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="300*" />
-            <ColumnDefinition Width="13*" />
-            <ColumnDefinition Width="400"/>
+            <ColumnDefinition Width="668*" />
+            <ColumnDefinition Width="89*" />
+            <ColumnDefinition Width="366.124"/>
         </Grid.ColumnDefinitions>
 
         <!-- Left Column - Sales Info and Product List -->
@@ -161,7 +161,7 @@
                     <Button Content="Delete" Command="{Binding RemoveSelectedProductCommand}"
                             Style="{StaticResource CustomButtonStyle}"  Margin="5"
                             />
-                <!--Width="100" Height="40" Margin="5"                Background="White" BorderBrush="#E0E0E0"-->
+                    <!--Width="100" Height="40" Margin="5"                Background="White" BorderBrush="#E0E0E0"-->
                     <Button Content="Add" Command="{Binding OpenDialogCommand}"
                             Style="{StaticResource CustomButtonStyle}" Margin="5"/>
                     <!--Width="100" Height="40" Margin="5"  Background="White" BorderBrush="#E0E0E0"-->
@@ -172,8 +172,14 @@
             </Grid>
         </Grid>
 
+        <Grid Grid.Column="1" Margin="16,0,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+            </Grid.RowDefinitions>
+        </Grid>
+
         <!-- Right Column - Search and Product Selector -->
-        <Grid Grid.Column="1" Background="#F9F9F9" Grid.ColumnSpan="2">
+        <Grid Grid.Column="1" Background="#F9F9F9" Grid.ColumnSpan="2" Margin="89,0,0,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="300*"/>

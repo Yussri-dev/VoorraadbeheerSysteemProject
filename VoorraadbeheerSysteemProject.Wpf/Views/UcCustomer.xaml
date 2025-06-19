@@ -3,10 +3,44 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:VoorraadbeheerSysteemProject.Wpf.ViewModels"
              xmlns:local="clr-namespace:VoorraadbeheerSysteemProject.Wpf.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" 
+             d:DesignWidth="800">
+
     <Grid>
-            
+        <!-- Search TextBox -->
+        <TextBox x:Name="SearchTextBox" 
+                 Width="200" 
+                 VerticalAlignment="Top" 
+                 Margin="10" 
+                 Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" 
+                 />
+
+        <!-- Customer List -->
+        <ListView ItemsSource="{Binding FilteredCustomers}" 
+                  Margin="10,50,10,100" 
+                  SelectedItem="{Binding SelectedCustomer}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Customer Name" DisplayMemberBinding="{Binding Name}" Width="300" />
+                    <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="300" />
+                    <!-- Add other columns as needed -->
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <!-- Paging Buttons -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10">
+            <Button Content="Previous" Command="{Binding PreviousPageCommand}" Width="100" Margin="5"/>
+            <Button Content="Next" Command="{Binding NextPageCommand}" Width="100" Margin="5"/>
+        </StackPanel>
+
+        <!-- Add New Customer Section -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,60">
+            <TextBox Width="200" Margin="5" Text="{Binding NewCustomerName}"/>
+            <Button Content="Add Customer" Command="{Binding AddCommand}" Width="100" Margin="5"/>
+        </StackPanel>
     </Grid>
 </UserControl>

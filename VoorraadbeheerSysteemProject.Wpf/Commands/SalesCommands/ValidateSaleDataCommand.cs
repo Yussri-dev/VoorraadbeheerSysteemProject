@@ -210,15 +210,15 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands.SalesCommands
 
                 if (allItemsSaved)
                 {
-                    MessageBox.Show($"✅ Sale and all items saved! Sale ID: {saleId}");
-                    _vmNumPad.ClearSaleAmountCommand?.Execute(null);
+                    MessageBox.Show($" and all items saved! Sale ID: {saleId}");
+                    //_vmNumPad.ClearSaleAmountCommand?.Execute(null);
                     _vmSale.ClearSelectedProductCommand?.Execute(null);
-                    _vmNumPad.CloseWindowCommand.Execute(window);
+                    //_vmNumPad.CloseWindowCommand.Execute(window);
                     PrintTicket();
                 }
                 else
                 {
-                    MessageBox.Show($"⚠️ Sale saved (ID: {saleId}) but some items failed.");
+                    MessageBox.Show($"Sale saved (ID: {saleId}) but some items failed.");
                 }
             }
             else

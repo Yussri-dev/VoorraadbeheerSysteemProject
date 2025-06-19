@@ -59,8 +59,6 @@ namespace VoorraadbeheerSysteemProject.Wpf.Services
             {
                 var response = await _httpClient.PutAsJsonAsync($"api/product/{product.ProductId}", product);
                 response.EnsureSuccessStatusCode();
-
-                //return await response.Content.ReadFromJsonAsync<ProductDTO>();
             }
             catch (Exception ex)
             {

@@ -28,6 +28,16 @@ namespace VoorraadbeheerSysteemProject.Wpf.Commands.SalesCommands
             //_vmNumPad.SelectedAmounts = null;
 
             //_vmNumPad.CalculateTotalAmount();
+            //if (_vmNumPad != null)
+            //{
+            //    if (_vmNumPad.SelectedAmounts == null)
+            //        return;
+
+            //    _vmNumPad.SelectedAmounts.Remove(_vmNumPad.SelectedAmount);
+            //    _vmNumPad.SelectedAmounts = null;
+
+            //    //_vmNumPad.SelectedAmounts();
+            //}
         }
 
         public void RaiseCanExecuteChanged()
